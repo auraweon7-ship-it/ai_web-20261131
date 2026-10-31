@@ -1082,7 +1082,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.1",
+  version: "1.0.2",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -2163,7 +2163,46 @@ window.SITE_CONFIG = {
       + "answer는 정답 보기의 번호이며 0부터 시작합니다.";
   }
 
-  function generateQuestions(apiKey, topic, count, level) {
+  // AI 출제 경로입니다. BAZE 게이트웨이는 Anthropic Messages API 형식을 그대로 받습니다.
+  var QUIZ_PROVIDERS = {
+    anthropic: {
+      name: "Anthropic",
+      url: "https://api.anthropic.com/v1/messages",
+      headers: { "anthropic-beta": "server-side-fallback-2026-07-01", "anthropic-dangerous-direct-browser-access": "true" },
+      body: { fallbacks: "default" }
+    },
+    baze: {
+      name: "BAZE",
+      url: "https://api.baze.co/v1/gateway/claude/v1/messages/",
+      headers: {},
+      body: {}
+    }
+  };
+
+  // 입력된 키를 차례로 시도합니다. 앞의 키가 실패하면 다음 키로 넘어갑니다.
+  function generateQuestions(keys, topic, count, level) {
+    var failures = [];
+    function attempt(i) {
+      return requestQuestions(keys[i].provider, keys[i].key, topic, count, level).then(function (questions) {
+        return { questions: questions, provider: keys[i].provider.name, failures: failures };
+      }, function (e) {
+        if (e.isFinal || i + 1 >= keys.length) {
+          failures.push(keys[i].provider.name + ": " + e.message);
+          throw new Error(failures.join(" / "));
+        }
+        failures.push(keys[i].provider.name + ": " + e.message);
+        return attempt(i + 1);
+      });
+    }
+    return attempt(0);
+  }
+
+  function requestQuestions(provider, apiKey, topic, count, level) {
+    function finalError(message) {
+      var e = new Error(message);
+      e.isFinal = true;
+      return e;
+    }
     var schema = {
       type: "object",
       additionalProperties: false,
@@ -2184,32 +2223,37 @@ window.SITE_CONFIG = {
         }
       }
     };
-    return fetch("https://api.anthropic.com/v1/messages", {
+    return fetch(provider.url, {
       method: "POST",
-      headers: {
+      headers: Object.assign({
         "content-type": "application/json",
         "x-api-key": apiKey,
-        "anthropic-version": "2026-10-21",
-        "anthropic-beta": "server-side-fallback-2026-07-01",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
-      body: JSON.stringify({
+        "anthropic-version": "2026-10-21"
+      }, provider.headers),
+      body: JSON.stringify(Object.assign({
         model: C.quiz.ai.model,
         max_tokens: 16000,
-        fallbacks: "default",
         output_config: { effort: "medium", format: { type: "json_schema", schema: schema } },
         messages: [{ role: "user", content: quizPrompt(topic, count, level) }]
-      })
+      }, provider.body))
+    }).catch(function () {
+      throw new Error("AI 서버에 연결하지 못했습니다.");
     }).then(function (res) {
       if (res.status === 401) throw new Error("API 키가 올바르지 않습니다.");
+      if (res.status === 402) throw new Error("크레딧이 부족합니다.");
       if (res.status === 429) throw new Error("요청이 많습니다. 잠시 뒤 다시 시도해 주세요.");
       if (!res.ok) throw new Error("AI 요청에 실패했습니다. (오류 " + res.status + ")");
       return res.json();
     }).then(function (data) {
-      if (data.stop_reason === "refusal") throw new Error("AI가 이 주제의 출제를 거절했습니다. 주제를 바꿔 보세요.");
-      if (data.stop_reason === "max_tokens") throw new Error("문항 수가 너무 많습니다. 수를 줄여 주세요.");
+      if (data.stop_reason === "refusal") throw finalError("AI가 이 주제의 출제를 거절했습니다. 주제를 바꿔 보세요.");
+      if (data.stop_reason === "max_tokens") throw finalError("문항 수가 너무 많습니다. 수를 줄여 주세요.");
       var block = (data.content || []).filter(function (b) { return b.type === "text"; })[0];
-      var questions = normalizeQuestions(JSON.parse(block.text));
+      var questions = [];
+      try {
+        questions = normalizeQuestions(JSON.parse(block.text.replace(/^\s*```(?:json)?|```\s*$/g, "")));
+      } catch (e) {
+        questions = [];
+      }
       if (!questions.length) throw new Error("AI 응답에서 쓸 수 있는 문제를 찾지 못했습니다.");
       return questions;
     });
@@ -2281,19 +2325,24 @@ window.SITE_CONFIG = {
     var count = h("input", { id: "quiz-count", type: "number", min: "1", max: "20", value: "5" });
     var level = h("select", { id: "quiz-level" }, ["쉬움", "보통", "어려움"].map(function (x) { return h("option", { value: x, text: x }); }));
     var key = h("input", { id: "quiz-key", type: "password", autocomplete: "off", placeholder: "sk-ant-..." });
+    var bazeKey = h("input", { id: "quiz-baze-key", type: "password", autocomplete: "off", placeholder: "BAZE API 키" });
     var status = h("p", { class: "submit-note", role: "status" });
     var make = h("button", { class: "btn btn-primary btn-small", type: "button", text: "AI로 문제 출제" });
     make.addEventListener("click", function () {
       var n = Math.min(20, Math.max(1, Number(count.value) || 5));
       if (!topic.value.trim()) { status.textContent = "주제를 입력해 주세요."; return; }
-      if (!key.value.trim()) { status.textContent = "API 키를 입력하거나, 아래의 프롬프트 복사를 이용해 주세요."; return; }
+      var keys = [];
+      if (key.value.trim()) keys.push({ provider: QUIZ_PROVIDERS.anthropic, key: key.value.trim() });
+      if (bazeKey.value.trim()) keys.push({ provider: QUIZ_PROVIDERS.baze, key: bazeKey.value.trim() });
+      if (!keys.length) { status.textContent = "API 키를 입력하거나, 아래의 프롬프트 복사를 이용해 주세요."; return; }
       make.disabled = true;
       status.textContent = "AI가 문제를 만들고 있습니다. 잠시 기다려 주세요.";
-      generateQuestions(key.value.trim(), topic.value.trim(), n, level.value).then(function (questions) {
-        replaceBank(questions);
-        status.textContent = questions.length + "문제를 만들었습니다. AI 문제에는 오류가 있을 수 있으니 아래에서 검토해 주세요.";
+      generateQuestions(keys, topic.value.trim(), n, level.value).then(function (result) {
+        replaceBank(result.questions);
+        status.textContent = (result.failures.length ? result.failures.join(" / ") + " → " + result.provider + " 키로 대신 만들었습니다. " : "")
+          + result.questions.length + "문제를 만들었습니다. AI 문제에는 오류가 있을 수 있으니 아래에서 검토해 주세요.";
       }).catch(function (e) {
-        status.textContent = e.message === "Failed to fetch" ? "AI 서버에 연결하지 못했습니다." : e.message;
+        status.textContent = e.message;
       }).then(function () {
         make.disabled = false;
       });
@@ -2353,6 +2402,11 @@ window.SITE_CONFIG = {
             h("label", { class: "field-label", for: "quiz-key", text: "Anthropic API 키" }),
             key,
             h("p", { class: "submit-note", text: "키는 저장되지 않고 Anthropic으로만 전송됩니다. 사용량만큼 요금이 부과됩니다." })
+          ]),
+          h("div", { class: "field is-full" }, [
+            h("label", { class: "field-label", for: "quiz-baze-key", text: "BAZE API 키" }),
+            bazeKey,
+            h("p", { class: "submit-note", text: "키는 저장되지 않고 BAZE로만 전송되며, 키를 만든 계정의 크레딧이 차감됩니다. 두 키를 모두 넣으면 Anthropic을 먼저 쓰고, 실패하면 BAZE로 출제합니다." })
           ])
         ]),
         h("div", {}, [make]),
