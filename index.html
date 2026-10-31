@@ -4,32 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>교양중국어</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Noto+Serif+SC:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700;900&family=Noto+Serif+SC:wght@500;700&display=swap">
 <style>
 :root {
   /* 색상 값은 아래 사이트 설정의 theme에서 덮어씁니다. */
-  --primary: #b0306f;
-  --primary-deep: #8a2358;
-  --violet: #6f4bb3;
-  --blossom: #f9c9dc;
-  --lilac: #ddd0f5;
-  --bg: #fff8fb;
-  --surface: #ffffff;
-  --text: #3a1f3d;
-  --muted: #6f5670;
-  --line: #f3dbe8;
+  --primary: #14534f;
+  --primary-deep: #0d3d3a;
+  --violet: #8a5a14;
+  --blossom: #d8e6e0;
+  --lilac: #efe3c8;
+  --bg: #f4eee3;
+  --surface: #f8f3ea;
+  --text: #27322f;
+  --muted: #5c6862;
+  --line: #e4dbcb;
 
-  --font-display: "Gowun Batang", "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif;
-  --font-body: "Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-display: "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-hanzi: "Noto Serif SC", "Songti SC", "SimSun", serif;
 
   --header-h: 68px;
-  --radius-lg: 28px;
-  --radius-md: 20px;
-  --shadow: 0 12px 32px color-mix(in srgb, var(--primary) 10%, transparent);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --shadow: 6px 6px 16px rgba(160, 145, 118, 0.32), -6px -6px 16px rgba(255, 255, 255, 0.85);
+  --shadow-small: 3px 3px 8px rgba(160, 145, 118, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.8);
+  --shadow-inset: inset 3px 3px 7px rgba(160, 145, 118, 0.28), inset -3px -3px 7px rgba(255, 255, 255, 0.8);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -261,24 +263,6 @@ a { color: inherit; }
 }
 .hero-pinyin { margin-top: 8px; color: var(--violet); font-size: 1.2rem; font-weight: 700; }
 .hero-meaning { color: var(--muted); }
-
-/* 흩날리는 꽃잎 */
-.petals { position: absolute; inset: 0; pointer-events: none; }
-.petal {
-  position: absolute;
-  top: -24px;
-  width: 14px;
-  height: 14px;
-  border-radius: 80% 0 80% 20%;
-  background: var(--blossom);
-  opacity: 0.85;
-  animation: petal-fall linear infinite;
-}
-.petal:nth-child(even) { background: var(--lilac); }
-@keyframes petal-fall {
-  from { transform: translate3d(0, -24px, 0) rotate(0deg); }
-  to { transform: translate3d(70px, 760px, 0) rotate(300deg); }
-}
 
 /* 섹션 */
 .section { padding-block: clamp(56px, 8vw, 96px); }
@@ -512,7 +496,7 @@ a { color: inherit; }
   padding: 4px 12px;
   border-radius: 999px;
   background: var(--lilac);
-  color: #452a80;
+  color: var(--primary-deep);
   font-size: 0.9rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -716,7 +700,7 @@ a { color: inherit; }
   box-shadow: var(--shadow);
 }
 .admin[open] { display: flex; flex-direction: column; }
-.admin::backdrop { background: rgba(58, 31, 61, 0.5); }
+.admin::backdrop { background: rgba(13, 61, 58, 0.5); }
 .admin-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 20px 10px; }
 .admin-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 .admin-buttons .btn, .admin-panel .btn { font-family: inherit; cursor: pointer; }
@@ -758,7 +742,7 @@ a { color: inherit; }
   padding: 10px 16px;
   border-radius: 14px;
   background: color-mix(in srgb, var(--lilac) 45%, var(--surface));
-  color: #452a80;
+  color: var(--primary-deep);
   font-size: 0.92rem;
 }
 .field { display: grid; gap: 6px; min-width: 0; }
@@ -768,7 +752,7 @@ a { color: inherit; }
   width: 100%;
   min-height: 48px;
   padding: 10px 14px;
-  border: 1px solid #d9b9cb;
+  border: 1px solid #cfc4b0;
   border-radius: 14px;
   background: var(--surface);
   color: var(--text);
@@ -848,7 +832,7 @@ a { color: inherit; }
   width: 100%;
   min-height: 44px;
   padding: 8px 12px;
-  border: 1px solid #d9b9cb;
+  border: 1px solid #cfc4b0;
   border-radius: 12px;
   background: var(--surface);
   color: var(--text);
@@ -901,10 +885,10 @@ a { color: inherit; }
 }
 button.quiz-choice { cursor: pointer; transition: transform 0.15s var(--ease); }
 button.quiz-choice:hover { transform: translateY(-2px); }
-.quiz-choice.c0 { background: #b0306f; }
-.quiz-choice.c1 { background: #6f4bb3; }
-.quiz-choice.c2 { background: #0f766e; }
-.quiz-choice.c3 { background: #a85208; }
+.quiz-choice.c0 { background: #14534f; }
+.quiz-choice.c1 { background: #96590c; }
+.quiz-choice.c2 { background: #46586a; }
+.quiz-choice.c3 { background: #9a3b2e; }
 .quiz-shape { flex: none; font-size: 1.4rem; }
 .quiz-result-list { display: grid; gap: 10px; }
 .quiz-result-list li { padding: 10px 12px; border-radius: 12px; }
@@ -926,7 +910,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
   color: var(--text);
   box-shadow: var(--shadow);
 }
-.popup::backdrop { background: rgba(58, 31, 61, 0.45); }
+.popup::backdrop { background: rgba(13, 61, 58, 0.45); }
 .popup-glyph {
   display: grid;
   place-items: center;
@@ -989,9 +973,99 @@ button.quiz-choice:hover { transform: translateY(-2px); }
   .info-row { grid-template-columns: 6.5em minmax(0, 1fr); }
 }
 
+/* 소프트 UI: 같은 크림색 면을 빛과 그림자로 띄우거나 파낸다 */
+:focus-visible { outline-color: var(--primary); }
+.site-header { background: color-mix(in srgb, var(--bg) 95%, transparent); }
+.site-header.is-scrolled { border-color: var(--line); box-shadow: 0 6px 16px rgba(160, 145, 118, 0.18); }
+.nav-link { position: relative; padding-inline: 12px; border-radius: 10px; font-weight: 500; }
+.nav-link:hover { background: transparent; color: var(--primary); }
+.nav-link.is-active { background: transparent; color: var(--primary); }
+.nav-link.is-active::after { content: ""; position: absolute; right: 12px; bottom: 5px; left: 12px; height: 2px; border-radius: 2px; background: var(--primary); }
+.brand-glyph { border-radius: 12px; background: var(--primary); color: #fff; }
+.brand-name { font-family: var(--font-body); }
+.lock-btn, .menu-toggle, .slider-btn { border: 0; background: var(--bg); box-shadow: var(--shadow-small); }
+.lock-btn:hover, .slider-btn:hover:not(:disabled) { background: var(--bg); color: var(--primary); box-shadow: var(--shadow-inset); }
+
+.hero { background: none; }
+.hero h1, .section-title, .quiz-verdict { color: var(--primary); font-weight: 900; letter-spacing: -0.02em; }
+.hero-badge { background: var(--bg); color: var(--primary-deep); box-shadow: var(--shadow-small); }
+.hero-subtitle { color: var(--text); font-family: var(--font-body); font-weight: 500; }
+.site-version { margin-left: 0.5em; color: #c62828; font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
+.hero-card { background: var(--bg); transform: none; }
+.hero-card::before { color: var(--line); }
+.btn { box-shadow: var(--shadow-small); transition: transform 0.2s var(--ease), box-shadow 0.2s, background-color 0.2s; }
+.btn-ghost { border-color: transparent; background: var(--bg); }
+.btn-ghost:hover { box-shadow: var(--shadow-inset); transform: none; }
+.btn:disabled { box-shadow: none; }
+
+.section { border-top: 1px solid var(--line); }
+.section-alt { background: transparent; }
+.section-label { color: var(--text); font-size: 0.82rem; letter-spacing: 0.08em; }
+.section-title { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+.card, .fact, .stat-card, .week-item, .faq-item, .notice-item {
+  border: 0;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+.card-title { font-family: var(--font-body); font-size: 1.15rem; }
+.week-title, .notice-title, .calendar-month, .instructor-name { font-family: var(--font-body); }
+.stat-value { color: var(--primary); font-weight: 900; }
+.slide { box-shadow: var(--shadow-small); }
+.slider-track { padding: 14px; margin: -14px; }
+.glyph-badge, .slide:nth-child(even) .glyph-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1.45rem;
+}
+.fact-glyph { border-radius: 12px; background: var(--bg); color: var(--primary); box-shadow: var(--shadow-inset); }
+.instructor-glyph { background: var(--bg); color: var(--primary); box-shadow: var(--shadow-inset); }
+.popup-glyph { border-radius: 14px; background: var(--primary); color: #fff; }
+
+.week-item.is-exam { border: 0; background: var(--bg); box-shadow: var(--shadow), inset 4px 0 0 var(--violet); }
+.week-meta div, .demo-notice { background: var(--bg); box-shadow: var(--shadow-inset); }
+.week-phrase { border-style: solid; }
+.content-list li::before { background: var(--primary); }
+.assignment { border: 0; background: var(--bg); box-shadow: var(--shadow-inset); }
+.countdown { color: #6b4510; }
+.countdown.is-urgent { background: #9a3b2e; }
+.notice-date { color: var(--violet); }
+
+.calendar-day.is-class { background: var(--blossom); color: var(--primary-deep); }
+.calendar-day.is-exam { background: var(--lilac); }
+
+.field input:not([type="checkbox"]), .field select, .field textarea,
+.quiz-edit-choice input[type="text"], .quiz-edit-limit input, .quiz-editor textarea {
+  background: var(--surface);
+  border-radius: 10px;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent); }
+.grade-bar, .poll-bar { background: var(--bg); box-shadow: var(--shadow-inset); }
+.poll-option:hover { background: transparent; box-shadow: var(--shadow-small); }
+.poll-option.is-mine { border-color: transparent; box-shadow: var(--shadow-inset); }
+.attend-chip { background: var(--bg); box-shadow: var(--shadow-inset); }
+.attend-chip.is-done { background: var(--blossom); box-shadow: none; }
+.history-list li, .roster-list li, .quiz-board li, .edit-item { background: var(--bg); box-shadow: var(--shadow-small); }
+.quiz-result-list .is-correct { background: var(--blossom); }
+.quiz-block { border-top-color: var(--line); }
+.quiz-choice { box-shadow: var(--shadow-small); }
+
+.site-footer { background: transparent; }
+.admin, .popup { box-shadow: 10px 10px 30px rgba(13, 61, 58, 0.25); }
+.admin-tab { border-radius: 10px; }
+.admin-tab.is-active { background: var(--bg); color: var(--primary); box-shadow: var(--shadow-inset); }
+.edit-group { background: var(--bg); }
+.mini-btn { border-color: transparent; background: var(--bg); box-shadow: var(--shadow-small); }
+.data-table th { background: var(--lilac); }
+
+@media (max-width: 1120px) {
+  .nav-link.is-active::after { right: auto; bottom: 8px; width: 28px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .petals { display: none; }
   .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
   * { transition-duration: 0.01ms !important; }
 }
@@ -1007,6 +1081,9 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  * "추후 안내"로 적힌 항목은 확정되면 실제 정보로 바꿔 주세요.
  */
 window.SITE_CONFIG = {
+  // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
+  version: "1.0.1",
+
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
     description: "고려대학교 중어중문학과 「교양중국어」 강의 소개"
@@ -1014,16 +1091,16 @@ window.SITE_CONFIG = {
 
   // 색을 바꾸면 사이트 전체에 적용됩니다.
   theme: {
-    primary: "#b0306f",
-    primaryDeep: "#8a2358",
-    violet: "#6f4bb3",
-    blossom: "#f9c9dc",
-    lilac: "#ddd0f5",
-    background: "#fff8fb",
-    surface: "#ffffff",
-    text: "#3a1f3d",
-    muted: "#6f5670",
-    line: "#f3dbe8"
+    primary: "#14534f",
+    primaryDeep: "#0d3d3a",
+    violet: "#8a5a14",
+    blossom: "#d8e6e0",
+    lilac: "#efe3c8",
+    background: "#f4eee3",
+    surface: "#f8f3ea",
+    text: "#27322f",
+    muted: "#5c6862",
+    line: "#e4dbcb"
   },
 
   brand: {
@@ -1406,7 +1483,12 @@ window.SITE_CONFIG = {
   // 관리자 화면에서 저장한 설정이 있으면 파일의 기본 설정 위에 덮어쓴다.
   try {
     var savedConfig = JSON.parse(localStorage.getItem("kc.config"));
-    if (savedConfig) Object.keys(savedConfig).forEach(function (key) { C[key] = savedConfig[key]; });
+    if (savedConfig) {
+      var fileVersion = C.version;
+      Object.keys(savedConfig).forEach(function (key) { C[key] = savedConfig[key]; });
+      // 파일이 더 새 버전이면 예전에 저장한 번호로 되돌아가지 않게 한다.
+      if (compareVersions(fileVersion, C.version) > 0) C.version = fileVersion;
+    }
   } catch (e) {
     // 저장소를 쓸 수 없으면 파일의 기본 설정으로 연다.
   }
@@ -1497,7 +1579,10 @@ window.SITE_CONFIG = {
           h("span", { class: "brand-glyph", lang: "zh-Hans", "aria-hidden": "true", text: C.brand.glyph }),
           h("span", { class: "brand-text" }, [
             h("span", { class: "brand-org", text: C.brand.org }),
-            h("span", { class: "brand-name", text: C.brand.name })
+            h("span", { class: "brand-name" }, [
+              document.createTextNode(C.brand.name),
+              C.version ? h("span", { class: "site-version", text: "v" + C.version }) : null
+            ])
           ])
         ]),
         nav,
@@ -1574,16 +1659,7 @@ window.SITE_CONFIG = {
 
   function renderHero() {
     var d = C.hero;
-    var petals = h("div", { class: "petals", "aria-hidden": "true" });
-    for (var i = 0; i < 12; i++) {
-      var petal = h("span", { class: "petal" });
-      petal.style.left = ((i * 8.3 + 3) % 100) + "%";
-      petal.style.animationDuration = 10 + (i % 5) * 2.5 + "s";
-      petal.style.animationDelay = -(i * 1.7) + "s";
-      petals.appendChild(petal);
-    }
     return h("section", { class: "hero", id: "top" }, [
-      petals,
       h("div", { class: "wrap hero-grid" }, [
         h("div", {}, [
           h("p", { class: "hero-badge", text: d.badge }),
@@ -2987,8 +3063,23 @@ window.SITE_CONFIG = {
     sessionStorage.setItem(ADMIN_KEY, JSON.stringify(next));
   }
 
+  function compareVersions(a, b) {
+    var x = String(a).split(".");
+    var y = String(b).split(".");
+    for (var i = 0; i < 3; i++) {
+      var diff = (Number(x[i]) || 0) - (Number(y[i]) || 0);
+      if (diff) return diff;
+    }
+    return 0;
+  }
+  function nextPatchVersion(version) {
+    var p = String(version || "1.0.0").split(".");
+    return (Number(p[0]) || 0) + "." + (Number(p[1]) || 0) + "." + ((Number(p[2]) || 0) + 1);
+  }
+
   // 설정 전체를 이 브라우저에 저장하고, 화면에 반영되도록 다시 불러온다.
   function saveConfigAndReload() {
+    C.version = nextPatchVersion(C.version);
     if (!store.set("config", C)) {
       window.alert("저장하지 못했습니다. 브라우저 저장소 설정을 확인해 주세요.");
       return;
