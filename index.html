@@ -1,0 +1,4123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교양중국어</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Noto+Serif+SC:wght@500;700&display=swap">
+<style>
+:root {
+  /* 색상 값은 아래 사이트 설정의 theme에서 덮어씁니다. */
+  --primary: #b0306f;
+  --primary-deep: #8a2358;
+  --violet: #6f4bb3;
+  --blossom: #f9c9dc;
+  --lilac: #ddd0f5;
+  --bg: #fff8fb;
+  --surface: #ffffff;
+  --text: #3a1f3d;
+  --muted: #6f5670;
+  --line: #f3dbe8;
+
+  --font-display: "Gowun Batang", "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif;
+  --font-body: "Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-hanzi: "Noto Serif SC", "Songti SC", "SimSun", serif;
+
+  --header-h: 68px;
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --shadow: 0 12px 32px color-mix(in srgb, var(--primary) 10%, transparent);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+h1, h2, h3, p, ul, dl, dd { margin: 0; padding: 0; }
+ul { list-style: none; }
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--violet);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.skip {
+  position: fixed;
+  top: -60px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--primary-deep);
+  color: #fff;
+  transition: top 0.2s;
+}
+.skip:focus { top: 10px; }
+
+.wrap {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 40px);
+}
+
+/* 헤더 */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.site-header.is-scrolled {
+  border-color: var(--line);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 7%, transparent);
+}
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--header-h);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 44px;
+  text-decoration: none;
+}
+.brand-glyph {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--blossom);
+  color: var(--primary-deep);
+  font-family: var(--font-hanzi);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.brand-org { font-size: 0.75rem; color: var(--muted); }
+.brand-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+
+.nav-list { display: flex; gap: 4px; }
+.nav-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+.nav-link:hover { background: color-mix(in srgb, var(--blossom) 45%, transparent); color: var(--text); }
+.nav-link.is-active { background: var(--blossom); color: var(--primary-deep); font-weight: 700; }
+
+.menu-toggle {
+  display: none;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--primary-deep);
+  cursor: pointer;
+}
+.menu-toggle span,
+.menu-toggle span::before,
+.menu-toggle span::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin-inline: auto;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.2s, background-color 0.2s;
+}
+.menu-toggle span { position: relative; }
+.menu-toggle span::before, .menu-toggle span::after { content: ""; position: absolute; left: 0; }
+.menu-toggle span::before { top: -6px; }
+.menu-toggle span::after { top: 6px; }
+.menu-toggle[aria-expanded="true"] span { background: transparent; }
+.menu-toggle[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* 히어로 */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(48px, 9vw, 104px) clamp(56px, 9vw, 112px);
+  background:
+    radial-gradient(60% 70% at 88% 12%, color-mix(in srgb, var(--lilac) 75%, transparent), transparent 70%),
+    radial-gradient(55% 65% at 8% 88%, color-mix(in srgb, var(--blossom) 70%, transparent), transparent 70%);
+}
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 72px);
+}
+.eyebrow {
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.hero h1 {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(2.3rem, 6.2vw, 4.3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  white-space: pre-line;
+}
+.hero-lead {
+  max-width: 34em;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 26px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s var(--ease), background-color 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-deep); }
+.btn-ghost { background: var(--surface); border-color: var(--blossom); color: var(--primary-deep); }
+
+/* 한자가 카드 밖으로 살짝 넘치는 히어로 카드 */
+.hero-card {
+  position: relative;
+  padding: clamp(28px, 4vw, 40px);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transform: rotate(1.5deg);
+}
+.hero-card::before {
+  content: attr(data-glyph);
+  position: absolute;
+  top: -0.42em;
+  right: 0.12em;
+  color: var(--lilac);
+  font-family: var(--font-hanzi);
+  font-size: clamp(5rem, 11vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+}
+.hero-hanzi {
+  position: relative;
+  margin-top: 28px;
+  font-family: var(--font-hanzi);
+  font-size: clamp(3rem, 7vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--primary-deep);
+}
+.hero-pinyin { margin-top: 8px; color: var(--violet); font-size: 1.2rem; font-weight: 700; }
+.hero-meaning { color: var(--muted); }
+
+/* 흩날리는 꽃잎 */
+.petals { position: absolute; inset: 0; pointer-events: none; }
+.petal {
+  position: absolute;
+  top: -24px;
+  width: 14px;
+  height: 14px;
+  border-radius: 80% 0 80% 20%;
+  background: var(--blossom);
+  opacity: 0.85;
+  animation: petal-fall linear infinite;
+}
+.petal:nth-child(even) { background: var(--lilac); }
+@keyframes petal-fall {
+  from { transform: translate3d(0, -24px, 0) rotate(0deg); }
+  to { transform: translate3d(70px, 760px, 0) rotate(300deg); }
+}
+
+/* 섹션 */
+.section { padding-block: clamp(56px, 8vw, 96px); }
+.section-alt { background: color-mix(in srgb, var(--lilac) 22%, var(--bg)); }
+.section-head { max-width: 640px; margin-bottom: clamp(28px, 4vw, 44px); }
+.section-label { color: var(--primary); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; }
+.section-title {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.section-sub { margin-top: 12px; color: var(--muted); }
+
+.card {
+  padding: clamp(22px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.card-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; line-height: 1.4; }
+
+/* 히어로 배지·부제·요약 */
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--primary-deep);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.hero-subtitle {
+  margin-top: 10px;
+  color: var(--violet);
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+.facts {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: clamp(36px, 5vw, 56px);
+}
+.fact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.fact-glyph {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--lilac) 60%, transparent);
+  color: var(--violet);
+  font-family: var(--font-hanzi);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.fact dt { color: var(--muted); font-size: 0.85rem; }
+.fact dd { font-weight: 700; line-height: 1.4; }
+
+/* 통계 */
+.stats { padding-top: clamp(40px, 6vw, 64px); }
+.stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.stat-card {
+  padding: clamp(20px, 3vw, 30px) 16px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--blossom) 55%, var(--surface)), color-mix(in srgb, var(--lilac) 60%, var(--surface)));
+  text-align: center;
+}
+.stat-value { display: flex; align-items: baseline; justify-content: center; gap: 4px; min-height: 3.4rem; color: var(--primary-deep); font-family: var(--font-display); font-weight: 700; }
+.stat-num { font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1.15; font-variant-numeric: tabular-nums; }
+.stat-num.is-empty { align-self: center; color: var(--muted); font-family: var(--font-body); font-size: 1rem; font-weight: 400; }
+.stat-suffix { font-size: 1.2rem; }
+.stat-label { margin-top: 4px; color: var(--text); font-size: 0.95rem; }
+
+/* 장점 슬라이드 */
+.slider-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 40px) / 3);
+  column-gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding-block: 2px;
+  border-radius: var(--radius-lg);
+}
+.slider-track::-webkit-scrollbar { display: none; }
+.slide { scroll-snap-align: start; }
+.slider-controls { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 20px; }
+.slider-btn {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--blossom);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--primary-deep);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.slider-btn:hover:not(:disabled) { background: var(--blossom); }
+.slider-btn:disabled { opacity: 0.4; cursor: default; }
+.slider-status { min-width: 3.5em; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+
+/* 실습 도구 */
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+.tool-card { display: flex; flex-direction: column; }
+.tool-maker { color: var(--violet); font-size: 0.85rem; font-weight: 700; }
+.tool-card .card-text { flex: 1; }
+.tool-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 44px;
+  margin-top: 8px;
+  color: var(--primary-deep);
+  font-weight: 700;
+}
+
+/* 수강 준비물 */
+.prepare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.prepare-card { display: flex; align-items: flex-start; gap: 16px; }
+.prepare-card .glyph-badge { flex: none; margin-bottom: 0; }
+
+/* 공통 원형 한자 */
+.glyph-badge {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blossom) 60%, transparent);
+  color: var(--primary-deep);
+  font-family: var(--font-hanzi);
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+.slide:nth-child(even) .glyph-badge { background: color-mix(in srgb, var(--lilac) 70%, transparent); color: var(--violet); }
+.card-text { margin-top: 8px; color: var(--muted); }
+
+/* 커리큘럼 */
+.week-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.week-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  scroll-margin-top: calc(var(--header-h) + 16px);
+  transition: border-color 0.2s;
+}
+.week-item:hover, .week-item[open] { border-color: var(--blossom); }
+.week-item.is-exam { background: color-mix(in srgb, var(--lilac) 40%, var(--surface)); border-color: var(--lilac); }
+.week-summary {
+  display: grid;
+  grid-template-columns: 4.2em minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 12px;
+  min-height: 64px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  list-style: none;
+}
+.week-summary::-webkit-details-marker { display: none; }
+.week-num { color: var(--primary); font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.week-heading { min-width: 0; }
+.week-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; line-height: 1.4; }
+.week-date { color: var(--muted); font-size: 0.88rem; }
+.week-marks { display: flex; align-items: center; gap: 8px; }
+.week-marks::after {
+  content: "+";
+  color: var(--primary);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform 0.2s var(--ease);
+}
+.week-item[open] .week-marks::after { transform: rotate(45deg); }
+.badge { padding: 2px 10px; border-radius: 999px; background: var(--violet); color: #fff; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+.badge-task { background: var(--primary); }
+.week-body { display: grid; gap: 18px; padding: 4px 20px 22px; }
+.week-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.week-meta div { padding: 10px 14px; border-radius: 14px; background: color-mix(in srgb, var(--blossom) 22%, var(--bg)); }
+.week-meta dt { color: var(--muted); font-size: 0.82rem; }
+.week-meta dd { font-weight: 700; line-height: 1.4; }
+.detail-title { margin-bottom: 6px; color: var(--primary-deep); font-size: 0.92rem; font-weight: 700; }
+.content-list { display: grid; gap: 4px; }
+.content-list li { position: relative; padding-left: 16px; }
+.content-list li::before {
+  content: "";
+  position: absolute;
+  top: 0.7em;
+  left: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blossom);
+}
+.week-phrase { margin-top: 10px; padding: 10px 14px; border-radius: 14px; border: 1px dashed var(--line); }
+.hanzi { font-family: var(--font-hanzi); font-size: 1.15rem; font-weight: 500; line-height: 1.4; }
+.pinyin { color: var(--violet); font-size: 0.9rem; }
+.video-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--primary-deep); font-weight: 700; }
+.assignment {
+  padding: 16px 18px;
+  border: 1px solid var(--blossom);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--blossom) 16%, var(--surface));
+}
+.assignment-title { font-weight: 700; }
+.assignment-text { margin-top: 2px; color: var(--muted); }
+.assignment-due { margin-top: 10px; font-size: 0.95rem; }
+.assignment-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 12px; }
+.countdown {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--lilac);
+  color: #452a80;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.countdown.is-urgent { background: var(--primary); color: #fff; }
+.countdown.is-closed { background: var(--line); color: var(--muted); }
+.btn-small { min-height: 44px; padding: 0 20px; font-size: 0.95rem; font-family: inherit; cursor: pointer; }
+.btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; transform: none; }
+.submit-note { color: var(--muted); font-size: 0.85rem; }
+
+/* 달력 */
+.calendar-block { margin-top: clamp(40px, 6vw, 64px); scroll-margin-top: calc(var(--header-h) + 16px); }
+.calendar-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 20px; align-items: start; margin-top: 18px; }
+.calendar { padding: clamp(14px, 2.5vw, 24px); }
+.calendar-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.calendar-month { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.calendar-dow { padding-block: 4px; color: var(--muted); font-size: 0.82rem; text-align: center; }
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1px;
+  min-height: 62px;
+  padding: 6px 1px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.calendar-day:hover { background: color-mix(in srgb, var(--blossom) 28%, transparent); }
+.calendar-day.is-class { background: color-mix(in srgb, var(--blossom) 45%, var(--surface)); font-weight: 700; }
+.calendar-day.is-exam { background: color-mix(in srgb, var(--lilac) 75%, var(--surface)); }
+.calendar-day.is-off { color: var(--muted); }
+.calendar-day.is-today { border-color: var(--violet); }
+.calendar-day.is-selected { outline: 2px solid var(--primary); outline-offset: -2px; }
+.calendar-tag { color: var(--primary-deep); font-size: 0.72rem; font-weight: 700; line-height: 1.25; }
+.calendar-tag.is-off { color: var(--muted); font-weight: 400; }
+.calendar-due { width: 7px; height: 7px; border-radius: 50%; background: var(--violet); }
+.calendar-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 12px; color: var(--muted); font-size: 0.85rem; }
+.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-swatch { width: 12px; height: 12px; border-radius: 4px; background: var(--blossom); }
+.legend-swatch.is-exam { background: var(--lilac); }
+.legend-swatch.is-due { border-radius: 50%; background: var(--violet); }
+.calendar-detail { display: grid; gap: 10px; }
+.calendar-detail-date { color: var(--primary); font-weight: 700; }
+.calendar-detail .info-list { margin-top: 0; }
+.calendar-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; color: var(--primary-deep); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
+
+/* 수강 안내 */
+.guide-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 20px; align-items: start; }
+.info-list { margin-top: 14px; }
+.info-row {
+  display: grid;
+  grid-template-columns: 7.5em minmax(0, 1fr);
+  gap: 12px;
+  padding-block: 12px;
+  border-top: 1px solid var(--line);
+}
+.info-row:first-child { border-top: 0; }
+.info-row dt { color: var(--muted); font-size: 0.95rem; }
+.info-row dd { font-weight: 700; }
+.grade-note { margin-top: 6px; color: var(--muted); font-size: 0.9rem; }
+.grade-list { display: grid; gap: 14px; margin-top: 18px; }
+.grade-head { display: flex; justify-content: space-between; gap: 12px; }
+.grade-value { font-weight: 700; color: var(--primary-deep); font-variant-numeric: tabular-nums; }
+.grade-bar { height: 10px; margin-top: 6px; border-radius: 999px; background: color-mix(in srgb, var(--blossom) 35%, transparent); overflow: hidden; }
+.grade-bar span { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+
+/* FAQ */
+.faq-list { display: grid; gap: 12px; max-width: 800px; }
+.faq-item { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 56px;
+  padding: 14px 22px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  flex: none;
+  color: var(--primary);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform 0.2s var(--ease);
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-answer { padding: 0 22px 20px; color: var(--muted); }
+
+/* 교수자 */
+.footer-profile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: clamp(20px, 4vw, 40px);
+  align-items: center;
+  margin-top: 14px;
+}
+.instructor-photo {
+  display: block;
+  width: clamp(110px, 16vw, 160px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.footer-contact { min-width: 0; }
+.instructor-glyph {
+  display: grid;
+  place-items: center;
+  width: clamp(110px, 16vw, 160px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--blossom), var(--lilac));
+  color: var(--primary-deep);
+  font-family: var(--font-hanzi);
+  font-size: clamp(3rem, 7vw, 4.6rem);
+  font-weight: 700;
+}
+.instructor-name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; line-height: 1.35; }
+.instructor-role { color: var(--primary); font-weight: 700; }
+.instructor-bio { margin-top: 10px; color: var(--muted); }
+
+/* 푸터 */
+.site-footer { padding-block: clamp(44px, 6vw, 64px) 28px; background: color-mix(in srgb, var(--blossom) 28%, var(--bg)); border-top: 1px solid var(--line); }
+.footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; }
+
+/* 맨 위로 */
+.to-top {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.25s, transform 0.25s var(--ease), visibility 0.25s;
+}
+.to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { background: var(--primary-deep); }
+
+/* 스크롤 등장 */
+.js-reveal .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.js-reveal .reveal.is-in { opacity: 1; transform: none; }
+
+/* 공지 */
+.notices { padding-top: clamp(28px, 4vw, 40px); }
+.notice-list { display: grid; gap: 10px; }
+.notice-item { padding: 16px 20px; border: 1px solid var(--blossom); border-radius: var(--radius-md); background: var(--surface); }
+.notice-date { color: var(--primary); font-size: 0.85rem; font-weight: 700; }
+.notice-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+.notice-body { margin-top: 4px; color: var(--muted); white-space: pre-line; }
+
+/* 관리자 */
+.header-actions { display: flex; flex: none; align-items: center; gap: 8px; }
+.lock-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--primary-deep);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.lock-btn:hover { background: var(--blossom); }
+.admin-login { display: grid; gap: 14px; }
+.admin {
+  width: min(960px, calc(100vw - 24px));
+  height: min(88vh, 900px);
+  height: min(88dvh, 900px);
+  max-height: none;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.admin[open] { display: flex; flex-direction: column; }
+.admin::backdrop { background: rgba(58, 31, 61, 0.5); }
+.admin-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 20px 10px; }
+.admin-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.admin-buttons .btn, .admin-panel .btn { font-family: inherit; cursor: pointer; }
+.admin-buttons .btn { cursor: pointer; font-family: inherit; }
+.admin-tabs { display: flex; flex: none; gap: 4px; padding: 0 20px 10px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.admin-tab {
+  flex: none;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+.admin-tab.is-active { background: var(--blossom); color: var(--primary-deep); font-weight: 700; }
+.admin-panel { display: grid; flex: 1; align-content: start; gap: 14px; min-height: 0; padding: 18px 20px 24px; overflow-y: auto; }
+.edit-sections, .edit-object, .edit-array { display: grid; gap: 12px; min-width: 0; }
+.edit-group { min-width: 0; margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.edit-group legend { padding: 0 8px; color: var(--primary-deep); font-weight: 700; }
+.edit-item { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: color-mix(in srgb, var(--blossom) 12%, var(--surface)); }
+.edit-item-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.edit-item-head .detail-title { margin: 0; }
+.field input[type="color"] { width: 64px; padding: 4px; }
+.mini-btn { justify-self: start; min-height: 44px; padding: 0 12px; border: 1px solid var(--blossom); border-radius: 999px; background: var(--surface); color: var(--primary-deep); font: inherit; font-size: 0.85rem; cursor: pointer; }
+.admin-savebar { position: sticky; bottom: -24px; padding: 12px 0; background: var(--bg); }
+.roster-list { display: grid; gap: 6px; }
+.roster-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 12px; border-radius: 12px; background: var(--surface); overflow-wrap: anywhere; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.data-table th, .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.data-table th { background: color-mix(in srgb, var(--lilac) 30%, var(--surface)); }
+.data-table tr:last-child td { border-bottom: 0; }
+
+/* 참여 기능 공통 */
+.demo-notice {
+  margin-bottom: 16px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--lilac) 45%, var(--surface));
+  color: #452a80;
+  font-size: 0.92rem;
+}
+.field { display: grid; gap: 6px; min-width: 0; }
+.field.is-full { grid-column: 1 / -1; }
+.field-label { font-weight: 700; font-size: 0.95rem; }
+.field input:not([type="checkbox"]), .field select, .field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid #d9b9cb;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.field textarea { resize: vertical; }
+.field input[type="file"] { padding: 10px; }
+[aria-invalid="true"] { border-color: #b3261e !important; }
+.field-error { color: #b3261e; font-size: 0.9rem; }
+.check-field { display: flex; align-items: flex-start; gap: 10px; min-height: 44px; padding-block: 8px; cursor: pointer; }
+.check-field input { flex: none; width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--primary); }
+.form-summary { margin-bottom: 14px; padding: 12px 16px; border: 1px solid #e7b5b0; border-radius: 14px; background: #fdf0ef; color: #8c1d18; }
+.form-summary-title { font-weight: 700; }
+.form-summary ul { list-style: disc; padding-left: 20px; }
+.form-ok { color: #1f6b43; font-weight: 700; }
+.form-success { display: grid; gap: 14px; justify-items: start; padding-block: 12px; }
+
+/* 투표 */
+.poll-list { display: grid; gap: 6px; }
+.poll-option {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.poll-option:hover { background: color-mix(in srgb, var(--blossom) 22%, transparent); }
+.poll-option.is-mine { border-color: var(--blossom); }
+.poll-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; }
+.poll-label { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; font-weight: 700; }
+.poll-mine { padding: 0 10px; border-radius: 999px; background: var(--primary); color: #fff; font-size: 0.78rem; }
+.poll-value { color: var(--muted); font-variant-numeric: tabular-nums; }
+.poll-bar { display: block; height: 12px; margin-top: 8px; border-radius: 4px; background: color-mix(in srgb, var(--blossom) 28%, transparent); overflow: hidden; }
+.poll-fill { display: block; height: 100%; border-radius: 4px; background: var(--primary); transition: width 0.45s var(--ease); }
+.poll-total { margin-top: 12px; padding-inline: 14px; color: var(--muted); font-size: 0.92rem; }
+
+/* 수강 신청 */
+.apply-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
+.apply-form > .field:last-child { justify-items: start; }
+.apply-form .form-summary { width: 100%; }
+
+/* 수강생 공간 */
+.login-card { display: grid; gap: 14px; max-width: 440px; }
+.login-card .btn { width: 100%; font-family: inherit; cursor: pointer; }
+.portal-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.portal-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.portal-card { display: grid; gap: 12px; min-width: 0; }
+.portal-count { margin: 6px 0 0; }
+.attend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; }
+.attend-chip { display: grid; padding: 6px 8px; border-radius: 12px; background: color-mix(in srgb, var(--line) 55%, var(--surface)); font-size: 0.85rem; text-align: center; }
+.attend-chip.is-done { background: color-mix(in srgb, var(--blossom) 60%, var(--surface)); font-weight: 700; }
+.attend-mark { color: var(--muted); font-size: 0.78rem; }
+.attend-chip.is-done .attend-mark { color: var(--primary-deep); }
+.submit-form { display: grid; gap: 12px; }
+.history-list { display: grid; gap: 6px; }
+.history-list li { display: grid; padding: 8px 12px; border-radius: 12px; background: color-mix(in srgb, var(--blossom) 18%, var(--surface)); }
+.history-name { font-weight: 700; overflow-wrap: anywhere; }
+
+/* 실시간 퀴즈 */
+.quiz-block { margin-top: clamp(36px, 5vw, 56px); padding-top: clamp(28px, 4vw, 40px); border-top: 1px solid var(--blossom); scroll-margin-top: calc(var(--header-h) + 16px); }
+.quiz-stage { display: grid; gap: 20px; margin-top: 18px; }
+.quiz-join { display: grid; gap: 14px; max-width: 440px; }
+.quiz-join .btn, .quiz-play .btn, .quiz-lobby .btn, .quiz-setup .btn { font-family: inherit; cursor: pointer; }
+.quiz-setup { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.quiz-ai-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.quiz-editor { display: grid; gap: 10px; }
+.quiz-edit-choices { display: grid; gap: 6px; }
+.quiz-edit-choice { display: grid; grid-template-columns: 22px 18px minmax(0, 1fr); align-items: center; gap: 6px; }
+.quiz-edit-choice input[type="radio"] { width: 20px; height: 20px; margin: 0; accent-color: var(--primary); }
+.quiz-edit-choice input[type="text"], .quiz-edit-limit input, .quiz-editor textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #d9b9cb;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.quiz-edit-limit { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+.quiz-edit-limit input { width: 90px; }
+.quiz-lobby { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 40px); }
+.quiz-join-info { display: grid; justify-items: center; gap: 4px; text-align: center; }
+.quiz-join-info .demo-notice { max-width: 260px; margin: 8px 0 0; }
+.quiz-qr { padding: 12px; border-radius: 16px; background: #fff; }
+.quiz-qr img, .quiz-qr canvas { display: block; }
+.quiz-code-label { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
+.quiz-code { color: var(--primary-deep); font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: 0.12em; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.quiz-lobby-side { display: grid; align-content: start; gap: 12px; min-width: 0; }
+.quiz-players { display: flex; flex-wrap: wrap; gap: 6px; min-height: 40px; }
+.quiz-players li { padding: 4px 14px; border-radius: 999px; background: var(--blossom); color: var(--primary-deep); font-weight: 700; overflow-wrap: anywhere; }
+.quiz-play { display: grid; gap: 16px; min-width: 0; }
+.quiz-center { justify-items: center; text-align: center; }
+.quiz-play-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.quiz-play-head .detail-title { margin: 0; }
+.quiz-timer {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--violet);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.quiz-question { font-family: var(--font-display), var(--font-hanzi); font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 700; line-height: 1.4; }
+.quiz-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.quiz-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 84px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 16px;
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+button.quiz-choice { cursor: pointer; transition: transform 0.15s var(--ease); }
+button.quiz-choice:hover { transform: translateY(-2px); }
+.quiz-choice.c0 { background: #b0306f; }
+.quiz-choice.c1 { background: #6f4bb3; }
+.quiz-choice.c2 { background: #0f766e; }
+.quiz-choice.c3 { background: #a85208; }
+.quiz-shape { flex: none; font-size: 1.4rem; }
+.quiz-result-list { display: grid; gap: 10px; }
+.quiz-result-list li { padding: 10px 12px; border-radius: 12px; }
+.quiz-result-list .is-correct { background: color-mix(in srgb, var(--blossom) 25%, var(--surface)); }
+.quiz-board { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.quiz-board li { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 12px; background: color-mix(in srgb, var(--lilac) 22%, var(--surface)); }
+.quiz-rank { font-weight: 700; color: var(--violet); font-variant-numeric: tabular-nums; }
+.quiz-verdict { font-family: var(--font-display); font-size: clamp(2rem, 7vw, 3rem); font-weight: 700; line-height: 1.2; }
+.quiz-verdict.is-right { color: #1f6b43; }
+.quiz-verdict.is-wrong { color: #b3261e; }
+
+/* 팝업·폭죽 */
+.popup {
+  width: min(420px, calc(100vw - 32px));
+  padding: 28px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.popup::backdrop { background: rgba(58, 31, 61, 0.45); }
+.popup-glyph {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: var(--blossom);
+  color: var(--primary-deep);
+  font-family: var(--font-hanzi);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.popup-hide { margin-top: 10px; font-size: 0.95rem; }
+.popup-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.popup-actions .btn { flex: 1 1 auto; font-family: inherit; cursor: pointer; }
+.confetti { position: fixed; inset: 0; z-index: 90; width: 100%; height: 100%; pointer-events: none; }
+
+@media (max-width: 1120px) {
+  .menu-toggle { display: block; }
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 8px 16px 16px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 24px color-mix(in srgb, var(--primary) 10%, transparent);
+    display: none;
+  }
+  .site-nav.is-open { display: block; }
+  .nav-list { flex-direction: column; }
+  .nav-link { min-height: 48px; }
+}
+
+@media (max-width: 760px) {
+  .hero-grid, .guide-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-card { transform: none; margin-top: 16px; }
+  .hero-actions .btn { flex: 1 1 140px; }
+  .calendar-layout, .portal-grid, .apply-form, .quiz-setup, .quiz-lobby { grid-template-columns: minmax(0, 1fr); }
+  .week-summary { grid-template-columns: minmax(0, 1fr) auto; padding-inline: 16px; }
+  .week-num { grid-column: 1; }
+  .week-marks { grid-column: 2; grid-row: 1 / span 2; }
+  .week-heading { grid-column: 1; }
+  .week-body { padding-inline: 16px; }
+  .week-meta { grid-template-columns: minmax(0, 1fr); }
+  .facts, .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .slider-track { grid-auto-columns: 85%; column-gap: 14px; }
+  .prepare-grid { grid-template-columns: minmax(0, 1fr); }
+  .footer-profile { grid-template-columns: auto minmax(0, 1fr); }
+  .footer-contact { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+  .facts, .quiz-choices { grid-template-columns: minmax(0, 1fr); }
+  .quiz-choice { min-height: 68px; }
+  .quiz-lobby .quiz-qr { justify-self: center; }
+  .footer-profile { grid-template-columns: minmax(0, 1fr); }
+  .info-row { grid-template-columns: 6.5em minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .petals { display: none; }
+  .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<!-- ▼ 사이트 설정: 내용 수정은 여기서 -->
+<script id="site-config">
+/*
+ * 사이트 설정 — 화면에 보이는 모든 내용은 이 블록에서 고칩니다.
+ * 메모장 등으로 열어 따옴표 안의 글자만 바꾸고 저장한 뒤 새로고침하세요.
+ * "추후 안내"로 적힌 항목은 확정되면 실제 정보로 바꿔 주세요.
+ */
+window.SITE_CONFIG = {
+  meta: {
+    title: "교양중국어 | 고려대학교 중어중문학과",
+    description: "고려대학교 중어중문학과 「교양중국어」 강의 소개"
+  },
+
+  // 색을 바꾸면 사이트 전체에 적용됩니다.
+  theme: {
+    primary: "#b0306f",
+    primaryDeep: "#8a2358",
+    violet: "#6f4bb3",
+    blossom: "#f9c9dc",
+    lilac: "#ddd0f5",
+    background: "#fff8fb",
+    surface: "#ffffff",
+    text: "#3a1f3d",
+    muted: "#6f5670",
+    line: "#f3dbe8"
+  },
+
+  brand: {
+    glyph: "花",
+    org: "고려대학교 중어중문학과",
+    name: "교양중국어"
+  },
+
+  // id는 아래 각 섹션과 연결되므로 label만 고치세요.
+  nav: [
+    { id: "about", label: "프로그램 소개" },
+    { id: "poll", label: "주제 투표" },
+    { id: "curriculum", label: "커리큘럼" },
+    { id: "guide", label: "수강 안내" },
+    { id: "apply", label: "수강 신청" },
+    { id: "portal", label: "출석·과제" },
+    { id: "faq", label: "FAQ" },
+    { id: "instructor", label: "교수자" }
+  ],
+
+  hero: {
+    badge: "2026 상반기 집중 프로그램",
+    title: "교양중국어",
+    subtitle: "AI 기반 데이터 활용능력 배양",
+    lead: "발음의 첫 소리부터 일상 대화까지 중국어 기초를 익히고, 생성형 AI로 중국어 자료를 찾고 정리하며 학습에 활용하는 방법을 함께 실습합니다.",
+    // 수강 신청 버튼의 이동 위치: 신청 페이지가 생기면 target 대신 url에 주소를 넣으세요.
+    primaryAction: { label: "수강 신청", target: "apply", url: "" },
+    secondaryAction: { label: "커리큘럼 보기", target: "curriculum" },
+    phrase: { hanzi: "你好", pinyin: "nǐ hǎo", meaning: "안녕하세요" },
+    glyph: "春",
+    facts: [
+      { glyph: "期", label: "일정", value: "2026 상반기 · 15주" },
+      { glyph: "時", label: "시간", value: "매주 화요일 · 시간 추후 안내" },
+      { glyph: "課", label: "수업 방식", value: "강의 + AI 도구 실습" },
+      { glyph: "生", label: "수강 대상", value: "중국어를 처음 배우는 학생" }
+    ]
+  },
+
+  // value를 비워 두면(null) emptyText가 표시됩니다. 숫자가 확정되면 넣어 주세요.
+  stats: {
+    emptyText: "추후 안내",
+    items: [
+      { label: "학습 과정", valueFrom: "weeks", suffix: "주" },
+      { label: "실습 도구", valueFrom: "tools", suffix: "개" },
+      { label: "교수자 저술", value: null, suffix: "권" },
+      { label: "강의 경력", value: null, suffix: "년" }
+    ]
+  },
+
+  about: {
+    label: "프로그램 소개",
+    title: "이 강의의 장점",
+    intro: "좌우로 넘기며 살펴보세요.",
+    prevLabel: "이전 장점",
+    nextLabel: "다음 장점",
+    slides: [
+      { glyph: "聲", title: "정확한 발음", text: "병음과 성조를 먼저 익혀 혼자서도 소리 내어 읽을 수 있는 기초를 만듭니다." },
+      { glyph: "話", title: "일상 회화", text: "인사, 쇼핑, 주문, 길 찾기처럼 바로 쓸 수 있는 표현을 상황별로 연습합니다." },
+      { glyph: "文", title: "문화 이해", text: "언어에 담긴 중국의 생활과 문화를 함께 살펴보며 표현의 맥락을 이해합니다." },
+      { glyph: "智", title: "AI 학습 파트너", text: "생성형 AI와 회화를 연습하고 작문 피드백을 받으며 수업 밖에서도 학습을 이어 갑니다." },
+      { glyph: "數", title: "데이터 활용", text: "중국어 자료를 AI로 수집하고 정리해 표와 그래프로 살펴보는 과정을 경험합니다." }
+    ]
+  },
+
+  curriculum: {
+    label: "커리큘럼",
+    title: "15주 학습 계획",
+    note: "주차를 누르면 자세한 내용이 펼쳐집니다. 주차별 내용은 계획안이며, 실제 진도는 강의계획서에 따라 달라질 수 있습니다.",
+    labels: {
+      date: "날짜", time: "시간", place: "장소", contents: "학습 내용", phrase: "핵심 표현",
+      videos: "참고 영상", videoSearch: "유튜브에서 찾아보기: ", assignment: "과제", due: "마감",
+      submit: "과제 제출", submitDemo: "체험 제출", submitClosed: "제출 마감",
+      closed: "마감되었습니다", remaining: "남음", day: "일", hour: "시간", minute: "분", soon: "1분 미만"
+    },
+    // 수업 날짜는 startDate부터 7일 간격으로 자동 계산됩니다. skipDates의 날짜는 건너뛰고 다음 주로 밀립니다.
+    schedule: {
+      startDate: "2026-03-03",
+      time: "추후 안내",
+      place: "추후 안내",
+      skipDates: [{ date: "2026-05-05", label: "어린이날 휴강" }]
+    },
+    // 과제 기본 마감: 수업일로부터 dueAfterDays일 뒤 dueTime(한국 시간)
+    assignmentDefaults: { dueAfterDays: 6, dueTime: "23:59" },
+    // 각 주차에 time, place를 적으면 그 주만 다르게 표시됩니다.
+    // 과제 submitUrl에 외부 제출 주소를 넣으면 그 주소로 연결되고, 비우면 수강생 공간에서 제출합니다.
+    // 영상은 url에 주소를 넣으면 그 영상으로 연결됩니다.
+    weeks: [
+      { week: 1, title: "중국어의 소리", topic: "병음, 성조, 기본 인사", hanzi: "你好", pinyin: "Nǐ hǎo",
+        contents: ["성모·운모와 네 가지 성조", "기본 인사 표현", "AI 도구 계정 준비와 사용 안내"],
+        videos: [{ title: "중국어 병음과 성조 기초", query: "중국어 병음 성조 기초" }] },
+      { week: 2, title: "인사와 이름", topic: "이름 묻고 답하기", hanzi: "你叫什么名字?", pinyin: "Nǐ jiào shénme míngzi?",
+        contents: ["이름 묻고 답하기", "인칭대명사와 의문사 什么", "AI와 자기소개 대화 연습"],
+        videos: [{ title: "중국어 이름 묻기", query: "중국어 이름 묻기 你叫什么名字" }],
+        assignment: { title: "성조 낭독 녹음", text: "1~2주차 표현을 성조에 유의해 읽고 녹음해 제출합니다.", submitUrl: "" } },
+      { week: 3, title: "국적과 신분", topic: "是 문장으로 자기소개", hanzi: "我是韩国人。", pinyin: "Wǒ shì Hánguórén.",
+        contents: ["是 문장의 긍정·부정·의문", "국적과 신분 어휘", "자기소개 말하기"],
+        videos: [{ title: "중국어 是 문장", query: "중국어 是 문장 기초 문법" }] },
+      { week: 4, title: "가족", topic: "有 문장, 양사 기초", hanzi: "你家有几口人?", pinyin: "Nǐ jiā yǒu jǐ kǒu rén?",
+        contents: ["有 문장과 没有", "가족 호칭과 양사 口·个", "AI로 가족 소개 문장 첨삭받기"],
+        videos: [{ title: "중국어 가족 소개", query: "중국어 가족 소개 표현" }],
+        assignment: { title: "가족 소개 작문", text: "가족을 소개하는 중국어 문장 5개를 쓰고, AI 첨삭 전후를 비교해 제출합니다.", submitUrl: "" } },
+      { week: 5, title: "숫자와 날짜", topic: "숫자, 요일, 날짜 말하기", hanzi: "今天几月几号?", pinyin: "Jīntiān jǐ yuè jǐ hào?",
+        contents: ["숫자 읽기", "연·월·일·요일 표현", "생일 묻고 답하기"],
+        videos: [{ title: "중국어 숫자와 날짜", query: "중국어 숫자 날짜 요일 표현" }] },
+      { week: 6, title: "시간과 일과", topic: "시각 표현, 하루 일과", hanzi: "现在几点?", pinyin: "Xiànzài jǐ diǎn?",
+        contents: ["시각 읽기", "시간사의 위치", "하루 일과 말하기"],
+        videos: [{ title: "중국어 시간 표현", query: "중국어 시간 표현 现在几点" }] },
+      { week: 7, title: "쇼핑", topic: "가격 묻기, 화폐 단위", hanzi: "这个多少钱?", pinyin: "Zhège duōshao qián?",
+        contents: ["가격 묻고 읽기", "화폐 단위 块·毛", "물건 사기 역할극"],
+        videos: [{ title: "중국어 쇼핑 회화", query: "중국어 쇼핑 회화 多少钱" }],
+        assignment: { title: "쇼핑 데이터 표 만들기", text: "중국 온라인 상품 5개의 이름과 가격을 AI로 정리해 표로 제출합니다.", submitUrl: "" } },
+      { week: 8, title: "중간 평가", topic: "1~7주 내용 점검", exam: true,
+        contents: ["발음·회화·문장 이해 평가"] },
+      { week: 9, title: "음식 주문", topic: "식당 표현, 要 문장", hanzi: "我要一杯茶。", pinyin: "Wǒ yào yì bēi chá.",
+        contents: ["要 문장과 음식 어휘", "식당에서 주문하기", "AI와 주문 상황 역할극"],
+        videos: [{ title: "중국어 식당 주문", query: "중국어 식당 주문 회화" }] },
+      { week: 10, title: "위치와 길 찾기", topic: "방위사, 在 문장", hanzi: "地铁站在哪儿?", pinyin: "Dìtiězhàn zài nǎr?",
+        contents: ["방위사와 在 문장", "길 묻고 답하기", "지도 보며 안내하기"],
+        videos: [{ title: "중국어 길 찾기", query: "중국어 길 묻기 在哪儿" }],
+        assignment: { title: "길 안내 대화문", text: "학교 주변을 안내하는 중국어 대화문을 작성해 제출합니다.", submitUrl: "" } },
+      { week: 11, title: "교통", topic: "교통수단, 방법 묻기", hanzi: "怎么去学校?", pinyin: "Zěnme qù xuéxiào?",
+        contents: ["교통수단 어휘", "怎么로 방법 묻기", "이동 경로 설명하기"],
+        videos: [{ title: "중국어 교통수단", query: "중국어 교통수단 표현 怎么去" }] },
+      { week: 12, title: "취미", topic: "喜欢 문장, 여가 활동", hanzi: "你喜欢做什么?", pinyin: "Nǐ xǐhuan zuò shénme?",
+        contents: ["喜欢과 동사 표현", "여가 활동 어휘", "AI로 중국 SNS 인기 취미 자료 요약하기"],
+        videos: [{ title: "중국어 취미 표현", query: "중국어 취미 표현 喜欢" }],
+        assignment: { title: "취미 자료 요약", text: "중국어 자료 하나를 AI로 요약하고, 내용을 직접 확인한 결과를 함께 제출합니다.", submitUrl: "" } },
+      { week: 13, title: "날씨와 계절", topic: "형용사 술어문", hanzi: "今天天气怎么样?", pinyin: "Jīntiān tiānqì zěnmeyàng?",
+        contents: ["형용사 술어문", "날씨와 계절 어휘", "도시별 날씨 자료 비교하기"],
+        videos: [{ title: "중국어 날씨 표현", query: "중국어 날씨 표현 天气怎么样" }] },
+      { week: 14, title: "문화와 회화 발표", topic: "배운 표현 종합 활용", hanzi: "我们一起学习吧。", pinyin: "Wǒmen yìqǐ xuéxí ba.",
+        contents: ["중국 문화 주제 조사", "AI를 활용한 발표 자료 정리", "조별 회화 발표"],
+        videos: [{ title: "중국 문화 소개", query: "중국 문화 소개 중국어 회화" }] },
+      { week: 15, title: "기말 평가", topic: "9~14주 내용 점검", exam: true,
+        contents: ["발음·회화·문장 이해 평가"] }
+    ],
+    calendar: {
+      title: "수업 달력",
+      intro: "날짜를 누르면 그날의 수업 내용이 나타납니다.",
+      prevLabel: "이전 달",
+      nextLabel: "다음 달",
+      legendClass: "수업",
+      legendExam: "평가",
+      legendDue: "과제 마감",
+      noClass: "이 날은 수업이 없습니다.",
+      dueNotice: "과제 마감: ",
+      openWeek: "주차 자세히 보기"
+    }
+  },
+
+  guide: {
+    label: "수강 안내",
+    title: "수강 전에 확인하세요",
+    infoTitle: "강의 정보",
+    info: [
+      { label: "개설 학과", value: "중어중문학과" },
+      { label: "교과목", value: "교양중국어" },
+      { label: "대상", value: "중국어를 처음 배우는 학생" },
+      { label: "학기·학점", value: "추후 안내" },
+      { label: "시간·강의실", value: "매주 화요일 · 추후 안내" },
+      { label: "교재", value: "추후 안내" }
+    ],
+    gradingTitle: "평가 방법",
+    gradingNote: "아래 비율은 예시이며, 확정되면 강의계획서 기준으로 바뀝니다.",
+    grading: [
+      { label: "출석", percent: 20 },
+      { label: "중간 평가", percent: 30 },
+      { label: "기말 평가", percent: 30 },
+      { label: "과제·발표", percent: 20 }
+    ]
+  },
+
+  // 관리자 비밀번호는 원문 대신 PBKDF2 해시로만 저장합니다. 변경은 관리자 화면에서 하세요.
+  admin: {
+    salt: "d6c60743e189b2126d64dc9457696d5e",
+    iterations: 150000,
+    hash: "87c06308c75537092b7623200a25a6dc0e049881de461484ea766747b6e8617f"
+  },
+
+  // 공지는 관리자 화면에서 올립니다. 비어 있으면 공지 영역이 나타나지 않습니다.
+  notices: [],
+
+  // 서버가 없는 체험 모드입니다. 투표·신청·출석·제출 기록은 보는 사람의 브라우저에만 저장됩니다.
+  // 실제 운영에는 서버 연결이 필요합니다. allowAnyDay, ignoreDeadlines는 체험을 위해 날짜 제한을 푸는 값입니다.
+  backend: {
+    mode: "demo",
+    allowAnyDay: true,
+    ignoreDeadlines: true,
+    notice: "체험 모드: 입력한 내용은 이 브라우저에만 저장되며 교수자에게 전달되지 않습니다."
+  },
+
+  poll: {
+    label: "주제 투표",
+    title: "가장 먼저 배우고 싶은 주제는?",
+    intro: "하나를 고르면 결과가 바로 반영됩니다. 다시 누르면 선택을 바꿀 수 있습니다.",
+    totalLabel: "총 ",
+    voteUnit: "표",
+    mine: "내 선택",
+    options: [
+      { id: "pronunciation", label: "발음과 성조" },
+      { id: "conversation", label: "여행·일상 회화" },
+      { id: "culture", label: "중국 문화와 트렌드" },
+      { id: "ai", label: "AI로 중국어 공부하기" },
+      { id: "data", label: "중국어 자료 분석" }
+    ]
+  },
+
+  apply: {
+    label: "수강 신청",
+    title: "수강 신청서",
+    intro: "* 표시는 필수 항목입니다.",
+    submit: "신청서 제출",
+    summary: "다음 항목을 확인해 주세요.",
+    required: "을(를) 입력해 주세요.",
+    requiredSelect: "을(를) 선택해 주세요.",
+    duplicate: "이미 이 학번으로 신청했습니다.",
+    success: "님의 수강 신청이 접수되었습니다.",
+    another: "다른 신청서 작성",
+    fields: [
+      { name: "name", label: "이름", type: "text", required: true, autocomplete: "name" },
+      { name: "studentId", label: "학번", type: "text", required: true, inputmode: "numeric", pattern: "^[0-9]{7,10}$", patternMessage: "학번은 숫자 7~10자리로 입력해 주세요." },
+      { name: "department", label: "소속 학과", type: "text", required: true },
+      { name: "year", label: "학년", type: "select", required: true, placeholder: "선택", options: ["1학년", "2학년", "3학년", "4학년", "기타"] },
+      { name: "email", label: "이메일", type: "email", required: true, full: true, autocomplete: "email", pattern: "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", patternMessage: "이메일 형식이 올바르지 않습니다." },
+      { name: "motivation", label: "수강 동기", type: "textarea", required: true, full: true, rows: 4 },
+      { name: "consent", label: "수강 신청 처리를 위한 개인정보 수집·이용에 동의합니다.", shortLabel: "개인정보 동의", type: "checkbox", required: true, full: true, requiredMessage: "개인정보 수집·이용에 동의해 주세요." }
+    ]
+  },
+
+  portal: {
+    label: "출석·과제",
+    title: "수강생 공간",
+    intro: "로그인하면 출석을 체크하고 과제 파일을 제출할 수 있습니다.",
+    // 체험용 명단입니다. 비밀번호가 없어 실제 본인 확인 기능은 아닙니다.
+    roster: [{ id: "2026000001", name: "체험학생" }],
+    loginTitle: "로그인",
+    idLabel: "학번",
+    nameLabel: "이름",
+    login: "로그인",
+    logout: "로그아웃",
+    demoHint: "체험용 계정: 학번 2026000001 / 이름 체험학생",
+    loginEmpty: "학번과 이름을 모두 입력해 주세요.",
+    loginFailed: "명단에서 일치하는 수강생을 찾지 못했습니다.",
+    welcome: "님, 환영합니다.",
+    attendanceTitle: "출석 체크",
+    attendButton: "주차 출석하기",
+    attendDemoNote: "오늘은 수업일이 아니지만 체험 모드라 다음 미출석 주차로 체크합니다.",
+    attendNone: "오늘은 수업이 없습니다.",
+    attendDone: "모든 주차의 출석을 마쳤습니다.",
+    attendedToday: "이번 수업은 이미 출석했습니다.",
+    attendSaved: "주차 출석이 기록되었습니다.",
+    attendCount: "출석 현황",
+    submitTitle: "과제 제출",
+    assignmentLabel: "과제 선택",
+    fileLabel: "과제 파일",
+    fileHint: "PDF, DOCX, HWPX, PPTX, ZIP, MP3, M4A · 최대 20MB",
+    allowedExtensions: ["pdf", "docx", "hwpx", "pptx", "zip", "mp3", "m4a"],
+    maxFileMb: 20,
+    submit: "파일 제출",
+    fileMissing: "제출할 파일을 선택해 주세요.",
+    fileType: "허용되지 않는 파일 형식입니다.",
+    fileSize: "파일이 너무 큽니다. 최대 용량을 확인해 주세요.",
+    closed: "마감된 과제입니다.",
+    lateDemo: "마감이 지났지만 체험 모드라 제출을 시험해 볼 수 있습니다.",
+    saved: "제출 기록이 저장되었습니다. 체험 모드에서는 파일 자체는 업로드되지 않습니다.",
+    resubmit: "이전 제출을 새 파일로 바꿉니다.",
+    historyTitle: "제출 내역",
+    historyEmpty: "아직 제출한 과제가 없습니다."
+  },
+
+  // 실시간 퀴즈: 교수자 브라우저와 학생 휴대폰을 PeerJS(WebRTC)로 직접 연결합니다.
+  quiz: {
+    title: "실시간 퀴즈",
+    intro: "교수자 화면의 QR 코드를 촬영하거나 6자리 코드를 입력해 입장하세요. 빨리 맞힐수록 점수가 높습니다.",
+    defaultLimit: 20,
+    // AI 출제에 쓰는 모델입니다. API 키는 저장되지 않으며 출제할 때마다 입력합니다.
+    ai: { model: "claude-opus-5-5" },
+    samples: [
+      { text: "你好의 병음으로 알맞은 것은?", choices: ["nǐ hǎo", "nī hāo", "ní hào", "nì háo"], answer: 0, limit: 20 },
+      { text: "你叫什么名字?의 뜻은?", choices: ["어디에 가세요?", "이름이 무엇인가요?", "몇 살이에요?", "지금 몇 시예요?"], answer: 1, limit: 20 },
+      { text: "这个多少钱?은 어떤 상황에서 쓰나요?", choices: ["길을 물을 때", "날씨를 물을 때", "가격을 물을 때", "가족을 소개할 때"], answer: 2, limit: 20 },
+      { text: "중국어 표준어의 기본 성조는 몇 개인가요?", choices: ["2개", "3개", "5개", "4개"], answer: 3, limit: 15 },
+      { text: "我是韩国人。의 뜻은?", choices: ["저는 한국인입니다.", "저는 중국인입니다.", "한국에 갑니다.", "한국어를 배웁니다."], answer: 0, limit: 20 }
+    ]
+  },
+
+  popup: {
+    delayMs: 2500,
+    title: "수강 신청 접수 안내",
+    text: "「교양중국어」 수강 신청을 받고 있습니다. 신청서를 작성해 주세요.",
+    action: "수강 신청하러 가기",
+    target: "apply",
+    hideToday: "오늘 하루 보지 않기",
+    close: "닫기"
+  },
+
+  tools: {
+    label: "실습 도구",
+    title: "수업에서 쓰는 AI 도구",
+    intro: "도구 목록은 수업 구성에 따라 바뀔 수 있습니다.",
+    linkLabel: "공식 사이트",
+    items: [
+      { name: "ChatGPT", maker: "OpenAI", text: "중국어 회화 연습과 문장 설명, 작문 첨삭에 활용합니다.", url: "https://chatgpt.com" },
+      { name: "Claude", maker: "Anthropic", text: "긴 중국어 자료를 요약하고 표로 정리하는 실습에 활용합니다.", url: "https://claude.ai" },
+      { name: "Google AI Studio", maker: "Google", text: "프롬프트를 시험하며 나만의 학습 도우미를 설계해 봅니다.", url: "https://aistudio.google.com" },
+      { name: "Codex", maker: "OpenAI", text: "코드를 직접 쓰지 않고도 간단한 학습용 웹 도구를 만들어 봅니다.", url: "https://openai.com/codex" }
+    ]
+  },
+
+  prepare: {
+    label: "수강 준비물",
+    title: "첫 수업 전에 챙겨 주세요",
+    items: [
+      { glyph: "機", title: "노트북", text: "실습에 사용할 노트북을 지참합니다." },
+      { glyph: "號", title: "AI 도구 계정", text: "실습 도구에 로그인할 개인 계정을 준비합니다." },
+      { glyph: "字", title: "중국어 입력기", text: "사용하는 기기에 중국어 간체 입력기를 설치합니다." },
+      { glyph: "書", title: "교재·필기구", text: "교재는 추후 안내하며, 필기구를 함께 준비합니다." }
+    ]
+  },
+
+  faq: {
+    label: "FAQ",
+    title: "자주 묻는 질문",
+    items: [
+      { q: "중국어를 전혀 몰라도 들을 수 있나요?", a: "네. 입문 강의로 병음과 성조부터 시작하므로 사전 지식이 없어도 수강할 수 있습니다." },
+      { q: "AI 도구를 써 본 적이 없어도 되나요?", a: "네. 도구의 기초 사용법부터 수업에서 함께 실습합니다." },
+      { q: "한자를 많이 알아야 하나요?", a: "아닙니다. 한자를 몰라도 병음과 함께 배우며, 중국에서 쓰는 간체자는 수업에서 차근차근 익힙니다." },
+      { q: "중어중문학과 학생만 수강할 수 있나요?", a: "교양 강의를 전제로 안내하고 있습니다. 정확한 수강 자격은 수강신청 안내에서 확인해 주세요." },
+      { q: "수업 자료는 어디에서 받나요?", a: "자료 제공 방법은 개강 시 안내합니다." }
+    ]
+  },
+
+  instructor: {
+    label: "교수자",
+    glyph: "師",
+    // 사진 파일을 index.html과 같은 폴더에 두고 파일 이름을 적으세요. 예: "professor.jpg"
+    photo: "",
+    photoAlt: "담당 교수자 사진",
+    name: "교수자 이름 (추후 안내)",
+    role: "고려대학교 중어중문학과",
+    bio: "교수자 소개는 확정 후 이 자리에 표시됩니다.",
+    contactTitle: "연락처",
+    // email을 비워 두면 emptyText가 표시되고, 입력하면 메일 링크가 됩니다.
+    contacts: [
+      { label: "이메일", email: "" },
+      { label: "연구실", value: "" },
+      { label: "면담", value: "" }
+    ],
+    emptyText: "추후 안내"
+  },
+
+  footer: {
+    text: "고려대학교 중어중문학과 · 교양중국어",
+    note: "강의 안내용 페이지입니다."
+  },
+
+  ui: {
+    menuOpen: "메뉴 열기",
+    menuClose: "메뉴 닫기",
+    toTop: "맨 위로",
+    skip: "본문으로 건너뛰기",
+    weekSuffix: "주차",
+    examBadge: "평가"
+  }
+};
+</script>
+<!-- ▲ 사이트 설정 끝 -->
+<script id="site-app">
+(function () {
+  "use strict";
+
+  var C = window.SITE_CONFIG;
+  var root = document.getElementById("app");
+
+  if (!C) {
+    root.textContent = "사이트 설정을 불러오지 못했습니다. index.html의 설정 블록을 확인해 주세요.";
+    return;
+  }
+
+  // 관리자 화면에서 저장한 설정이 있으면 파일의 기본 설정 위에 덮어쓴다.
+  try {
+    var savedConfig = JSON.parse(localStorage.getItem("kc.config"));
+    if (savedConfig) Object.keys(savedConfig).forEach(function (key) { C[key] = savedConfig[key]; });
+  } catch (e) {
+    // 저장소를 쓸 수 없으면 파일의 기본 설정으로 연다.
+  }
+
+  // 요소 생성 도우미: 설정값은 항상 textContent로 넣어 HTML로 해석되지 않게 한다.
+  function h(tag, attrs, children) {
+    var el = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (key) {
+      if (key === "class") el.className = attrs[key];
+      else if (key === "text") el.textContent = attrs[key];
+      // 설정 파일에 스크립트 주소가 들어와도 실행되지 않게 막는다.
+      else if ((key === "href" || key === "src") && /^\s*(javascript|data):/i.test(attrs[key])) el.setAttribute(key, "#");
+      else el.setAttribute(key, attrs[key]);
+    });
+    (children || []).forEach(function (child) {
+      if (child) el.appendChild(child);
+    });
+    return el;
+  }
+
+  function applyTheme(theme) {
+    var map = {
+      primary: "--primary", primaryDeep: "--primary-deep", violet: "--violet",
+      blossom: "--blossom", lilac: "--lilac", background: "--bg",
+      surface: "--surface", text: "--text", muted: "--muted", line: "--line"
+    };
+    Object.keys(map).forEach(function (key) {
+      if (theme[key]) document.documentElement.style.setProperty(map[key], theme[key]);
+    });
+  }
+
+  function sectionHead(s) {
+    return h("div", { class: "section-head reveal" }, [
+      h("p", { class: "section-label", text: s.label }),
+      h("h2", { class: "section-title", text: s.title }),
+      s.intro || s.note ? h("p", { class: "section-sub", text: s.intro || s.note }) : null
+    ]);
+  }
+
+  function section(id, alt, head, body) {
+    return h("section", { id: id, class: "section" + (alt ? " section-alt" : "") }, [
+      h("div", { class: "wrap" }, [head, body])
+    ]);
+  }
+
+  function infoList(items) {
+    return h("dl", { class: "info-list" }, items.map(function (item) {
+      return h("div", { class: "info-row" }, [
+        h("dt", { text: item.label }),
+        h("dd", { text: item.value })
+      ]);
+    }));
+  }
+
+  function renderHeader() {
+    var navList = h("ul", { class: "nav-list" }, C.nav.map(function (item) {
+      return h("li", {}, [
+        h("a", { class: "nav-link", href: "#" + item.id, "data-nav": item.id, text: item.label })
+      ]);
+    }));
+    var nav = h("nav", { class: "site-nav", id: "site-nav", "aria-label": "주요 메뉴" }, [navList]);
+    var toggle = h("button", {
+      class: "menu-toggle", type: "button", "aria-controls": "site-nav",
+      "aria-expanded": "false", "aria-label": C.ui.menuOpen
+    }, [h("span", {})]);
+
+    function setMenu(open) {
+      nav.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? C.ui.menuClose : C.ui.menuOpen);
+    }
+    toggle.addEventListener("click", function () {
+      setMenu(!nav.classList.contains("is-open"));
+    });
+    nav.addEventListener("click", function (e) {
+      if (e.target.closest("a")) setMenu(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") setMenu(false);
+    });
+    document.addEventListener("click", function (e) {
+      if (!header.contains(e.target)) setMenu(false);
+    });
+
+    var header = h("header", { class: "site-header" }, [
+      h("div", { class: "wrap header-row" }, [
+        h("a", { class: "brand", href: "#top" }, [
+          h("span", { class: "brand-glyph", lang: "zh-Hans", "aria-hidden": "true", text: C.brand.glyph }),
+          h("span", { class: "brand-text" }, [
+            h("span", { class: "brand-org", text: C.brand.org }),
+            h("span", { class: "brand-name", text: C.brand.name })
+          ])
+        ]),
+        nav,
+        h("div", { class: "header-actions" }, [renderLockButton(), toggle])
+      ])
+    ]);
+    return header;
+  }
+
+  function statValue(item) {
+    if (item.valueFrom === "tools") return C.tools.items.length;
+    if (item.valueFrom === "weeks") return C.curriculum.weeks.length;
+    return item.value;
+  }
+
+  function renderStats() {
+    return h("section", { class: "stats", "aria-label": "강의 주요 숫자" }, [
+      h("ul", { class: "wrap stats-grid" }, C.stats.items.map(function (item) {
+        var value = statValue(item);
+        var hasValue = typeof value === "number";
+        var num = h("span", { class: "stat-num" + (hasValue ? "" : " is-empty"), text: hasValue ? String(value) : C.stats.emptyText });
+        if (hasValue) num.setAttribute("data-count", value);
+        return h("li", { class: "stat-card reveal" }, [
+          h("p", { class: "stat-value" }, [
+            num,
+            hasValue ? h("span", { class: "stat-suffix", text: item.suffix }) : null
+          ]),
+          h("p", { class: "stat-label", text: item.label })
+        ]);
+      }))
+    ]);
+  }
+
+  function renderSlider() {
+    var d = C.about;
+    var track = h("ul", { class: "slider-track", tabindex: "0", "aria-label": d.title }, d.slides.map(function (s) {
+      return h("li", { class: "card slide" }, [
+        h("div", { class: "glyph-badge", lang: "zh-Hant", "aria-hidden": "true", text: s.glyph }),
+        h("h3", { class: "card-title", text: s.title }),
+        h("p", { class: "card-text", text: s.text })
+      ]);
+    }));
+    var prev = h("button", { class: "slider-btn", type: "button", "aria-label": d.prevLabel, text: "←" });
+    var next = h("button", { class: "slider-btn", type: "button", "aria-label": d.nextLabel, text: "→" });
+    var status = h("span", { class: "slider-status", "aria-live": "polite" });
+
+    function step() {
+      var slide = track.children[0];
+      return slide.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+    }
+    function move(dir) {
+      track.scrollBy({ left: dir * step() });
+    }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth;
+      // 한 화면에 여러 장이 보이므로 넘길 수 있는 위치 수를 기준으로 표시한다.
+      var positions = Math.round(max / step()) + 1;
+      var index = Math.round(track.scrollLeft / step());
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+      status.textContent = Math.min(index + 1, positions) + " / " + positions;
+    }
+    prev.addEventListener("click", function () { move(-1); });
+    next.addEventListener("click", function () { move(1); });
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    requestAnimationFrame(update);
+
+    return h("div", { class: "slider reveal" }, [
+      track,
+      h("div", { class: "slider-controls" }, [prev, status, next])
+    ]);
+  }
+
+  function renderHero() {
+    var d = C.hero;
+    var petals = h("div", { class: "petals", "aria-hidden": "true" });
+    for (var i = 0; i < 12; i++) {
+      var petal = h("span", { class: "petal" });
+      petal.style.left = ((i * 8.3 + 3) % 100) + "%";
+      petal.style.animationDuration = 10 + (i % 5) * 2.5 + "s";
+      petal.style.animationDelay = -(i * 1.7) + "s";
+      petals.appendChild(petal);
+    }
+    return h("section", { class: "hero", id: "top" }, [
+      petals,
+      h("div", { class: "wrap hero-grid" }, [
+        h("div", {}, [
+          h("p", { class: "hero-badge", text: d.badge }),
+          h("h1", { text: d.title }),
+          h("p", { class: "hero-subtitle", text: d.subtitle }),
+          h("p", { class: "hero-lead", text: d.lead }),
+          h("div", { class: "hero-actions" }, [
+            h("a", { class: "btn btn-primary", href: d.primaryAction.url || "#" + d.primaryAction.target, text: d.primaryAction.label }),
+            h("a", { class: "btn btn-ghost", href: "#" + d.secondaryAction.target, text: d.secondaryAction.label })
+          ])
+        ]),
+        h("div", { class: "hero-card", "data-glyph": d.glyph }, [
+          h("p", { class: "hero-hanzi", lang: "zh-Hans", text: d.phrase.hanzi }),
+          h("p", { class: "hero-pinyin", text: d.phrase.pinyin }),
+          h("p", { class: "hero-meaning", text: d.phrase.meaning })
+        ])
+      ]),
+      h("div", { class: "wrap" }, [
+        h("dl", { class: "facts" }, d.facts.map(function (f) {
+          return h("div", { class: "fact" }, [
+            h("span", { class: "fact-glyph", lang: "zh-Hant", "aria-hidden": "true", text: f.glyph }),
+            h("div", {}, [
+              h("dt", { text: f.label }),
+              h("dd", { text: f.value })
+            ])
+          ]);
+        }))
+      ])
+    ]);
+  }
+
+  function renderAbout() {
+    return section("about", false, sectionHead(C.about), renderSlider());
+  }
+
+  // 체험 모드 저장소. 서버를 연결할 때는 이 저장소를 쓰는 함수들을 API 호출로 바꾼다.
+  var store = {
+    get: function (key, fallback) {
+      try {
+        var value = localStorage.getItem("kc." + key);
+        return value === null ? fallback : JSON.parse(value);
+      } catch (e) {
+        return fallback;
+      }
+    },
+    set: function (key, value) {
+      try {
+        localStorage.setItem("kc." + key, JSON.stringify(value));
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+  };
+
+  function demoNotice() {
+    return C.backend.mode === "demo" ? h("p", { class: "demo-notice reveal", text: C.backend.notice }) : null;
+  }
+
+  function renderPoll() {
+    var d = C.poll;
+    var list = h("ul", { class: "poll-list" });
+    var total = h("p", { class: "poll-total", "aria-live": "polite" });
+
+    function draw() {
+      var votes = store.get("votes", {});
+      var mine = store.get("myVote", null);
+      var sum = d.options.reduce(function (acc, o) { return acc + (votes[o.id] || 0); }, 0);
+      total.textContent = d.totalLabel + sum + d.voteUnit;
+      list.textContent = "";
+      d.options.forEach(function (o) {
+        var count = votes[o.id] || 0;
+        var percent = sum ? Math.round(count / sum * 100) : 0;
+        var fill = h("span", { class: "poll-fill" });
+        fill.style.width = percent + "%";
+        var btn = h("button", {
+          class: "poll-option" + (mine === o.id ? " is-mine" : ""),
+          type: "button",
+          "aria-pressed": String(mine === o.id),
+          title: o.label + ": " + count + d.voteUnit + " (" + percent + "%)"
+        }, [
+          h("span", { class: "poll-head" }, [
+            h("span", { class: "poll-label" }, [
+              document.createTextNode(o.label),
+              mine === o.id ? h("span", { class: "poll-mine", text: d.mine }) : null
+            ]),
+            h("span", { class: "poll-value", text: count + d.voteUnit + " · " + percent + "%" })
+          ]),
+          h("span", { class: "poll-bar", "aria-hidden": "true" }, [fill])
+        ]);
+        btn.addEventListener("click", function () { vote(o.id); });
+        list.appendChild(h("li", {}, [btn]));
+      });
+    }
+
+    function vote(id) {
+      var votes = store.get("votes", {});
+      var mine = store.get("myVote", null);
+      if (mine === id) return;
+      if (mine && votes[mine]) votes[mine] -= 1;
+      votes[id] = (votes[id] || 0) + 1;
+      store.set("votes", votes);
+      store.set("myVote", id);
+      draw();
+    }
+
+    // 같은 브라우저의 다른 탭에서 투표하면 바로 다시 그린다.
+    window.addEventListener("storage", function (e) {
+      if (e.key === "kc.votes" || e.key === "kc.myVote") draw();
+    });
+    draw();
+
+    return section("poll", true, sectionHead(d), h("div", {}, [
+      demoNotice(),
+      h("div", { class: "card reveal" }, [list, total])
+    ]));
+  }
+
+  function renderField(f) {
+    var id = "apply-" + f.name;
+    var error = h("p", { class: "field-error", id: id + "-error", hidden: "hidden" });
+    var attrs = { id: id, name: f.name, "aria-describedby": id + "-error" };
+    if (f.required) attrs["aria-required"] = "true";
+    if (f.autocomplete) attrs.autocomplete = f.autocomplete;
+    if (f.inputmode) attrs.inputmode = f.inputmode;
+    var control;
+    if (f.type === "select") {
+      control = h("select", attrs, [h("option", { value: "", text: f.placeholder })].concat(f.options.map(function (o) {
+        return h("option", { value: o, text: o });
+      })));
+    } else if (f.type === "textarea") {
+      attrs.rows = f.rows;
+      control = h("textarea", attrs);
+    } else {
+      attrs.type = f.type;
+      control = h("input", attrs);
+    }
+    var mark = f.required ? " *" : "";
+    var body = f.type === "checkbox"
+      ? [h("label", { class: "check-field", for: id }, [control, h("span", { text: f.label + mark })]), error]
+      : [h("label", { class: "field-label", for: id, text: f.label + mark }), control, error];
+    return h("div", { class: "field" + (f.full ? " is-full" : "") }, body);
+  }
+
+  function fieldError(f, control) {
+    var d = C.apply;
+    if (f.type === "checkbox") return control.checked ? "" : f.requiredMessage;
+    var value = control.value.trim();
+    if (!value) return f.label + (f.type === "select" ? d.requiredSelect : d.required);
+    if (f.pattern && !new RegExp(f.pattern).test(value)) return f.patternMessage;
+    return "";
+  }
+
+  function renderApply() {
+    var d = C.apply;
+    var summary = h("div", { class: "form-summary", role: "alert", hidden: "hidden" });
+    var form = h("form", { class: "apply-form", novalidate: "novalidate" }, d.fields.map(renderField).concat([
+      h("div", { class: "field is-full" }, [
+        summary,
+        h("button", { class: "btn btn-primary", type: "submit", text: d.submit })
+      ])
+    ]));
+    var card = h("div", { class: "card reveal" }, [form]);
+
+    function setError(f, message) {
+      var control = form.elements[f.name];
+      var error = document.getElementById("apply-" + f.name + "-error");
+      error.textContent = message;
+      error.hidden = !message;
+      if (message) control.setAttribute("aria-invalid", "true");
+      else control.removeAttribute("aria-invalid");
+    }
+
+    function validate() {
+      var problems = [];
+      d.fields.forEach(function (f) {
+        var message = f.required ? fieldError(f, form.elements[f.name]) : "";
+        setError(f, message);
+        if (message) problems.push({ field: f, message: message });
+      });
+      return problems;
+    }
+
+    function showSummary(problems) {
+      summary.textContent = "";
+      summary.hidden = !problems.length;
+      if (!problems.length) return;
+      summary.appendChild(h("p", { class: "form-summary-title", text: d.summary }));
+      summary.appendChild(h("ul", {}, problems.map(function (p) {
+        return h("li", { text: p.message });
+      })));
+    }
+
+    d.fields.forEach(function (f) {
+      form.elements[f.name].addEventListener("change", function () {
+        if (form.elements[f.name].hasAttribute("aria-invalid")) setError(f, fieldError(f, form.elements[f.name]));
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var problems = validate();
+      var studentId = form.elements.studentId.value.trim();
+      var applications = store.get("applications", []);
+      if (!problems.length && applications.some(function (a) { return a.studentId === studentId; })) {
+        var idField = d.fields.filter(function (f) { return f.name === "studentId"; })[0];
+        setError(idField, d.duplicate);
+        problems.push({ field: idField, message: d.duplicate });
+      }
+      showSummary(problems);
+      if (problems.length) {
+        form.elements[problems[0].field.name].focus();
+        return;
+      }
+      var record = { submittedAt: new Date().toISOString() };
+      d.fields.forEach(function (f) {
+        var control = form.elements[f.name];
+        record[f.name] = f.type === "checkbox" ? control.checked : control.value.trim();
+      });
+      applications.push(record);
+      store.set("applications", applications);
+
+      var again = h("button", { class: "btn btn-ghost", type: "button", text: d.another });
+      var done = h("div", { class: "form-success", role: "status", tabindex: "-1" }, [
+        h("p", { class: "card-title", text: record.name + d.success }),
+        again
+      ]);
+      again.addEventListener("click", function () {
+        form.reset();
+        card.replaceChild(form, done);
+        form.elements[d.fields[0].name].focus();
+      });
+      card.replaceChild(done, form);
+      done.focus();
+    });
+
+    return section("apply", false, sectionHead(d), h("div", {}, [demoNotice(), card]));
+  }
+
+  var pendingSubmitWeek = null;
+  var refreshPortal = function () {};
+
+  function goToSubmit(week) {
+    pendingSubmitWeek = week;
+    refreshPortal();
+    document.getElementById("portal").scrollIntoView();
+  }
+
+  function formatSize(bytes) {
+    return bytes < 1048576 ? Math.max(1, Math.round(bytes / 1024)) + "KB" : (bytes / 1048576).toFixed(1) + "MB";
+  }
+
+  function formatStamp(iso) {
+    var d = new Date(iso);
+    var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+    return (d.getMonth() + 1) + "월 " + d.getDate() + "일 " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+
+  function renderLogin(d, onLogin) {
+    var message = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var id = h("input", { id: "login-id", type: "text", inputmode: "numeric", autocomplete: "off" });
+    var name = h("input", { id: "login-name", type: "text", autocomplete: "off" });
+    var form = h("form", { class: "card login-card", novalidate: "novalidate" }, [
+      h("h3", { class: "card-title", text: d.loginTitle }),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "login-id", text: d.idLabel }), id]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "login-name", text: d.nameLabel }), name]),
+      message,
+      h("button", { class: "btn btn-primary", type: "submit", text: d.login }),
+      // 체험 계정이 명단에 남아 있을 때만 안내한다.
+      d.roster.some(function (s) { return d.demoHint.indexOf(s.id) >= 0; }) ? h("p", { class: "submit-note", text: d.demoHint }) : null
+    ]);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var idValue = id.value.trim();
+      var nameValue = name.value.trim();
+      var error = "";
+      var student = d.roster.filter(function (s) { return s.id === idValue && s.name === nameValue; })[0];
+      if (!idValue || !nameValue) error = d.loginEmpty;
+      else if (!student) error = d.loginFailed;
+      message.textContent = error;
+      message.hidden = !error;
+      if (error) return;
+      store.set("session", student);
+      onLogin();
+    });
+    return form;
+  }
+
+  function renderAttendance(d, student, sched, redraw, flash) {
+    var key = "attendance." + student.id;
+    var record = store.get(key, {});
+    var today = todayString();
+    var todayClass = sched.byDate[today];
+    var target = todayClass;
+    var note = "";
+    if (!todayClass && C.backend.allowAnyDay) {
+      target = sched.weeks.filter(function (x) { return !record[x.week.week]; })[0];
+      note = target ? d.attendDemoNote : d.attendDone;
+    } else if (!todayClass) {
+      note = d.attendNone;
+    } else if (record[todayClass.week.week]) {
+      note = d.attendedToday;
+      target = null;
+    }
+    var button = null;
+    if (target) {
+      button = h("button", { class: "btn btn-primary btn-small", type: "button", text: target.week.week + d.attendButton });
+      button.addEventListener("click", function () {
+        var latest = store.get(key, {});
+        latest[target.week.week] = new Date().toISOString();
+        store.set(key, latest);
+        redraw(target.week.week + d.attendSaved);
+      });
+    }
+    var count = Object.keys(record).length;
+    return h("article", { class: "card portal-card" }, [
+      h("h3", { class: "card-title", text: d.attendanceTitle }),
+      note ? h("p", { class: "card-text", text: note }) : null,
+      flash ? h("p", { class: "form-ok", role: "status", text: flash }) : null,
+      button ? h("div", { class: "portal-action" }, [button]) : null,
+      h("p", { class: "detail-title portal-count", text: d.attendCount + " " + count + " / " + sched.weeks.length }),
+      h("ul", { class: "attend-grid" }, sched.weeks.map(function (x) {
+        var done = record[x.week.week];
+        return h("li", {
+          class: "attend-chip" + (done ? " is-done" : ""),
+          title: formatDate(x.date) + (done ? " · " + formatStamp(done) : "")
+        }, [
+          h("span", { text: x.week.week + "주" }),
+          h("span", { class: "attend-mark", text: done ? "✓ 출석" : "–" })
+        ]);
+      }))
+    ]);
+  }
+
+  function renderSubmission(d, student, sched, redraw, flash) {
+    var key = "submissions." + student.id;
+    var tasks = sched.weeks.filter(function (x) { return x.week.assignment; });
+    var history = store.get(key, {});
+    var select = h("select", { id: "submit-assignment" }, tasks.map(function (x) {
+      return h("option", { value: String(x.week.week), text: x.week.week + C.ui.weekSuffix + " · " + x.week.assignment.title });
+    }));
+    if (pendingSubmitWeek) select.value = String(pendingSubmitWeek);
+    pendingSubmitWeek = null;
+    var file = h("input", { id: "submit-file", type: "file", accept: d.allowedExtensions.map(function (x) { return "." + x; }).join(",") });
+    var status = h("p", { class: "submit-note" });
+    var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var button = h("button", { class: "btn btn-primary btn-small", type: "submit", text: d.submit });
+
+    function currentTask() {
+      return tasks.filter(function (x) { return String(x.week.week) === select.value; })[0];
+    }
+    function updateStatus() {
+      var task = currentTask();
+      var closed = task.dueAt <= Date.now();
+      var blocked = closed && !C.backend.ignoreDeadlines;
+      var parts = [C.curriculum.labels.due + ": " + formatDate(task.dueDate) + " " + task.dueTime];
+      if (closed) parts.push(blocked ? d.closed : d.lateDemo);
+      if (history[task.week.week]) parts.push(d.resubmit);
+      status.textContent = parts.join(" ");
+      button.disabled = blocked;
+    }
+    select.addEventListener("change", updateStatus);
+    updateStatus();
+
+    var form = h("form", { class: "submit-form", novalidate: "novalidate" }, [
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "submit-assignment", text: d.assignmentLabel }), select]),
+      status,
+      h("div", { class: "field" }, [
+        h("label", { class: "field-label", for: "submit-file", text: d.fileLabel }),
+        file,
+        h("p", { class: "submit-note", text: d.fileHint })
+      ]),
+      error,
+      flash ? h("p", { class: "form-ok", role: "status", text: flash }) : null,
+      h("div", {}, [button])
+    ]);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var picked = file.files[0];
+      var message = "";
+      if (!picked) message = d.fileMissing;
+      else if (d.allowedExtensions.indexOf(picked.name.split(".").pop().toLowerCase()) < 0) message = d.fileType;
+      else if (picked.size > d.maxFileMb * 1048576) message = d.fileSize;
+      else if (currentTask().dueAt <= Date.now() && !C.backend.ignoreDeadlines) message = d.closed;
+      error.textContent = message;
+      error.hidden = !message;
+      if (message) return;
+      var latest = store.get(key, {});
+      latest[select.value] = { fileName: picked.name, size: picked.size, submittedAt: new Date().toISOString() };
+      store.set(key, latest);
+      redraw(null, d.saved);
+    });
+
+    var rows = tasks.filter(function (x) { return history[x.week.week]; });
+    return h("article", { class: "card portal-card" }, [
+      h("h3", { class: "card-title", text: d.submitTitle }),
+      form,
+      h("p", { class: "detail-title portal-count", text: d.historyTitle }),
+      rows.length ? h("ul", { class: "history-list" }, rows.map(function (x) {
+        var r = history[x.week.week];
+        return h("li", {}, [
+          h("span", { class: "history-name", text: x.week.week + C.ui.weekSuffix + " · " + r.fileName }),
+          h("span", { class: "submit-note", text: formatSize(r.size) + " · " + formatStamp(r.submittedAt) })
+        ]);
+      })) : h("p", { class: "card-text", text: d.historyEmpty })
+    ]);
+  }
+
+  function renderPortal() {
+    var d = C.portal;
+    var sched = buildSchedule();
+    var box = h("div", { class: "reveal" });
+
+    function draw(attendFlash, submitFlash) {
+      var student = store.get("session", null);
+      box.textContent = "";
+      if (!student) {
+        box.appendChild(renderLogin(d, function () {
+          draw();
+          box.querySelector(".portal-bar button").focus();
+        }));
+        return;
+      }
+      var logout = h("button", { class: "btn btn-ghost btn-small", type: "button", text: d.logout });
+      logout.addEventListener("click", function () {
+        localStorage.removeItem("kc.session");
+        draw();
+      });
+      box.appendChild(h("div", { class: "portal-bar" }, [
+        h("p", { class: "card-title", text: student.name + d.welcome }),
+        logout
+      ]));
+      box.appendChild(h("div", { class: "portal-grid" }, [
+        renderAttendance(d, student, sched, draw, attendFlash),
+        renderSubmission(d, student, sched, draw, submitFlash)
+      ]));
+    }
+    refreshPortal = function () { draw(); };
+    draw();
+
+    return section("portal", true, sectionHead(d), h("div", {}, [demoNotice(), box, renderQuiz()]));
+  }
+
+  /* ---------- 실시간 퀴즈 ---------- */
+
+  var QUIZ_CODE = (function () {
+    var code = new URLSearchParams(location.search).get("quiz");
+    return /^[0-9]{6}$/.test(code || "") ? code : "";
+  })();
+  var QUIZ_PREFIX = "kc-quiz-";
+  var SHAPES = ["▲", "◆", "●", "■"];
+  var QUIZ_LIBS = {
+    peer: { url: "https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js", integrity: "sha384-nlUQ8ZqCbvStErob+biJNzSgltf6urV3VGqhfIfzhmg9RXmpeRm76ELw0pYnKlTR" },
+    qr: { url: "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js", integrity: "sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" }
+  };
+  var libPromises = {};
+  var quizStage = null;
+  var quizHost = null;
+  var quizPlayer = null;
+  var refreshQuiz = function () {};
+
+  function loadLib(name) {
+    if (libPromises[name]) return libPromises[name];
+    libPromises[name] = new Promise(function (resolve, reject) {
+      var lib = QUIZ_LIBS[name];
+      var s = h("script", { src: lib.url, integrity: lib.integrity, crossorigin: "anonymous" });
+      s.onload = resolve;
+      s.onerror = function () {
+        delete libPromises[name];
+        reject(new Error("load"));
+      };
+      document.body.appendChild(s);
+    });
+    return libPromises[name];
+  }
+
+  function normalizeQuestions(parsed) {
+    var list = Array.isArray(parsed) ? parsed : parsed && parsed.questions;
+    if (!Array.isArray(list)) return [];
+    return list.filter(function (q) {
+      return q && typeof q.text === "string" && q.text.trim() && Array.isArray(q.choices) && q.choices.length === 4
+        && q.choices.every(function (c) { return typeof c === "string" && c.trim(); })
+        && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4;
+    }).map(function (q) {
+      var limit = Number(q.limit);
+      return {
+        text: q.text.trim(),
+        choices: q.choices.map(function (c) { return c.trim(); }),
+        answer: q.answer,
+        limit: limit >= 5 && limit <= 120 ? limit : C.quiz.defaultLimit
+      };
+    });
+  }
+
+  function quizPrompt(topic, count, level) {
+    return "대학 입문 교양중국어 수업의 실시간 퀴즈 문제를 출제해 주세요.\n"
+      + "주제: " + topic + "\n문항 수: " + count + "\n난이도: " + level + "\n"
+      + "조건: 문제와 해설용 문구는 한국어로 쓰고, 중국어는 간체자로 쓰며 필요하면 병음을 함께 적습니다. "
+      + "각 문제는 보기 4개 중 정답이 하나인 객관식입니다. 휴대폰에서 읽기 좋게 문제는 60자, 보기는 25자 이내로 씁니다. "
+      + "정답 위치를 고르게 섞고, 중국어 표기와 정답이 정확한지 확인한 뒤 답합니다.\n"
+      + "answer는 정답 보기의 번호이며 0부터 시작합니다.";
+  }
+
+  function generateQuestions(apiKey, topic, count, level) {
+    var schema = {
+      type: "object",
+      additionalProperties: false,
+      required: ["questions"],
+      properties: {
+        questions: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            required: ["text", "choices", "answer"],
+            properties: {
+              text: { type: "string" },
+              choices: { type: "array", items: { type: "string" } },
+              answer: { type: "integer" }
+            }
+          }
+        }
+      }
+    };
+    return fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2026-10-21",
+        "anthropic-beta": "server-side-fallback-2026-07-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: C.quiz.ai.model,
+        max_tokens: 16000,
+        fallbacks: "default",
+        output_config: { effort: "medium", format: { type: "json_schema", schema: schema } },
+        messages: [{ role: "user", content: quizPrompt(topic, count, level) }]
+      })
+    }).then(function (res) {
+      if (res.status === 401) throw new Error("API 키가 올바르지 않습니다.");
+      if (res.status === 429) throw new Error("요청이 많습니다. 잠시 뒤 다시 시도해 주세요.");
+      if (!res.ok) throw new Error("AI 요청에 실패했습니다. (오류 " + res.status + ")");
+      return res.json();
+    }).then(function (data) {
+      if (data.stop_reason === "refusal") throw new Error("AI가 이 주제의 출제를 거절했습니다. 주제를 바꿔 보세요.");
+      if (data.stop_reason === "max_tokens") throw new Error("문항 수가 너무 많습니다. 수를 줄여 주세요.");
+      var block = (data.content || []).filter(function (b) { return b.type === "text"; })[0];
+      var questions = normalizeQuestions(JSON.parse(block.text));
+      if (!questions.length) throw new Error("AI 응답에서 쓸 수 있는 문제를 찾지 못했습니다.");
+      return questions;
+    });
+  }
+
+  function quizLimitOf(q) {
+    return q.limit || C.quiz.defaultLimit;
+  }
+
+  function renderQuestionEditor(bank) {
+    var box = h("div", { class: "quiz-editor" });
+    function save() {
+      store.set("quizBank", bank);
+    }
+    function draw() {
+      box.textContent = "";
+      bank.forEach(function (q, i) {
+        var text = h("textarea", { rows: "2", "aria-label": (i + 1) + "번 문제" });
+        text.value = q.text;
+        text.addEventListener("input", function () { q.text = text.value; save(); });
+        var limit = h("input", { type: "number", min: "5", max: "120", "aria-label": (i + 1) + "번 제한 시간(초)" });
+        limit.value = quizLimitOf(q);
+        limit.addEventListener("input", function () { q.limit = Number(limit.value); save(); });
+        var del = h("button", { class: "mini-btn", type: "button", text: "삭제", "aria-label": (i + 1) + "번 문제 삭제" });
+        del.addEventListener("click", function () {
+          bank.splice(i, 1);
+          save();
+          draw();
+        });
+        var choices = q.choices.map(function (c, ci) {
+          var radio = h("input", { type: "radio", name: "quiz-answer-" + i, "aria-label": (i + 1) + "번 정답: 보기 " + (ci + 1) });
+          radio.checked = q.answer === ci;
+          radio.addEventListener("change", function () { q.answer = ci; save(); });
+          var input = h("input", { type: "text", "aria-label": (i + 1) + "번 보기 " + (ci + 1) });
+          input.value = c;
+          input.addEventListener("input", function () { q.choices[ci] = input.value; save(); });
+          return h("label", { class: "quiz-edit-choice" }, [radio, h("span", { "aria-hidden": "true", text: SHAPES[ci] }), input]);
+        });
+        box.appendChild(h("div", { class: "edit-item" }, [
+          h("div", { class: "edit-item-head" }, [h("span", { class: "detail-title", text: (i + 1) + "번 문제" }), del]),
+          h("div", { class: "field" }, [text]),
+          h("div", { class: "quiz-edit-choices" }, choices),
+          h("label", { class: "quiz-edit-limit" }, [h("span", { text: "제한 시간(초)" }), limit])
+        ]));
+      });
+      var add = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "＋ 문제 추가" });
+      add.addEventListener("click", function () {
+        bank.push({ text: "", choices: ["", "", "", ""], answer: 0, limit: C.quiz.defaultLimit });
+        save();
+        draw();
+      });
+      box.appendChild(h("div", {}, [add]));
+    }
+    draw();
+    return { node: box, redraw: draw };
+  }
+
+  function renderHostSetup() {
+    var bank = store.get("quizBank", null) || JSON.parse(JSON.stringify(C.quiz.samples));
+    var editor = renderQuestionEditor(bank);
+    function replaceBank(questions) {
+      bank.length = 0;
+      questions.forEach(function (q) { bank.push(q); });
+      store.set("quizBank", bank);
+      editor.redraw();
+    }
+
+    var topic = h("input", { id: "quiz-topic", type: "text", placeholder: "예: 3주차 是 문장과 자기소개" });
+    var count = h("input", { id: "quiz-count", type: "number", min: "1", max: "20", value: "5" });
+    var level = h("select", { id: "quiz-level" }, ["쉬움", "보통", "어려움"].map(function (x) { return h("option", { value: x, text: x }); }));
+    var key = h("input", { id: "quiz-key", type: "password", autocomplete: "off", placeholder: "sk-ant-..." });
+    var status = h("p", { class: "submit-note", role: "status" });
+    var make = h("button", { class: "btn btn-primary btn-small", type: "button", text: "AI로 문제 출제" });
+    make.addEventListener("click", function () {
+      var n = Math.min(20, Math.max(1, Number(count.value) || 5));
+      if (!topic.value.trim()) { status.textContent = "주제를 입력해 주세요."; return; }
+      if (!key.value.trim()) { status.textContent = "API 키를 입력하거나, 아래의 프롬프트 복사를 이용해 주세요."; return; }
+      make.disabled = true;
+      status.textContent = "AI가 문제를 만들고 있습니다. 잠시 기다려 주세요.";
+      generateQuestions(key.value.trim(), topic.value.trim(), n, level.value).then(function (questions) {
+        replaceBank(questions);
+        status.textContent = questions.length + "문제를 만들었습니다. AI 문제에는 오류가 있을 수 있으니 아래에서 검토해 주세요.";
+      }).catch(function (e) {
+        status.textContent = e.message === "Failed to fetch" ? "AI 서버에 연결하지 못했습니다." : e.message;
+      }).then(function () {
+        make.disabled = false;
+      });
+    });
+
+    var paste = h("textarea", { id: "quiz-json", rows: "4", placeholder: "AI가 답한 JSON을 붙여 넣으세요" });
+    var copy = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "프롬프트 복사" });
+    copy.addEventListener("click", function () {
+      var prompt = quizPrompt(topic.value.trim() || "(주제 입력)", Number(count.value) || 5, level.value)
+        + "\n다른 말 없이 다음 형식의 JSON만 답하세요: {\"questions\":[{\"text\":\"문제\",\"choices\":[\"보기1\",\"보기2\",\"보기3\",\"보기4\"],\"answer\":0}]}";
+      navigator.clipboard.writeText(prompt).then(function () {
+        status.textContent = "프롬프트를 복사했습니다. 사용하는 AI에 붙여 넣고, 답을 아래 칸에 넣어 주세요.";
+      }, function () {
+        paste.value = prompt;
+        status.textContent = "복사하지 못해 아래 칸에 표시했습니다. 직접 복사해 주세요.";
+      });
+    });
+    var load = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "붙여 넣은 문제 불러오기" });
+    load.addEventListener("click", function () {
+      var questions = [];
+      try {
+        questions = normalizeQuestions(JSON.parse(paste.value.replace(/^\s*```(?:json)?|```\s*$/g, "")));
+      } catch (e) {
+        questions = [];
+      }
+      if (!questions.length) { status.textContent = "문제 형식이 올바르지 않습니다."; return; }
+      replaceBank(questions);
+      paste.value = "";
+      status.textContent = questions.length + "문제를 불러왔습니다.";
+    });
+
+    var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var open = h("button", { class: "btn btn-primary", type: "button", text: "퀴즈 열기" });
+    open.addEventListener("click", function () {
+      var questions = normalizeQuestions(bank);
+      if (!questions.length || questions.length !== bank.length) {
+        error.textContent = "비어 있는 문제나 보기가 있습니다. 모두 채워 주세요.";
+        error.hidden = false;
+        return;
+      }
+      open.disabled = true;
+      hostOpen(questions, function (message) {
+        open.disabled = false;
+        error.textContent = message;
+        error.hidden = false;
+      });
+    });
+
+    return h("div", { class: "quiz-setup" }, [
+      h("article", { class: "card portal-card" }, [
+        h("h4", { class: "card-title", text: "1. AI 문제 출제" }),
+        h("div", { class: "quiz-ai-grid" }, [
+          h("div", { class: "field is-full" }, [h("label", { class: "field-label", for: "quiz-topic", text: "주제" }), topic]),
+          h("div", { class: "field" }, [h("label", { class: "field-label", for: "quiz-count", text: "문항 수" }), count]),
+          h("div", { class: "field" }, [h("label", { class: "field-label", for: "quiz-level", text: "난이도" }), level]),
+          h("div", { class: "field is-full" }, [
+            h("label", { class: "field-label", for: "quiz-key", text: "Anthropic API 키" }),
+            key,
+            h("p", { class: "submit-note", text: "키는 저장되지 않고 Anthropic으로만 전송됩니다. 사용량만큼 요금이 부과됩니다." })
+          ])
+        ]),
+        h("div", {}, [make]),
+        status,
+        h("div", { class: "field" }, [h("label", { class: "field-label", for: "quiz-json", text: "키가 없으면: 프롬프트를 복사해 다른 AI에 넣고 답을 붙여 넣기" }), paste]),
+        h("div", { class: "admin-buttons" }, [copy, load])
+      ]),
+      h("article", { class: "card portal-card" }, [
+        h("h4", { class: "card-title", text: "2. 문제 검토" }),
+        h("p", { class: "submit-note", text: "동그라미로 정답을 고릅니다." }),
+        editor.node,
+        error,
+        h("div", {}, [open])
+      ])
+    ]);
+  }
+
+  function hostOpen(questions, onError) {
+    Promise.all([loadLib("peer"), loadLib("qr")]).then(function () {
+      var attempts = 0;
+      function start() {
+        var code = String(100000 + (crypto.getRandomValues(new Uint32Array(1))[0] % 900000));
+        var peer = new window.Peer(QUIZ_PREFIX + code);
+        peer.on("open", function () {
+          quizHost = { peer: peer, code: code, questions: questions, players: {}, index: -1, phase: "lobby", startedAt: 0, timer: null, shown: {} };
+          window.addEventListener("beforeunload", hostLeaveGuard);
+          drawQuiz();
+        });
+        peer.on("connection", hostConnection);
+        peer.on("error", function (e) {
+          if (e.type === "unavailable-id" && attempts++ < 3) return start();
+          if (!quizHost) onError("연결 서버에 접속하지 못했습니다. 네트워크를 확인해 주세요.");
+        });
+      }
+      start();
+    }).catch(function () {
+      onError("퀴즈 기능을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.");
+    });
+  }
+
+  function hostLeaveGuard(e) {
+    if (quizHost && quizHost.phase !== "end") {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  }
+
+  function hostPlayersList() {
+    return Object.keys(quizHost.players).map(function (id) { return quizHost.players[id]; });
+  }
+
+  function hostRanking() {
+    return hostPlayersList().slice().sort(function (a, b) { return b.score - a.score; });
+  }
+
+  function hostSend(player, message) {
+    if (player.conn && player.conn.open) player.conn.send(message);
+  }
+
+  function hostQuestionMessage() {
+    var q = quizHost.questions[quizHost.index];
+    return {
+      t: "question",
+      q: quizHost.index,
+      total: quizHost.questions.length,
+      text: q.text,
+      choices: q.choices,
+      limit: q.limit,
+      elapsed: (Date.now() - quizHost.startedAt) / 1000
+    };
+  }
+
+  function hostRevealMessage(player) {
+    var q = quizHost.questions[quizHost.index];
+    var answer = player.answers[quizHost.index];
+    return {
+      t: "reveal",
+      q: quizHost.index,
+      answer: q.answer,
+      text: q.text,
+      choices: q.choices,
+      choice: answer ? answer.choice : null,
+      gained: answer ? answer.score : 0,
+      score: player.score,
+      rank: hostRanking().indexOf(player) + 1,
+      players: hostPlayersList().length
+    };
+  }
+
+  function hostEndMessage(player) {
+    return { t: "end", score: player.score, rank: hostRanking().indexOf(player) + 1, players: hostPlayersList().length };
+  }
+
+  // 재접속한 학생에게 지금 단계의 화면을 다시 보낸다.
+  function hostSyncPlayer(player) {
+    if (quizHost.phase === "question") {
+      var message = hostQuestionMessage();
+      message.answered = !!player.answers[quizHost.index];
+      hostSend(player, message);
+    } else if (quizHost.phase === "reveal") hostSend(player, hostRevealMessage(player));
+    else if (quizHost.phase === "end") hostSend(player, hostEndMessage(player));
+  }
+
+  function hostConnection(conn) {
+    conn.on("data", function (msg) {
+      if (!quizHost || !msg || typeof msg !== "object") return;
+      if (msg.t === "hello") {
+        var clientId = String(msg.clientId || "").slice(0, 40);
+        var name = String(msg.name || "").trim().slice(0, 20);
+        if (!clientId || !name) return;
+        var player = quizHost.players[clientId];
+        if (player) {
+          player.conn = conn;
+        } else {
+          player = { id: clientId, name: name, studentId: String(msg.studentId || "").trim().slice(0, 12), conn: conn, score: 0, answers: {} };
+          quizHost.players[clientId] = player;
+        }
+        conn.clientId = clientId;
+        hostSend(player, { t: "welcome", name: player.name });
+        hostSyncPlayer(player);
+        drawQuizLive();
+      } else if (msg.t === "answer") {
+        hostAnswer(conn, msg);
+      }
+    });
+    conn.on("close", function () { drawQuizLive(); });
+  }
+
+  function hostAnswer(conn, msg) {
+    var player = quizHost.players[conn.clientId];
+    if (!player || quizHost.phase !== "question" || msg.q !== quizHost.index) return;
+    if (player.answers[msg.q] || !Number.isInteger(msg.choice) || msg.choice < 0 || msg.choice > 3) return;
+    var q = quizHost.questions[msg.q];
+    // 응답 시간은 학생 기기가 보낸 값을 믿지 않고 교수자 쪽에서 잰다.
+    var seconds = Math.min(q.limit, (Date.now() - quizHost.startedAt) / 1000);
+    var correct = msg.choice === q.answer;
+    var score = correct ? Math.round(1000 * (1 - seconds / q.limit / 2)) : 0;
+    player.answers[msg.q] = { choice: msg.choice, correct: correct, seconds: seconds, score: score };
+    player.score += score;
+    hostSend(player, { t: "answered" });
+    var connected = hostPlayersList().filter(function (p) { return p.conn && p.conn.open; });
+    if (connected.length && connected.every(function (p) { return p.answers[msg.q]; })) hostReveal();
+    else drawQuizLive();
+  }
+
+  function hostNext() {
+    quizHost.index += 1;
+    if (quizHost.index >= quizHost.questions.length) return hostEnd();
+    quizHost.phase = "question";
+    quizHost.startedAt = Date.now();
+    var q = quizHost.questions[quizHost.index];
+    hostPlayersList().forEach(function (p) { hostSend(p, hostQuestionMessage()); });
+    clearInterval(quizHost.timer);
+    quizHost.timer = setInterval(function () {
+      var left = q.limit - (Date.now() - quizHost.startedAt) / 1000;
+      if (left <= 0) return hostReveal();
+      var el = document.getElementById("quiz-host-timer");
+      if (el) el.textContent = Math.ceil(left);
+    }, 250);
+    drawQuiz();
+  }
+
+  function hostReveal() {
+    clearInterval(quizHost.timer);
+    quizHost.phase = "reveal";
+    hostPlayersList().forEach(function (p) { hostSend(p, hostRevealMessage(p)); });
+    drawQuiz();
+  }
+
+  function hostEnd() {
+    clearInterval(quizHost.timer);
+    quizHost.phase = "end";
+    hostPlayersList().forEach(function (p) { hostSend(p, hostEndMessage(p)); });
+    drawQuiz();
+  }
+
+  function hostClose() {
+    clearInterval(quizHost.timer);
+    window.removeEventListener("beforeunload", hostLeaveGuard);
+    quizHost.peer.destroy();
+    quizHost = null;
+    drawQuiz();
+  }
+
+  function quizResultCsv() {
+    var ranking = hostRanking();
+    var headers = ["순위", "이름", "학번", "총점", "문항", "문제", "학생 선택", "정답", "정오", "응답 시간(초)", "문항 점수"];
+    var rows = [];
+    ranking.forEach(function (p, rank) {
+      quizHost.questions.forEach(function (q, i) {
+        var a = p.answers[i];
+        rows.push([
+          rank + 1, p.name, p.studentId, p.score, i + 1, q.text,
+          a ? q.choices[a.choice] : "미응답",
+          q.choices[q.answer],
+          a ? (a.correct ? "정답" : "오답") : "미응답",
+          a ? a.seconds.toFixed(1) : "",
+          a ? a.score : 0
+        ]);
+      });
+    });
+    downloadCsv("퀴즈결과", headers, rows);
+  }
+
+  function renderChoiceRow(q, counts) {
+    var total = counts.reduce(function (a, b) { return a + b; }, 0);
+    return h("ul", { class: "quiz-result-list" }, q.choices.map(function (c, i) {
+      var fill = h("span", { class: "poll-fill" });
+      fill.style.width = (total ? Math.round(counts[i] / total * 100) : 0) + "%";
+      return h("li", { class: i === q.answer ? "is-correct" : "" }, [
+        h("div", { class: "poll-head" }, [
+          h("span", { class: "poll-label" }, [
+            document.createTextNode(SHAPES[i] + " " + c),
+            i === q.answer ? h("span", { class: "poll-mine", text: "정답" }) : null
+          ]),
+          h("span", { class: "poll-value", text: counts[i] + "명" })
+        ]),
+        h("span", { class: "poll-bar", "aria-hidden": "true" }, [fill])
+      ]);
+    }));
+  }
+
+  function renderLeaderboard(limit) {
+    var ranking = hostRanking().slice(0, limit);
+    if (!ranking.length) return h("p", { class: "card-text", text: "참가자가 없습니다." });
+    return h("ol", { class: "quiz-board" }, ranking.map(function (p, i) {
+      return h("li", {}, [
+        h("span", { class: "quiz-rank", text: String(i + 1) }),
+        h("span", { class: "history-name", text: p.name }),
+        h("span", { class: "grade-value", text: p.score + "점" })
+      ]);
+    }));
+  }
+
+  function renderHostLobby() {
+    var url = location.origin + location.pathname + "?quiz=" + quizHost.code;
+    var qr = h("div", { class: "quiz-qr", role: "img", "aria-label": "퀴즈 입장 QR 코드" });
+    new window.QRCode(qr, { text: url, width: 220, height: 220, correctLevel: window.QRCode.CorrectLevel.M });
+    var local = location.protocol === "file:" || /^(localhost|127\.|\[::1\])/.test(location.hostname);
+    var begin = h("button", { class: "btn btn-primary", type: "button", id: "quiz-start", text: "퀴즈 시작" });
+    begin.disabled = !hostPlayersList().length;
+    begin.addEventListener("click", hostNext);
+    var cancel = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "퀴즈 닫기" });
+    cancel.addEventListener("click", hostClose);
+    return h("div", { class: "card quiz-lobby" }, [
+      h("div", { class: "quiz-join-info" }, [
+        qr,
+        h("p", { class: "quiz-code-label", text: "입장 코드" }),
+        h("p", { class: "quiz-code", id: "quiz-host-code", text: quizHost.code }),
+        local ? h("p", { class: "demo-notice", text: "지금은 내 컴퓨터 주소라 휴대폰에서 QR로 열 수 없습니다. 배포한 https 주소에서 퀴즈를 여세요." }) : null
+      ]),
+      h("div", { class: "quiz-lobby-side" }, [
+        h("h4", { class: "card-title", id: "quiz-player-count", text: "참가자 " + hostPlayersList().length + "명" }),
+        h("ul", { class: "quiz-players" }, hostPlayersList().map(function (p) {
+          return h("li", { text: p.name });
+        })),
+        h("p", { class: "submit-note", text: "이 탭을 닫거나 다른 탭에 오래 두면 진행이 끊길 수 있습니다." }),
+        h("div", { class: "admin-buttons" }, [begin, cancel])
+      ])
+    ]);
+  }
+
+  function renderHostQuestion() {
+    var q = quizHost.questions[quizHost.index];
+    var answered = hostPlayersList().filter(function (p) { return p.answers[quizHost.index]; }).length;
+    var skip = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "시간 종료" });
+    skip.addEventListener("click", hostReveal);
+    return h("div", { class: "card quiz-play" }, [
+      h("div", { class: "quiz-play-head" }, [
+        h("span", { class: "detail-title", text: (quizHost.index + 1) + " / " + quizHost.questions.length }),
+        h("span", { class: "quiz-timer", id: "quiz-host-timer", text: String(Math.ceil(q.limit - (Date.now() - quizHost.startedAt) / 1000)) }),
+        h("span", { class: "submit-note", id: "quiz-answered", text: "응답 " + answered + " / " + hostPlayersList().length })
+      ]),
+      h("p", { class: "quiz-question", text: q.text }),
+      h("ul", { class: "quiz-choices" }, q.choices.map(function (c, i) {
+        return h("li", { class: "quiz-choice c" + i }, [
+          h("span", { class: "quiz-shape", "aria-hidden": "true", text: SHAPES[i] }),
+          h("span", { text: c })
+        ]);
+      })),
+      h("div", {}, [skip])
+    ]);
+  }
+
+  function renderHostReveal() {
+    var q = quizHost.questions[quizHost.index];
+    var counts = [0, 0, 0, 0];
+    hostPlayersList().forEach(function (p) {
+      var a = p.answers[quizHost.index];
+      if (a) counts[a.choice] += 1;
+    });
+    var last = quizHost.index + 1 >= quizHost.questions.length;
+    var next = h("button", { class: "btn btn-primary", type: "button", id: "quiz-next", text: last ? "최종 결과 보기" : "다음 문제" });
+    next.addEventListener("click", hostNext);
+    return h("div", { class: "card quiz-play" }, [
+      h("span", { class: "detail-title", text: (quizHost.index + 1) + " / " + quizHost.questions.length + " 결과" }),
+      h("p", { class: "quiz-question", text: q.text }),
+      renderChoiceRow(q, counts),
+      h("h4", { class: "card-title", text: "현재 순위" }),
+      renderLeaderboard(5),
+      h("div", {}, [next])
+    ]);
+  }
+
+  function renderHostEnd() {
+    var csv = h("button", { class: "btn btn-primary", type: "button", id: "quiz-csv", text: "결과 CSV 내려받기" });
+    csv.addEventListener("click", quizResultCsv);
+    var close = h("button", { class: "btn btn-ghost", type: "button", text: "퀴즈 닫기" });
+    close.addEventListener("click", hostClose);
+    return h("div", { class: "card quiz-play" }, [
+      h("h4", { class: "section-title", text: "최종 순위" }),
+      renderLeaderboard(50),
+      h("div", { class: "admin-buttons" }, [csv, close])
+    ]);
+  }
+
+  function renderJoinForm() {
+    var session = store.get("session", null);
+    var code = h("input", { id: "quiz-code", type: "text", inputmode: "numeric", maxlength: "6", autocomplete: "off" });
+    code.value = QUIZ_CODE;
+    var name = h("input", { id: "quiz-name", type: "text", maxlength: "20", autocomplete: "name" });
+    var sid = h("input", { id: "quiz-student-id", type: "text", inputmode: "numeric", maxlength: "12", autocomplete: "off" });
+    if (session) {
+      name.value = session.name;
+      sid.value = session.id;
+    }
+    var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var submit = h("button", { class: "btn btn-primary", type: "submit", id: "quiz-join", text: "입장하기" });
+    var form = h("form", { class: "card quiz-join", novalidate: "novalidate" }, [
+      h("h4", { class: "card-title", text: "퀴즈 입장" }),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "quiz-code", text: "입장 코드 6자리" }), code]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "quiz-name", text: "이름" }), name]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "quiz-student-id", text: "학번 (선택)" }), sid]),
+      error,
+      submit
+    ]);
+    function fail(message) {
+      error.textContent = message;
+      error.hidden = false;
+      submit.disabled = false;
+    }
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!/^[0-9]{6}$/.test(code.value.trim())) return fail("입장 코드 6자리를 입력해 주세요.");
+      if (!name.value.trim()) return fail("이름을 입력해 주세요.");
+      error.hidden = true;
+      submit.disabled = true;
+      playerJoin(code.value.trim(), name.value.trim(), sid.value.trim(), fail);
+    });
+    return form;
+  }
+
+  function playerJoin(code, name, studentId, onError) {
+    loadLib("peer").then(function () {
+      var clientId = sessionStorage.getItem("kc.quizClient");
+      if (!clientId) {
+        clientId = bytesToHex(crypto.getRandomValues(new Uint8Array(12)));
+        sessionStorage.setItem("kc.quizClient", clientId);
+      }
+      var peer = new window.Peer();
+      var joined = false;
+      var timeout = setTimeout(function () {
+        if (joined) return;
+        peer.destroy();
+        onError("입장하지 못했습니다. 코드와 네트워크를 확인해 주세요.");
+      }, 15000);
+      peer.on("open", function () {
+        var conn = peer.connect(QUIZ_PREFIX + code, { reliable: true });
+        conn.on("open", function () {
+          conn.send({ t: "hello", clientId: clientId, name: name, studentId: studentId });
+        });
+        conn.on("data", function (msg) {
+          if (!msg || typeof msg !== "object") return;
+          if (msg.t === "welcome") {
+            joined = true;
+            clearTimeout(timeout);
+            quizPlayer = { peer: peer, conn: conn, code: code, name: msg.name, studentId: studentId, view: { t: "waiting" }, timer: null };
+            drawQuiz();
+          } else if (quizPlayer) {
+            playerMessage(msg);
+          }
+        });
+        conn.on("close", function () {
+          if (!quizPlayer || quizPlayer.view.t === "end") return;
+          clearInterval(quizPlayer.timer);
+          quizPlayer.view = { t: "lost" };
+          drawQuiz();
+        });
+      });
+      peer.on("error", function (e) {
+        if (joined) return;
+        clearTimeout(timeout);
+        peer.destroy();
+        onError(e.type === "peer-unavailable" ? "열려 있는 퀴즈를 찾지 못했습니다. 코드를 확인해 주세요." : "연결하지 못했습니다. 네트워크를 확인해 주세요.");
+      });
+    }).catch(function () {
+      onError("퀴즈 기능을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.");
+    });
+  }
+
+  function playerMessage(msg) {
+    clearInterval(quizPlayer.timer);
+    if (msg.t === "question") {
+      quizPlayer.view = { t: "question", q: msg.q, total: msg.total, text: msg.text, choices: msg.choices, answered: !!msg.answered };
+      var deadline = Date.now() + (msg.limit - msg.elapsed) * 1000;
+      quizPlayer.timer = setInterval(function () {
+        var el = document.getElementById("quiz-player-timer");
+        if (el) el.textContent = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      }, 250);
+      quizPlayer.view.left = Math.ceil(msg.limit - msg.elapsed);
+    } else if (msg.t === "answered") {
+      quizPlayer.view.answered = true;
+    } else if (msg.t === "reveal" || msg.t === "end") {
+      quizPlayer.view = msg;
+    }
+    drawQuiz();
+    // 화면 높이가 바뀌어도 학생이 문제를 바로 보게 한다.
+    document.getElementById("quiz").scrollIntoView({ behavior: "instant" });
+  }
+
+  function renderPlayer() {
+    var v = quizPlayer.view;
+    var head = h("p", { class: "submit-note", text: quizPlayer.name + " · 코드 " + quizPlayer.code });
+    if (v.t === "waiting") {
+      return h("div", { class: "card quiz-play quiz-center" }, [head, h("p", { class: "quiz-question", text: "입장했습니다!" }), h("p", { class: "card-text", text: "교수자가 시작할 때까지 기다려 주세요." })]);
+    }
+    if (v.t === "lost") {
+      var again = h("button", { class: "btn btn-primary", type: "button", text: "다시 입장하기" });
+      again.addEventListener("click", function () {
+        quizPlayer.peer.destroy();
+        var old = quizPlayer;
+        quizPlayer = null;
+        drawQuiz();
+        document.getElementById("quiz-code").value = old.code;
+        document.getElementById("quiz-name").value = old.name;
+      });
+      return h("div", { class: "card quiz-play quiz-center" }, [h("p", { class: "quiz-question", text: "연결이 끊어졌습니다." }), again]);
+    }
+    if (v.t === "question") {
+      return h("div", { class: "card quiz-play" }, [
+        h("div", { class: "quiz-play-head" }, [
+          h("span", { class: "detail-title", text: (v.q + 1) + " / " + v.total }),
+          h("span", { class: "quiz-timer", id: "quiz-player-timer", text: String(v.left) }),
+          head
+        ]),
+        h("p", { class: "quiz-question", text: v.text }),
+        v.answered ? h("p", { class: "form-ok quiz-center", role: "status", text: "답을 보냈습니다. 결과를 기다려 주세요." })
+          : h("div", { class: "quiz-choices" }, v.choices.map(function (c, i) {
+            var btn = h("button", { class: "quiz-choice c" + i, type: "button" }, [
+              h("span", { class: "quiz-shape", "aria-hidden": "true", text: SHAPES[i] }),
+              h("span", { text: c })
+            ]);
+            btn.addEventListener("click", function () {
+              quizPlayer.view.answered = true;
+              quizPlayer.conn.send({ t: "answer", q: v.q, choice: i });
+              drawQuiz();
+            });
+            return btn;
+          }))
+      ]);
+    }
+    if (v.t === "reveal") {
+      var right = v.choice === v.answer;
+      return h("div", { class: "card quiz-play quiz-center" }, [
+        h("p", { class: "quiz-verdict " + (right ? "is-right" : "is-wrong"), text: v.choice === null ? "시간 초과" : right ? "✓ 정답!" : "✕ 오답" }),
+        h("p", { class: "card-text", text: "정답: " + SHAPES[v.answer] + " " + v.choices[v.answer] }),
+        h("p", { class: "quiz-question", text: "+" + v.gained + "점" }),
+        h("p", { class: "card-text", text: "총 " + v.score + "점 · " + v.players + "명 중 " + v.rank + "위" })
+      ]);
+    }
+    return h("div", { class: "card quiz-play quiz-center" }, [
+      h("p", { class: "quiz-verdict is-right", text: v.rank + "위" }),
+      h("p", { class: "quiz-question", text: v.score + "점" }),
+      h("p", { class: "card-text", text: v.players + "명 참가 · 수고하셨습니다!" })
+    ]);
+  }
+
+  // 로비의 QR을 다시 만들지 않고 참가자 수와 응답 수만 갱신한다.
+  function drawQuizLive() {
+    if (!quizHost) return;
+    if (quizHost.phase === "lobby") {
+      var list = document.querySelector(".quiz-players");
+      if (!list) return;
+      var players = hostPlayersList();
+      document.getElementById("quiz-player-count").textContent = "참가자 " + players.length + "명";
+      list.textContent = "";
+      players.forEach(function (p) { list.appendChild(h("li", { text: p.name })); });
+      document.getElementById("quiz-start").disabled = !players.length;
+    } else if (quizHost.phase === "question") {
+      var el = document.getElementById("quiz-answered");
+      if (el) {
+        var answered = hostPlayersList().filter(function (p) { return p.answers[quizHost.index]; }).length;
+        el.textContent = "응답 " + answered + " / " + hostPlayersList().length;
+      }
+    }
+  }
+
+  function drawQuiz() {
+    if (!quizStage) return;
+    quizStage.textContent = "";
+    if (quizHost) {
+      var view = quizHost.phase === "lobby" ? renderHostLobby()
+        : quizHost.phase === "question" ? renderHostQuestion()
+        : quizHost.phase === "reveal" ? renderHostReveal() : renderHostEnd();
+      quizStage.appendChild(view);
+    } else if (quizPlayer) {
+      quizStage.appendChild(renderPlayer());
+    } else {
+      quizStage.appendChild(renderJoinForm());
+      if (sessionStorage.getItem(ADMIN_KEY)) quizStage.appendChild(renderHostSetup());
+    }
+  }
+
+  function renderQuiz() {
+    quizStage = h("div", { class: "quiz-stage" });
+    refreshQuiz = function () {
+      if (!quizHost && !quizPlayer) drawQuiz();
+    };
+    drawQuiz();
+    return h("div", { class: "quiz-block", id: "quiz" }, [
+      h("h3", { class: "section-title", text: C.quiz.title }),
+      h("p", { class: "section-sub", text: C.quiz.intro }),
+      quizStage
+    ]);
+  }
+
+  function setupPopup() {
+    var d = C.popup;
+    // QR로 퀴즈에 입장하는 학생에게는 안내 팝업을 띄우지 않는다.
+    if (QUIZ_CODE || store.get("popupHiddenOn", null) === todayString() || !window.HTMLDialogElement) return;
+    var hide = h("input", { id: "popup-hide", type: "checkbox" });
+    var closeBtn = h("button", { class: "btn btn-ghost btn-small", type: "button", text: d.close });
+    var action = h("a", { class: "btn btn-primary btn-small", href: "#" + d.target, text: d.action });
+    var dialog = h("dialog", { class: "popup", "aria-labelledby": "popup-title" }, [
+      h("div", { class: "popup-glyph", lang: "zh-Hans", "aria-hidden": "true", text: C.brand.glyph }),
+      h("h2", { class: "card-title", id: "popup-title", text: d.title }),
+      h("p", { class: "card-text", text: d.text }),
+      h("label", { class: "check-field popup-hide", for: "popup-hide" }, [hide, h("span", { text: d.hideToday })]),
+      h("div", { class: "popup-actions" }, [action, closeBtn])
+    ]);
+    function close() {
+      if (dialog.open) dialog.close();
+    }
+    dialog.addEventListener("close", function () {
+      if (hide.checked) store.set("popupHiddenOn", todayString());
+    });
+    closeBtn.addEventListener("click", close);
+    action.addEventListener("click", close);
+    document.body.appendChild(dialog);
+    setTimeout(function () {
+      // 관리자 창 등 다른 창이 떠 있으면 열지 않는다.
+      if (!document.querySelector("dialog[open]")) dialog.showModal();
+    }, d.delayMs);
+  }
+
+  function launchConfetti() {
+    if (QUIZ_CODE || store.get("visited", false)) return;
+    store.set("visited", true);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var canvas = h("canvas", { class: "confetti", "aria-hidden": "true" });
+    document.body.appendChild(canvas);
+    var ctx = canvas.getContext("2d");
+    var width = canvas.width = window.innerWidth;
+    var height = canvas.height = window.innerHeight;
+    var t = C.theme;
+    var colors = [t.primary, t.violet, t.blossom, t.lilac];
+    // 양쪽 아래에서 쏘아 올린다.
+    var parts = [];
+    for (var i = 0; i < 140; i++) {
+      var left = i % 2 === 0;
+      var angle = (left ? -65 : -115) + (Math.random() - 0.5) * 50;
+      var speed = height * (0.011 + Math.random() * 0.012);
+      parts.push({
+        x: left ? width * 0.08 : width * 0.92,
+        y: height,
+        vx: Math.cos(angle * Math.PI / 180) * speed,
+        vy: Math.sin(angle * Math.PI / 180) * speed,
+        size: 5 + Math.random() * 6,
+        spin: Math.random() * 6,
+        turn: (Math.random() - 0.5) * 0.3,
+        color: colors[i % colors.length]
+      });
+    }
+    var start = performance.now();
+    var DURATION = 2600;
+    function frame(now) {
+      var elapsed = now - start;
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalAlpha = Math.min(1, (DURATION - elapsed) / 600);
+      parts.forEach(function (p) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += height * 0.00028;
+        p.vx *= 0.99;
+        p.spin += p.turn;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.spin);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.66);
+        ctx.restore();
+      });
+      if (elapsed < DURATION) requestAnimationFrame(frame);
+      else canvas.remove();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function renderNotices() {
+    if (!C.notices || !C.notices.length) return null;
+    var items = C.notices.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    return h("section", { class: "notices", id: "notices", "aria-label": "공지사항" }, [
+      h("div", { class: "wrap" }, [
+        h("ul", { class: "notice-list" }, items.map(function (n) {
+          return h("li", { class: "notice-item" }, [
+            h("p", { class: "notice-date", text: "공지 · " + n.date }),
+            h("p", { class: "notice-title", text: n.title }),
+            n.body ? h("p", { class: "notice-body", text: n.body }) : null
+          ]);
+        }))
+      ])
+    ]);
+  }
+
+  /* ---------- 관리자 모드 ---------- */
+
+  var ADMIN_KEY = "kc.adminSession";
+  var LOCK_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+  function bytesToHex(buffer) {
+    return Array.prototype.map.call(new Uint8Array(buffer), function (b) {
+      return ("0" + b.toString(16)).slice(-2);
+    }).join("");
+  }
+  function hexToBytes(hex) {
+    var out = new Uint8Array(hex.length / 2);
+    for (var i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i * 2, 2), 16);
+    return out;
+  }
+  function derivePassword(password, saltHex, iterations) {
+    return crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"])
+      .then(function (key) {
+        return crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: hexToBytes(saltHex), iterations: iterations }, key, 256);
+      })
+      .then(bytesToHex);
+  }
+
+  function renderLockButton() {
+    var btn = h("button", { class: "lock-btn", type: "button", "aria-label": "관리자 로그인", title: "관리자 로그인" });
+    btn.innerHTML = LOCK_SVG;
+    btn.addEventListener("click", function () {
+      if (sessionStorage.getItem(ADMIN_KEY)) openAdmin();
+      else openAdminLogin();
+    });
+    return btn;
+  }
+
+  function openAdminLogin() {
+    var input = h("input", { id: "admin-password", type: "password", autocomplete: "current-password" });
+    var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var submit = h("button", { class: "btn btn-primary btn-small", type: "submit", text: "확인" });
+    var cancel = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "취소" });
+    var form = h("form", { class: "admin-login", novalidate: "novalidate" }, [
+      h("h2", { class: "card-title", id: "admin-login-title", text: "관리자 로그인" }),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "admin-password", text: "비밀번호" }), input]),
+      error,
+      h("div", { class: "popup-actions" }, [submit, cancel])
+    ]);
+    var dialog = h("dialog", { class: "popup", "aria-labelledby": "admin-login-title" }, [form]);
+    function fail(message) {
+      error.textContent = message;
+      error.hidden = false;
+      submit.disabled = false;
+    }
+    cancel.addEventListener("click", function () { dialog.close(); });
+    dialog.addEventListener("close", function () { dialog.remove(); });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!input.value) return fail("비밀번호를 입력해 주세요.");
+      if (!window.crypto || !crypto.subtle) return fail("이 주소에서는 로그인할 수 없습니다. https 주소로 열어 주세요.");
+      submit.disabled = true;
+      derivePassword(input.value, C.admin.salt, C.admin.iterations).then(function (hash) {
+        input.value = "";
+        if (hash !== C.admin.hash) return fail("비밀번호가 올바르지 않습니다.");
+        sessionStorage.setItem(ADMIN_KEY, JSON.stringify({ tab: "edit", section: 0 }));
+        dialog.close();
+        openAdmin();
+      });
+    });
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  }
+
+  function restoreAdminSession() {
+    if (sessionStorage.getItem(ADMIN_KEY)) openAdmin();
+  }
+
+  function adminState() {
+    try {
+      return JSON.parse(sessionStorage.getItem(ADMIN_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+  function setAdminState(patch) {
+    var next = adminState();
+    Object.keys(patch).forEach(function (k) { next[k] = patch[k]; });
+    sessionStorage.setItem(ADMIN_KEY, JSON.stringify(next));
+  }
+
+  // 설정 전체를 이 브라우저에 저장하고, 화면에 반영되도록 다시 불러온다.
+  function saveConfigAndReload() {
+    if (!store.set("config", C)) {
+      window.alert("저장하지 못했습니다. 브라우저 저장소 설정을 확인해 주세요.");
+      return;
+    }
+    location.reload();
+  }
+
+  function downloadFile(name, text, mime) {
+    var url = URL.createObjectURL(new Blob([text], { type: mime }));
+    var a = h("a", { href: url, download: name });
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  // 엑셀이 한글을 올바로 읽도록 BOM을 붙이고, 수식으로 실행될 수 있는 값은 글자로 바꾼다.
+  function downloadCsv(name, headers, rows) {
+    var cell = function (value) {
+      var s = String(value === undefined || value === null ? "" : value);
+      if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+      return '"' + s.replace(/"/g, '""') + '"';
+    };
+    var lines = [headers].concat(rows).map(function (r) { return r.map(cell).join(","); });
+    downloadFile(name + "_" + todayString() + ".csv", "﻿" + lines.join("\r\n"), "text/csv;charset=utf-8");
+  }
+
+  function dataTable(headers, rows, emptyText) {
+    if (!rows.length) return h("p", { class: "card-text", text: emptyText });
+    return h("div", { class: "table-scroll", tabindex: "0" }, [
+      h("table", { class: "data-table" }, [
+        h("thead", {}, [h("tr", {}, headers.map(function (t) { return h("th", { scope: "col", text: t }); }))]),
+        h("tbody", {}, rows.map(function (r) {
+          return h("tr", {}, r.map(function (v) { return h("td", { text: String(v === undefined || v === null ? "" : v) }); }));
+        }))
+      ])
+    ]);
+  }
+
+  /* 설정 편집기: 설정의 구조를 따라 입력칸을 자동으로 만든다. */
+  var EDIT_SECTIONS = [
+    { label: "사이트 정보", keys: ["meta", "brand", "nav", "theme", "footer", "ui"] },
+    { label: "첫 화면", keys: ["hero", "stats"] },
+    { label: "프로그램 소개", keys: ["about"] },
+    { label: "주제 투표", keys: ["poll"] },
+    { label: "커리큘럼·일정", keys: ["curriculum"] },
+    { label: "수강 안내", keys: ["guide"] },
+    { label: "수강 신청서", keys: ["apply"] },
+    { label: "출석·과제", keys: ["portal"] },
+    { label: "실습 도구", keys: ["tools"] },
+    { label: "수강 준비물", keys: ["prepare"] },
+    { label: "FAQ", keys: ["faq"] },
+    { label: "교수자", keys: ["instructor"] },
+    { label: "실시간 퀴즈", keys: ["quiz"] },
+    { label: "팝업", keys: ["popup"] },
+    { label: "운영 모드", keys: ["backend"] }
+  ];
+  var FIELD_LABELS = {
+    meta: "페이지 정보", brand: "로고 영역", nav: "메뉴", theme: "색상", footer: "푸터 문구", ui: "기본 문구",
+    hero: "첫 화면", stats: "통계 카드", about: "프로그램 소개", poll: "주제 투표", curriculum: "커리큘럼", guide: "수강 안내",
+    apply: "수강 신청서", portal: "출석·과제", tools: "실습 도구", prepare: "수강 준비물", faq: "FAQ", instructor: "교수자",
+    popup: "팝업", backend: "운영 모드",
+    title: "제목", description: "설명", label: "이름표", text: "내용", value: "값", suffix: "단위", glyph: "한자 글자", org: "기관명", name: "이름",
+    badge: "배지", subtitle: "부제", lead: "설명문", primaryAction: "주 버튼", secondaryAction: "보조 버튼", url: "연결 주소",
+    phrase: "대표 표현", hanzi: "중국어", pinyin: "병음", meaning: "뜻", facts: "요약 카드", emptyText: "값이 없을 때 문구", items: "항목",
+    intro: "소개 문구", note: "안내 문구", slides: "슬라이드", prevLabel: "이전 버튼 설명", nextLabel: "다음 버튼 설명",
+    options: "선택지", totalLabel: "합계 문구", voteUnit: "표 단위", mine: "내 선택 표시", fields: "입력 항목",
+    schedule: "수업 일정", startDate: "개강일", time: "시간", place: "장소", skipDates: "휴강일", date: "날짜",
+    assignmentDefaults: "과제 마감 기본값", dueAfterDays: "수업 후 마감까지 일수", dueTime: "마감 시각", weeks: "주차", topic: "주제", contents: "학습 내용",
+    videos: "참고 영상", query: "유튜브 검색어", assignment: "과제", submitUrl: "제출 주소", calendar: "달력 문구", labels: "화면 문구",
+    info: "강의 정보", infoTitle: "강의 정보 제목", gradingTitle: "평가 제목", gradingNote: "평가 안내", grading: "평가 비율", percent: "비율(%)",
+    maker: "제공사", q: "질문", a: "답변", photo: "사진 파일", photoAlt: "사진 설명", role: "소속", bio: "소개", contactTitle: "연락처 제목", contacts: "연락처", email: "이메일",
+    delayMs: "표시 지연(밀리초)", action: "버튼 문구", hideToday: "하루 숨김 문구", close: "닫기 문구",
+    allowAnyDay: "수업일 외 출석 허용(체험용)", ignoreDeadlines: "마감 후 제출 허용(체험용)", notice: "체험 모드 안내문",
+    allowedExtensions: "허용 확장자", maxFileMb: "최대 용량(MB)", exam: "평가 주차",
+    quiz: "실시간 퀴즈", defaultLimit: "기본 제한 시간(초)", ai: "AI 출제", model: "모델 ID", samples: "기본 문제",
+    choices: "보기", answer: "정답 번호(0부터)", limit: "제한 시간(초)"
+  };
+  var HIDDEN_FIELDS = ["id", "target", "week", "valueFrom", "pattern", "autocomplete", "inputmode", "type", "full", "rows", "required", "shortLabel", "mode", "roster"];
+  var LOCKED_ARRAYS = ["nav", "fields"];
+  var LONG_FIELDS = ["text", "lead", "a", "note", "intro", "bio", "notice", "description"];
+  var ARRAY_TEMPLATES = {
+    skipDates: { date: "", label: "" },
+    videos: { title: "", query: "", url: "" },
+    contents: "",
+    allowedExtensions: "",
+    options: ""
+  };
+
+  function blankCopy(value) {
+    if (typeof value === "string") return "";
+    if (typeof value === "boolean") return false;
+    if (typeof value === "number") return 0;
+    if (Array.isArray(value)) return value.length ? [blankCopy(value[0])] : [];
+    if (value === null) return null;
+    var out = {};
+    Object.keys(value).forEach(function (k) {
+      // 평가·과제 여부는 새 항목에 물려주지 않는다.
+      if (k === "assignment" || k === "exam") return;
+      out[k] = k === "id" ? "item" + Date.now() : blankCopy(value[k]);
+    });
+    return out;
+  }
+
+  function editorLabel(key) {
+    return FIELD_LABELS[key] || String(key);
+  }
+
+  function renderInput(parent, key, labelText) {
+    var value = parent[key];
+    var id = "ed-" + Math.random().toString(36).slice(2);
+    if (typeof value === "boolean") {
+      var box = h("input", { id: id, type: "checkbox" });
+      box.checked = value;
+      box.addEventListener("change", function () { parent[key] = box.checked; });
+      return h("div", { class: "field" }, [h("label", { class: "check-field", for: id }, [box, h("span", { text: labelText })])]);
+    }
+    var control;
+    var isLong = LONG_FIELDS.indexOf(key) >= 0 || (typeof value === "string" && value.length > 60);
+    if (isLong) {
+      control = h("textarea", { id: id, rows: "3" });
+    } else {
+      var type = /^#[0-9a-f]{6}$/i.test(String(value)) ? "color"
+        : key === "startDate" || (key === "date" && /^\d{4}-|^$/.test(String(value))) ? "date"
+        : typeof value === "number" ? "number" : "text";
+      control = h("input", { id: id, type: type });
+    }
+    control.value = value === null || value === undefined ? "" : value;
+    control.addEventListener("input", function () {
+      var raw = control.value;
+      if (typeof value === "number") parent[key] = raw === "" ? 0 : Number(raw);
+      // 비어 있던 숫자 칸(저술 수 등)은 입력하면 숫자가 된다.
+      else if (value === null) parent[key] = raw.trim() === "" ? null : isNaN(Number(raw)) ? raw : Number(raw);
+      else parent[key] = raw;
+    });
+    return h("div", { class: "field" }, [h("label", { class: "field-label", for: id, text: labelText }), control]);
+  }
+
+  function renderArrayEditor(arr, key) {
+    var locked = LOCKED_ARRAYS.indexOf(key) >= 0;
+    var box = h("div", { class: "edit-array" });
+    function draw() {
+      box.textContent = "";
+      arr.forEach(function (item, i) {
+        var title = key === "weeks" ? (i + 1) + "주차" : editorLabel(key) + " " + (i + 1);
+        var row = h("div", { class: "edit-item" }, [
+          h("div", { class: "edit-item-head" }, [
+            h("span", { class: "detail-title", text: title }),
+            locked ? null : (function () {
+              var del = h("button", { class: "mini-btn", type: "button", text: "삭제", "aria-label": title + " 삭제" });
+              del.addEventListener("click", function () {
+                arr.splice(i, 1);
+                draw();
+              });
+              return del;
+            })()
+          ]),
+          typeof item === "object" && item !== null
+            ? renderObjectEditor(item, key)
+            : renderInput(arr, i, editorLabel(key))
+        ]);
+        box.appendChild(row);
+      });
+      var template = arr.length ? arr[arr.length - 1] : ARRAY_TEMPLATES[key];
+      if (!locked && template !== undefined) {
+        var add = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "＋ " + editorLabel(key) + " 추가" });
+        add.addEventListener("click", function () {
+          arr.push(blankCopy(template));
+          draw();
+        });
+        box.appendChild(add);
+      }
+    }
+    draw();
+    return box;
+  }
+
+  function renderObjectEditor(obj, parentKey) {
+    var box = h("div", { class: "edit-object" });
+    function draw() {
+      box.textContent = "";
+      Object.keys(obj).forEach(function (key) {
+        if (HIDDEN_FIELDS.indexOf(key) >= 0) return;
+        // 신청서 항목의 name은 기능과 연결된 값이므로 숨긴다.
+        if (key === "name" && parentKey === "fields") return;
+        var value = obj[key];
+        if (Array.isArray(value)) {
+          box.appendChild(h("fieldset", { class: "edit-group" }, [
+            h("legend", { text: editorLabel(key) }),
+            renderArrayEditor(value, key)
+          ]));
+        } else if (value && typeof value === "object") {
+          box.appendChild(h("fieldset", { class: "edit-group" }, [
+            h("legend", { text: editorLabel(key) }),
+            renderObjectEditor(value, key)
+          ]));
+          if (key === "assignment") {
+            var remove = h("button", { class: "mini-btn", type: "button", text: "과제 없애기" });
+            remove.addEventListener("click", function () {
+              delete obj.assignment;
+              draw();
+            });
+            box.appendChild(remove);
+          }
+        } else {
+          box.appendChild(renderInput(obj, key, editorLabel(key)));
+        }
+      });
+      if (parentKey === "weeks" && !obj.assignment) {
+        var add = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "＋ 이 주차에 과제 추가" });
+        add.addEventListener("click", function () {
+          obj.assignment = { title: "", text: "", submitUrl: "" };
+          draw();
+        });
+        box.appendChild(add);
+      }
+    }
+    draw();
+    return box;
+  }
+
+  function adminEditTab() {
+    var index = adminState().section || 0;
+    var select = h("select", { id: "edit-section" }, EDIT_SECTIONS.map(function (s, i) {
+      return h("option", { value: String(i), text: s.label });
+    }));
+    select.value = String(index);
+    var section = EDIT_SECTIONS[index];
+    var draft = {};
+    section.keys.forEach(function (k) { draft[k] = JSON.parse(JSON.stringify(C[k])); });
+    select.addEventListener("change", function () {
+      setAdminState({ section: Number(select.value) });
+      drawAdminTab();
+    });
+    var save = h("button", { class: "btn btn-primary btn-small", type: "button", text: "저장하고 사이트에 반영" });
+    save.addEventListener("click", function () {
+      section.keys.forEach(function (k) { C[k] = draft[k]; });
+      // 주차 번호는 순서대로 다시 매긴다.
+      C.curriculum.weeks.forEach(function (w, i) { w.week = i + 1; });
+      setAdminState({ saved: "저장했습니다." });
+      saveConfigAndReload();
+    });
+    var flash = adminState().saved;
+    if (flash) setAdminState({ saved: "" });
+    return [
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "edit-section", text: "고칠 영역" }), select]),
+      flash ? h("p", { class: "form-ok", role: "status", text: flash }) : null,
+      h("div", { class: "edit-sections" }, section.keys.map(function (k) {
+        return h("fieldset", { class: "edit-group" }, [
+          h("legend", { text: editorLabel(k) }),
+          Array.isArray(draft[k]) ? renderArrayEditor(draft[k], k) : renderObjectEditor(draft[k], k)
+        ]);
+      })),
+      h("div", { class: "admin-savebar" }, [save])
+    ];
+  }
+
+  function adminRosterTab() {
+    var roster = C.portal.roster;
+    var text = h("textarea", { id: "roster-input", rows: "6", placeholder: "2026000002,홍길동" });
+    var file = h("input", { id: "roster-file", type: "file", accept: ".csv,.txt" });
+    var message = h("p", { class: "form-ok", role: "status" });
+    var add = h("button", { class: "btn btn-primary btn-small", type: "button", text: "명단에 추가" });
+
+    function importLines(raw) {
+      var added = 0;
+      var skipped = [];
+      raw.replace(/^﻿/, "").split(/\r?\n/).forEach(function (line) {
+        if (!line.trim()) return;
+        var parts = line.split(/[,\t]/).map(function (x) { return x.trim().replace(/^"|"$/g, ""); });
+        if (!/^[0-9]{7,10}$/.test(parts[0]) || !parts[1]) {
+          skipped.push(line.trim());
+          return;
+        }
+        var existing = roster.filter(function (s) { return s.id === parts[0]; })[0];
+        if (existing) existing.name = parts[1];
+        else roster.push({ id: parts[0], name: parts[1] });
+        added += 1;
+      });
+      setAdminState({ saved: added + "명을 반영했습니다." + (skipped.length ? " 형식이 맞지 않아 건너뜀: " + skipped.join(" / ") : "") });
+      saveConfigAndReload();
+    }
+    add.addEventListener("click", function () {
+      if (text.value.trim()) importLines(text.value);
+    });
+    file.addEventListener("change", function () {
+      if (!file.files[0]) return;
+      var reader = new FileReader();
+      reader.onload = function () { importLines(String(reader.result)); };
+      reader.readAsText(file.files[0], "utf-8");
+    });
+    var flash = adminState().saved;
+    if (flash) {
+      message.textContent = flash;
+      setAdminState({ saved: "" });
+    }
+    var list = h("ul", { class: "roster-list" }, roster.map(function (s, i) {
+      var del = h("button", { class: "mini-btn", type: "button", text: "삭제", "aria-label": s.name + " 삭제" });
+      del.addEventListener("click", function () {
+        roster.splice(i, 1);
+        setAdminState({ saved: s.name + " 님을 명단에서 뺐습니다." });
+        saveConfigAndReload();
+      });
+      return h("li", {}, [h("span", { text: s.id + " · " + s.name }), del]);
+    }));
+    return [
+      h("p", { class: "demo-notice", text: "주의: 명단은 사이트 파일에 함께 들어갑니다. 공개 주소에 배포하면 누구나 학번과 이름을 볼 수 있으니, 실제 명단은 서버를 연결한 뒤 사용하세요." }),
+      h("div", { class: "field" }, [
+        h("label", { class: "field-label", for: "roster-input", text: "한 줄에 한 명씩 \"학번,이름\"" }),
+        text
+      ]),
+      h("div", {}, [add]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "roster-file", text: "또는 CSV 파일 불러오기 (UTF-8)" }), file]),
+      message,
+      h("p", { class: "detail-title", text: "현재 명단 " + roster.length + "명" }),
+      list
+    ];
+  }
+
+  function adminNoticeTab() {
+    var title = h("input", { id: "notice-title", type: "text" });
+    var body = h("textarea", { id: "notice-body", rows: "4" });
+    var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var post = h("button", { class: "btn btn-primary btn-small", type: "button", text: "공지 올리기" });
+    post.addEventListener("click", function () {
+      if (!title.value.trim()) {
+        error.textContent = "공지 제목을 입력해 주세요.";
+        error.hidden = false;
+        return;
+      }
+      C.notices.push({ id: "n" + Date.now(), date: todayString(), title: title.value.trim(), body: body.value.trim() });
+      saveConfigAndReload();
+    });
+    return [
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "notice-title", text: "제목" }), title]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "notice-body", text: "내용" }), body]),
+      error,
+      h("div", {}, [post]),
+      h("p", { class: "detail-title", text: "올린 공지 " + C.notices.length + "건" }),
+      h("ul", { class: "roster-list" }, C.notices.map(function (n, i) {
+        var del = h("button", { class: "mini-btn", type: "button", text: "삭제", "aria-label": n.title + " 삭제" });
+        del.addEventListener("click", function () {
+          C.notices.splice(i, 1);
+          saveConfigAndReload();
+        });
+        return h("li", {}, [h("span", { text: n.date + " · " + n.title }), del]);
+      }))
+    ];
+  }
+
+  // 체험 모드에서 수강생 기록은 이 브라우저에 저장된 것만 읽을 수 있다.
+  function localRecords(prefix) {
+    var out = {};
+    try {
+      Object.keys(localStorage).forEach(function (k) {
+        if (k.indexOf("kc." + prefix + ".") === 0) out[k.slice(prefix.length + 4)] = store.get(k.slice(3), {});
+      });
+    } catch (e) {
+      // 저장소를 읽을 수 없으면 빈 기록으로 둔다.
+    }
+    return out;
+  }
+  function studentName(id) {
+    var s = C.portal.roster.filter(function (x) { return x.id === id; })[0];
+    return s ? s.name : "";
+  }
+  function recordsNotice() {
+    return h("p", { class: "demo-notice", text: "체험 모드에서는 이 브라우저에 저장된 기록만 보입니다. 수강생이 각자 기기에서 입력한 내용은 서버를 연결해야 모을 수 있습니다." });
+  }
+  function downloadButton(label, onClick, disabled) {
+    var btn = h("button", { class: "btn btn-primary btn-small", type: "button", text: label });
+    btn.disabled = !!disabled;
+    btn.addEventListener("click", onClick);
+    return btn;
+  }
+
+  function adminApplyTab() {
+    var fields = C.apply.fields;
+    var headers = fields.map(function (f) { return f.shortLabel || f.label; }).concat(["제출 시각"]);
+    var rows = store.get("applications", []).map(function (a) {
+      return fields.map(function (f) {
+        return f.type === "checkbox" ? (a[f.name] ? "예" : "아니오") : a[f.name];
+      }).concat([formatStamp(a.submittedAt)]);
+    });
+    return [
+      recordsNotice(),
+      h("div", {}, [downloadButton("엑셀용 CSV 내려받기", function () { downloadCsv("수강신청내역", headers, rows); }, !rows.length)]),
+      dataTable(headers, rows, "아직 수강 신청이 없습니다.")
+    ];
+  }
+
+  function adminAttendanceTab() {
+    var weeks = C.curriculum.weeks;
+    var records = localRecords("attendance");
+    var headers = ["학번", "이름", "출석 수"].concat(weeks.map(function (w) { return w.week + "주"; }));
+    var ids = C.portal.roster.map(function (s) { return s.id; });
+    Object.keys(records).forEach(function (id) {
+      if (ids.indexOf(id) < 0) ids.push(id);
+    });
+    var rows = ids.map(function (id) {
+      var r = records[id] || {};
+      return [id, studentName(id), Object.keys(r).length].concat(weeks.map(function (w) {
+        return r[w.week] ? "출석" : "";
+      }));
+    });
+    return [
+      recordsNotice(),
+      h("div", {}, [downloadButton("엑셀용 CSV 내려받기", function () { downloadCsv("출석내역", headers, rows); }, !rows.length)]),
+      dataTable(headers, rows, "등록된 수강생이 없습니다.")
+    ];
+  }
+
+  function adminSubmissionTab() {
+    var records = localRecords("submissions");
+    var titleOf = function (week) {
+      var w = C.curriculum.weeks.filter(function (x) { return String(x.week) === String(week); })[0];
+      return w && w.assignment ? w.assignment.title : "";
+    };
+    var headers = ["학번", "이름", "주차", "과제", "파일 이름", "크기", "제출 시각"];
+    var rows = [];
+    Object.keys(records).forEach(function (id) {
+      Object.keys(records[id]).forEach(function (week) {
+        var r = records[id][week];
+        rows.push([id, studentName(id), week + "주", titleOf(week), r.fileName, formatSize(r.size), formatStamp(r.submittedAt)]);
+      });
+    });
+    return [
+      recordsNotice(),
+      h("div", {}, [downloadButton("엑셀용 CSV 내려받기", function () { downloadCsv("과제제출내역", headers, rows); }, !rows.length)]),
+      dataTable(headers, rows, "아직 제출된 과제가 없습니다.")
+    ];
+  }
+
+  // 수정한 설정을 담은 index.html을 만든다. 이 파일 하나만 올리면 배포된다.
+  function buildSiteHtml() {
+    var head = document.head.cloneNode(true);
+    var meta = head.querySelector('meta[name="description"]');
+    if (meta) meta.remove();
+    var json = JSON.stringify(C, null, 2).replace(/</g, "\\u003c");
+    return "<!DOCTYPE html>\n<html lang=\"ko\">\n" + head.outerHTML + "\n<body>\n<div id=\"app\"></div>\n"
+      + "<script id=\"site-config\">\n// 사이트 설정: 내용 수정은 여기서\nwindow.SITE_CONFIG = " + json + ";\n<\/script>\n"
+      + "<script id=\"site-app\">\n" + document.getElementById("site-app").textContent.trim() + "\n<\/script>\n</body>\n</html>\n";
+  }
+
+  function adminSettingsTab() {
+    var message = h("p", { class: "form-ok", role: "status" });
+    var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var flash = adminState().saved;
+    if (flash) {
+      message.textContent = flash;
+      setAdminState({ saved: "" });
+    }
+    var file = h("input", { id: "config-file", type: "file", accept: ".json,application/json" });
+    file.addEventListener("change", function () {
+      if (!file.files[0]) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var parsed = null;
+        try {
+          parsed = JSON.parse(String(reader.result));
+        } catch (e) {
+          parsed = null;
+        }
+        var valid = parsed && parsed.nav && parsed.hero && parsed.curriculum && parsed.portal && parsed.admin;
+        if (!valid) {
+          error.textContent = "이 사이트의 설정 파일이 아닙니다.";
+          error.hidden = false;
+          return;
+        }
+        Object.keys(parsed).forEach(function (k) { C[k] = parsed[k]; });
+        setAdminState({ saved: "설정 파일을 불러왔습니다." });
+        saveConfigAndReload();
+      };
+      reader.readAsText(file.files[0], "utf-8");
+    });
+
+    var pw1 = h("input", { id: "pw-new", type: "password", autocomplete: "new-password" });
+    var pw2 = h("input", { id: "pw-confirm", type: "password", autocomplete: "new-password" });
+    var pwError = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var pwSave = h("button", { class: "btn btn-primary btn-small", type: "button", text: "비밀번호 변경" });
+    pwSave.addEventListener("click", function () {
+      var problem = pw1.value.length < 10 ? "비밀번호는 10자 이상으로 정해 주세요."
+        : pw1.value !== pw2.value ? "두 비밀번호가 다릅니다." : "";
+      pwError.textContent = problem;
+      pwError.hidden = !problem;
+      if (problem) return;
+      var salt = bytesToHex(crypto.getRandomValues(new Uint8Array(16)));
+      derivePassword(pw1.value, salt, C.admin.iterations).then(function (hash) {
+        C.admin = { salt: salt, iterations: C.admin.iterations, hash: hash };
+        setAdminState({ saved: "비밀번호를 바꿨습니다. 다른 기기에 반영하려면 배포용 파일을 다시 올려 주세요." });
+        saveConfigAndReload();
+      });
+    });
+
+    var reset = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "저장한 설정 지우기" });
+    reset.addEventListener("click", function () {
+      if (!window.confirm("이 브라우저에 저장한 설정을 지우고 파일의 기본 설정으로 되돌릴까요?")) return;
+      localStorage.removeItem("kc.config");
+      location.reload();
+    });
+
+    return [
+      message,
+      h("h3", { class: "card-title", text: "설정 파일" }),
+      h("p", { class: "card-text", text: "지금까지 고친 내용을 파일로 저장하고, 나중에 다시 불러올 수 있습니다. 저장한 설정은 이 브라우저에만 적용되므로, 다른 사람에게 보이려면 배포용 index.html을 내려받아 올려 주세요." }),
+      h("div", { class: "admin-buttons" }, [
+        downloadButton("설정 파일 저장 (.json)", function () {
+          downloadFile("site-config_" + todayString() + ".json", JSON.stringify(C, null, 2), "application/json");
+        }),
+        downloadButton("배포용 index.html 내려받기", function () {
+          downloadFile("index.html", buildSiteHtml(), "text/html;charset=utf-8");
+        })
+      ]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "config-file", text: "설정 파일 불러오기" }), file]),
+      error,
+      h("div", {}, [reset]),
+      h("h3", { class: "card-title", text: "비밀번호 변경" }),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "pw-new", text: "새 비밀번호 (10자 이상)" }), pw1]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "pw-confirm", text: "새 비밀번호 확인" }), pw2]),
+      pwError,
+      h("div", {}, [pwSave])
+    ];
+  }
+
+  var ADMIN_TABS = [
+    { id: "edit", label: "내용 편집", render: adminEditTab },
+    { id: "roster", label: "수강생 명단", render: adminRosterTab },
+    { id: "notice", label: "공지", render: adminNoticeTab },
+    { id: "apply", label: "신청 내역", render: adminApplyTab },
+    { id: "attendance", label: "출석", render: adminAttendanceTab },
+    { id: "submission", label: "과제", render: adminSubmissionTab },
+    { id: "settings", label: "설정 파일", render: adminSettingsTab }
+  ];
+  var drawAdminTab = function () {};
+
+  function openAdmin() {
+    if (document.querySelector("dialog.admin")) return;
+    var tabs = h("div", { class: "admin-tabs", role: "tablist", "aria-label": "관리 메뉴" });
+    var panel = h("div", { class: "admin-panel", role: "tabpanel", tabindex: "-1" });
+    var close = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "닫기" });
+    var logout = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "로그아웃" });
+    var dialog = h("dialog", { class: "admin", "aria-labelledby": "admin-title" }, [
+      h("div", { class: "admin-head" }, [
+        h("h2", { class: "card-title", id: "admin-title", text: "관리자 화면" }),
+        h("div", { class: "admin-buttons" }, [close, logout])
+      ]),
+      tabs,
+      panel
+    ]);
+    drawAdminTab = function () {
+      var state = adminState();
+      var current = ADMIN_TABS.filter(function (t) { return t.id === state.tab; })[0] || ADMIN_TABS[0];
+      tabs.textContent = "";
+      ADMIN_TABS.forEach(function (t) {
+        var btn = h("button", {
+          class: "admin-tab" + (t === current ? " is-active" : ""),
+          type: "button",
+          role: "tab",
+          "aria-selected": String(t === current),
+          text: t.label
+        });
+        btn.addEventListener("click", function () {
+          setAdminState({ tab: t.id });
+          drawAdminTab();
+        });
+        tabs.appendChild(btn);
+      });
+      panel.textContent = "";
+      current.render().forEach(function (node) {
+        if (node) panel.appendChild(node);
+      });
+      panel.scrollTop = 0;
+    };
+    close.addEventListener("click", function () { dialog.close(); });
+    dialog.addEventListener("close", function () {
+      dialog.remove();
+      refreshQuiz();
+    });
+    logout.addEventListener("click", function () {
+      sessionStorage.removeItem(ADMIN_KEY);
+      dialog.close();
+    });
+    document.body.appendChild(dialog);
+    drawAdminTab();
+    dialog.showModal();
+  }
+
+  function renderTools() {
+    var d = C.tools;
+    return section("tools", false, sectionHead(d), h("ul", { class: "tool-grid" }, d.items.map(function (t) {
+      return h("li", { class: "card tool-card reveal" }, [
+        h("p", { class: "tool-maker", text: t.maker }),
+        h("h3", { class: "card-title", text: t.name }),
+        h("p", { class: "card-text", text: t.text }),
+        h("a", { class: "tool-link", href: t.url, target: "_blank", rel: "noopener noreferrer", "aria-label": t.name + " " + d.linkLabel, text: d.linkLabel + " ↗" })
+      ]);
+    })));
+  }
+
+  function renderPrepare() {
+    var d = C.prepare;
+    return section("prepare", true, sectionHead(d), h("ul", { class: "prepare-grid" }, d.items.map(function (p) {
+      return h("li", { class: "card prepare-card reveal" }, [
+        h("div", { class: "glyph-badge", lang: "zh-Hant", "aria-hidden": "true", text: p.glyph }),
+        h("div", {}, [
+          h("h3", { class: "card-title", text: p.title }),
+          h("p", { class: "card-text", text: p.text })
+        ])
+      ]);
+    })));
+  }
+
+  // 날짜는 "YYYY-MM-DD" 문자열로 다루고, 계산은 UTC로 해서 기기 시간대의 영향을 받지 않게 한다.
+  var DOW = ["일", "월", "화", "수", "목", "금", "토"];
+
+  function toUtc(s) {
+    var p = s.split("-");
+    return new Date(Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2])));
+  }
+  function fromUtc(d) {
+    return d.toISOString().slice(0, 10);
+  }
+  function addDays(s, n) {
+    var d = toUtc(s);
+    d.setUTCDate(d.getUTCDate() + n);
+    return fromUtc(d);
+  }
+  function formatDate(s) {
+    var d = toUtc(s);
+    return (d.getUTCMonth() + 1) + "월 " + d.getUTCDate() + "일 (" + DOW[d.getUTCDay()] + ")";
+  }
+  function todayString() {
+    var n = new Date();
+    return fromUtc(new Date(Date.UTC(n.getFullYear(), n.getMonth(), n.getDate())));
+  }
+
+  function buildSchedule() {
+    var cfg = C.curriculum.schedule;
+    var defaults = C.curriculum.assignmentDefaults;
+    var offDays = {};
+    cfg.skipDates.forEach(function (s) { offDays[s.date] = s.label; });
+    var date = cfg.startDate;
+    var byDate = {};
+    var dueByDate = {};
+    var weeks = C.curriculum.weeks.map(function (w) {
+      while (offDays[date]) date = addDays(date, 7);
+      var item = { week: w, date: date, time: w.time || cfg.time, place: w.place || cfg.place };
+      byDate[date] = item;
+      if (w.assignment) {
+        var a = w.assignment;
+        item.dueDate = a.dueDate || addDays(date, a.dueAfterDays === undefined ? defaults.dueAfterDays : a.dueAfterDays);
+        item.dueTime = a.dueTime || defaults.dueTime;
+        // 마감은 어느 기기에서 보더라도 한국 시간 기준이다.
+        item.dueAt = new Date(item.dueDate + "T" + item.dueTime + ":00+09:00").getTime();
+        (dueByDate[item.dueDate] = dueByDate[item.dueDate] || []).push(item);
+      }
+      date = addDays(date, 7);
+      return item;
+    });
+    return { weeks: weeks, byDate: byDate, dueByDate: dueByDate, offDays: offDays };
+  }
+
+  var dueUpdaters = [];
+
+  function remainingText(ms) {
+    var L = C.curriculum.labels;
+    var minutes = Math.floor(ms / 60000);
+    if (minutes < 1) return L.soon + " " + L.remaining;
+    var days = Math.floor(minutes / 1440);
+    var hours = Math.floor((minutes % 1440) / 60);
+    var parts = [];
+    if (days) parts.push(days + L.day);
+    if (hours) parts.push(hours + L.hour);
+    if (!days) parts.push((minutes % 60) + L.minute);
+    return parts.join(" ") + " " + L.remaining;
+  }
+
+  function renderAssignment(item) {
+    var L = C.curriculum.labels;
+    var a = item.week.assignment;
+    var countdown = h("span", { class: "countdown" });
+    var action = h("div", {});
+
+    function update() {
+      var left = item.dueAt - Date.now();
+      var closed = left <= 0;
+      countdown.textContent = closed ? L.closed : remainingText(left);
+      countdown.className = "countdown" + (closed ? " is-closed" : left < 259200000 ? " is-urgent" : "");
+      var state = !closed ? (a.submitUrl ? "link" : "portal") : C.backend.ignoreDeadlines ? "demo" : "closed";
+      if (action.getAttribute("data-state") === state) return;
+      action.setAttribute("data-state", state);
+      action.textContent = "";
+      if (state === "link") {
+        action.appendChild(h("a", { class: "btn btn-primary btn-small", href: a.submitUrl, target: "_blank", rel: "noopener noreferrer", text: L.submit }));
+      } else if (state === "closed") {
+        action.appendChild(h("button", { class: "btn btn-small", type: "button", disabled: "disabled", text: L.submitClosed }));
+      } else {
+        var go = h("button", { class: "btn btn-primary btn-small", type: "button", text: state === "demo" ? L.submitDemo : L.submit });
+        go.addEventListener("click", function () { goToSubmit(item.week.week); });
+        action.appendChild(go);
+      }
+    }
+    dueUpdaters.push(update);
+    update();
+
+    return h("div", { class: "assignment" }, [
+      h("p", { class: "detail-title", text: L.assignment }),
+      h("p", { class: "assignment-title", text: a.title }),
+      h("p", { class: "assignment-text", text: a.text }),
+      h("p", { class: "assignment-due", text: L.due + ": " + formatDate(item.dueDate) + " " + item.dueTime }),
+      h("div", { class: "assignment-foot" }, [countdown, action])
+    ]);
+  }
+
+  function renderVideos(videos) {
+    var L = C.curriculum.labels;
+    return h("div", {}, [
+      h("p", { class: "detail-title", text: L.videos }),
+      h("ul", {}, videos.map(function (v) {
+        var href = v.url || "https://www.youtube.com/results?search_query=" + encodeURIComponent(v.query);
+        var label = v.url ? v.title : L.videoSearch + v.title;
+        return h("li", {}, [
+          h("a", { class: "video-link", href: href, target: "_blank", rel: "noopener noreferrer", text: label + " ↗" })
+        ]);
+      }))
+    ]);
+  }
+
+  function renderWeek(item) {
+    var L = C.curriculum.labels;
+    var w = item.week;
+    return h("li", {}, [
+      h("details", { class: "week-item reveal" + (w.exam ? " is-exam" : ""), id: "week-" + w.week }, [
+        h("summary", { class: "week-summary" }, [
+          h("span", { class: "week-num", text: w.week + C.ui.weekSuffix }),
+          h("span", { class: "week-heading" }, [
+            h("span", { class: "week-title", text: w.title, style: "display:block" }),
+            h("span", { class: "week-date", text: formatDate(item.date) + " · " + w.topic, style: "display:block" })
+          ]),
+          h("span", { class: "week-marks" }, [
+            w.exam ? h("span", { class: "badge", text: C.ui.examBadge }) : null,
+            w.assignment ? h("span", { class: "badge badge-task", text: L.assignment }) : null
+          ])
+        ]),
+        h("div", { class: "week-body" }, [
+          h("dl", { class: "week-meta" }, [
+            h("div", {}, [h("dt", { text: L.date }), h("dd", { text: formatDate(item.date) })]),
+            h("div", {}, [h("dt", { text: L.time }), h("dd", { text: item.time })]),
+            h("div", {}, [h("dt", { text: L.place }), h("dd", { text: item.place })])
+          ]),
+          h("div", {}, [
+            h("p", { class: "detail-title", text: L.contents }),
+            h("ul", { class: "content-list" }, w.contents.map(function (c) {
+              return h("li", { text: c });
+            })),
+            w.hanzi ? h("div", { class: "week-phrase" }, [
+              h("p", { class: "hanzi", lang: "zh-Hans", text: w.hanzi }),
+              h("p", { class: "pinyin", text: w.pinyin })
+            ]) : null
+          ]),
+          w.videos && w.videos.length ? renderVideos(w.videos) : null,
+          w.assignment ? renderAssignment(item) : null
+        ])
+      ])
+    ]);
+  }
+
+  function renderCalendar(sched) {
+    var d = C.curriculum.calendar;
+    var L = C.curriculum.labels;
+    var today = todayString();
+    var firstMonth = sched.weeks[0].date.slice(0, 7);
+    var lastDate = sched.weeks[sched.weeks.length - 1].date;
+    Object.keys(sched.dueByDate).forEach(function (date) {
+      if (date > lastDate) lastDate = date;
+    });
+    var lastMonth = lastDate.slice(0, 7);
+    // 오늘이 학기 밖이면 가장 가까운 학기 달을 보여 준다.
+    var month = today.slice(0, 7);
+    if (month < firstMonth) month = firstMonth;
+    if (month > lastMonth) month = lastMonth;
+    var selected = null;
+
+    var title = h("p", { class: "calendar-month", "aria-live": "polite" });
+    var prev = h("button", { class: "slider-btn", type: "button", "aria-label": d.prevLabel, text: "←" });
+    var next = h("button", { class: "slider-btn", type: "button", "aria-label": d.nextLabel, text: "→" });
+    var grid = h("div", { class: "calendar-grid" });
+    var detail = h("div", { class: "card calendar-detail", "aria-live": "polite" });
+
+    function shiftMonth(m, n) {
+      var p = m.split("-");
+      return fromUtc(new Date(Date.UTC(Number(p[0]), Number(p[1]) - 1 + n, 1))).slice(0, 7);
+    }
+
+    function openWeek(week) {
+      var el = document.getElementById("week-" + week);
+      el.open = true;
+      el.classList.add("is-in");
+      el.scrollIntoView();
+    }
+
+    function showDetail(date) {
+      selected = date;
+      detail.textContent = "";
+      detail.appendChild(h("p", { class: "calendar-detail-date", text: formatDate(date) }));
+      var item = sched.byDate[date];
+      if (item) {
+        var w = item.week;
+        detail.appendChild(h("h4", { class: "card-title", style: "margin:0", text: w.week + C.ui.weekSuffix + " · " + w.title }));
+        detail.appendChild(infoList([
+          { label: L.time, value: item.time },
+          { label: L.place, value: item.place }
+        ]));
+        detail.appendChild(h("ul", { class: "content-list" }, w.contents.map(function (c) {
+          return h("li", { text: c });
+        })));
+        var link = h("button", { class: "calendar-link", type: "button", text: w.week + d.openWeek });
+        link.addEventListener("click", function () { openWeek(w.week); });
+        detail.appendChild(link);
+      } else {
+        detail.appendChild(h("p", { class: "card-text", text: sched.offDays[date] || d.noClass }));
+      }
+      (sched.dueByDate[date] || []).forEach(function (due) {
+        detail.appendChild(h("p", { class: "assignment-due", text: d.dueNotice + due.week.assignment.title + " (" + due.week.week + C.ui.weekSuffix + ", " + due.dueTime + ")" }));
+      });
+    }
+
+    function drawMonth() {
+      var p = month.split("-");
+      title.textContent = Number(p[0]) + "년 " + Number(p[1]) + "월";
+      prev.disabled = month <= firstMonth;
+      next.disabled = month >= lastMonth;
+      grid.textContent = "";
+      DOW.forEach(function (name) {
+        grid.appendChild(h("div", { class: "calendar-dow", "aria-hidden": "true", text: name }));
+      });
+      var first = month + "-01";
+      for (var i = 0; i < toUtc(first).getUTCDay(); i++) grid.appendChild(h("div", {}));
+      var date = first;
+      while (date.slice(0, 7) === month) {
+        grid.appendChild(renderDay(date));
+        date = addDays(date, 1);
+      }
+    }
+
+    function renderDay(date) {
+      var item = sched.byDate[date];
+      var off = sched.offDays[date];
+      var dues = sched.dueByDate[date];
+      var cls = "calendar-day"
+        + (item ? " is-class" : "")
+        + (item && item.week.exam ? " is-exam" : "")
+        + (off ? " is-off" : "")
+        + (date === today ? " is-today" : "")
+        + (date === selected ? " is-selected" : "");
+      var label = formatDate(date)
+        + (item ? ", " + item.week.week + C.ui.weekSuffix + " " + item.week.title : "")
+        + (off ? ", " + off : "")
+        + (dues ? ", " + C.curriculum.calendar.legendDue : "");
+      var btn = h("button", { class: cls, type: "button", "aria-label": label, "aria-pressed": String(date === selected) }, [
+        h("span", { text: String(toUtc(date).getUTCDate()) }),
+        item ? h("span", { class: "calendar-tag", text: item.week.week + "주" }) : null,
+        off ? h("span", { class: "calendar-tag is-off", text: "휴강" }) : null,
+        dues ? h("span", { class: "calendar-due", "aria-hidden": "true" }) : null
+      ]);
+      btn.addEventListener("click", function () {
+        showDetail(date);
+        drawMonth();
+      });
+      return btn;
+    }
+
+    // 달을 바꾸면 그 달의 다음 수업(없으면 첫 수업)을 선택한다.
+    function pickDate() {
+      var classes = sched.weeks.filter(function (x) { return x.date.slice(0, 7) === month; });
+      var upcoming = classes.filter(function (x) { return x.date >= today; })[0];
+      var pick = upcoming || classes[0];
+      return pick ? pick.date : month + "-01";
+    }
+
+    function goMonth(n) {
+      month = shiftMonth(month, n);
+      showDetail(pickDate());
+      drawMonth();
+    }
+    prev.addEventListener("click", function () { goMonth(-1); });
+    next.addEventListener("click", function () { goMonth(1); });
+
+    showDetail(pickDate());
+    drawMonth();
+
+    return h("div", { class: "calendar-block", id: "calendar" }, [
+      h("h3", { class: "section-title reveal", text: d.title }),
+      h("p", { class: "section-sub reveal", text: d.intro }),
+      h("div", { class: "calendar-layout reveal" }, [
+        h("div", { class: "card calendar" }, [
+          h("div", { class: "calendar-head" }, [prev, title, next]),
+          grid,
+          h("div", { class: "calendar-legend" }, [
+            h("span", { class: "legend-item" }, [h("span", { class: "legend-swatch" }), document.createTextNode(d.legendClass)]),
+            h("span", { class: "legend-item" }, [h("span", { class: "legend-swatch is-exam" }), document.createTextNode(d.legendExam)]),
+            h("span", { class: "legend-item" }, [h("span", { class: "legend-swatch is-due" }), document.createTextNode(d.legendDue)])
+          ])
+        ]),
+        detail
+      ])
+    ]);
+  }
+
+  function renderCurriculum() {
+    var d = C.curriculum;
+    var sched = buildSchedule();
+    var body = h("div", {}, [
+      h("ol", { class: "week-list" }, sched.weeks.map(renderWeek)),
+      renderCalendar(sched)
+    ]);
+    setInterval(function () {
+      dueUpdaters.forEach(function (update) { update(); });
+    }, 30000);
+    return section("curriculum", false, sectionHead(d), body);
+  }
+
+  function renderGuide() {
+    var d = C.guide;
+    return section("guide", true, sectionHead(d), h("div", { class: "guide-grid" }, [
+      h("article", { class: "card reveal" }, [
+        h("h3", { class: "card-title", text: d.infoTitle }),
+        infoList(d.info)
+      ]),
+      h("article", { class: "card reveal" }, [
+        h("h3", { class: "card-title", text: d.gradingTitle }),
+        h("p", { class: "grade-note", text: d.gradingNote }),
+        h("ul", { class: "grade-list" }, d.grading.map(function (g) {
+          var fill = h("span", {});
+          fill.style.width = g.percent + "%";
+          return h("li", {}, [
+            h("div", { class: "grade-head" }, [
+              h("span", { text: g.label }),
+              h("span", { class: "grade-value", text: g.percent + "%" })
+            ]),
+            h("div", { class: "grade-bar", "aria-hidden": "true" }, [fill])
+          ]);
+        }))
+      ])
+    ]));
+  }
+
+  function renderFaq() {
+    var d = C.faq;
+    return section("faq", false, sectionHead(d), h("div", { class: "faq-list" }, d.items.map(function (item) {
+      return h("details", { class: "faq-item reveal" }, [
+        h("summary", { text: item.q }),
+        h("p", { class: "faq-answer", text: item.a })
+      ]);
+    })));
+  }
+
+  function instructorPhoto(d) {
+    var glyph = h("div", { class: "instructor-glyph", lang: "zh-Hant", "aria-hidden": "true", text: d.glyph });
+    if (!d.photo) return glyph;
+    var img = h("img", { class: "instructor-photo", src: d.photo, alt: d.photoAlt });
+    // 사진을 찾지 못하면 한자 원형으로 되돌린다.
+    img.addEventListener("error", function () { img.replaceWith(glyph); });
+    return img;
+  }
+
+  function contactList(d) {
+    return h("dl", { class: "info-list" }, d.contacts.map(function (c) {
+      var value = c.email
+        ? h("a", { href: "mailto:" + c.email, text: c.email })
+        : document.createTextNode(c.value || d.emptyText);
+      return h("div", { class: "info-row" }, [
+        h("dt", { text: c.label }),
+        h("dd", {}, [value])
+      ]);
+    }));
+  }
+
+  function renderFooter() {
+    var d = C.instructor;
+    return h("footer", { class: "site-footer", id: "instructor" }, [
+      h("div", { class: "wrap" }, [
+        h("p", { class: "section-label", text: d.label }),
+        h("div", { class: "footer-profile" }, [
+          instructorPhoto(d),
+          h("div", {}, [
+            h("h2", { class: "instructor-name", text: d.name }),
+            h("p", { class: "instructor-role", text: d.role }),
+            h("p", { class: "instructor-bio", text: d.bio })
+          ]),
+          h("div", { class: "footer-contact" }, [
+            h("h3", { class: "card-title", text: d.contactTitle }),
+            contactList(d)
+          ])
+        ])
+      ]),
+      h("div", { class: "wrap footer-row" }, [
+        h("span", { text: C.footer.text }),
+        h("span", { text: C.footer.note })
+      ])
+    ]);
+  }
+
+  function setupToTop() {
+    var btn = h("button", { class: "to-top", type: "button", "aria-label": C.ui.toTop, title: C.ui.toTop });
+    btn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0 });
+    });
+    document.body.appendChild(btn);
+
+    var header = document.querySelector(".site-header");
+    function onScroll() {
+      var y = window.scrollY;
+      btn.classList.toggle("is-visible", y > 400);
+      header.classList.toggle("is-scrolled", y > 8);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  function setupActiveNav() {
+    var links = document.querySelectorAll("[data-nav]");
+    var targets = Array.prototype.slice.call(document.querySelectorAll("main > section, .site-footer"));
+    function update() {
+      var current = null;
+      var doc = document.documentElement;
+      if (window.scrollY + window.innerHeight >= doc.scrollHeight - 2) {
+        // 페이지 끝에서는 마지막 영역(푸터)이 화면 중앙에 오지 못해도 강조한다.
+        current = targets[targets.length - 1];
+      } else {
+        // 메뉴에 없는 섹션이 화면 중앙에 있으면 강조를 지운다.
+        var middle = window.innerHeight / 2;
+        current = targets.filter(function (t) {
+          var r = t.getBoundingClientRect();
+          return r.top <= middle && r.bottom > middle;
+        })[0];
+      }
+      links.forEach(function (link) {
+        var active = !!current && link.getAttribute("data-nav") === current.id;
+        link.classList.toggle("is-active", active);
+        if (active) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      });
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
+  function setupReveal() {
+    if (!("IntersectionObserver" in window)) return;
+    document.documentElement.classList.add("js-reveal");
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".reveal").forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+
+  function setupCountUp() {
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || !("IntersectionObserver" in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        var el = entry.target;
+        var end = Number(el.getAttribute("data-count"));
+        var start = performance.now();
+        function tick(now) {
+          var t = Math.min((now - start) / 900, 1);
+          el.textContent = String(Math.round(end * (1 - Math.pow(1 - t, 3))));
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll("[data-count]").forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+
+  document.title = C.meta.title;
+  var description = document.createElement("meta");
+  description.name = "description";
+  description.content = C.meta.description;
+  document.head.appendChild(description);
+  applyTheme(C.theme);
+
+  root.appendChild(h("a", { class: "skip", href: "#main", text: C.ui.skip }));
+  root.appendChild(renderHeader());
+  root.appendChild(h("main", { id: "main" }, [
+    renderHero(),
+    renderNotices(),
+    renderStats(),
+    renderAbout(),
+    renderPoll(),
+    renderCurriculum(),
+    renderGuide(),
+    renderApply(),
+    renderPortal(),
+    renderTools(),
+    renderPrepare(),
+    renderFaq()
+  ]));
+  root.appendChild(renderFooter());
+
+  setupToTop();
+  setupActiveNav();
+  setupReveal();
+  setupCountUp();
+  restoreAdminSession();
+  // QR로 들어온 학생은 입장 칸부터 보이게 한다. 글꼴·이미지로 위치가 바뀌므로 로드 후에도 맞춘다.
+  if (QUIZ_CODE) {
+    var scrollToQuiz = function () {
+      document.getElementById("quiz").scrollIntoView({ behavior: "instant" });
+    };
+    scrollToQuiz();
+    window.addEventListener("load", scrollToQuiz);
+  }
+  launchConfetti();
+  setupPopup();
+})();
+</script>
+</body>
+</html>
