@@ -1012,6 +1012,28 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .sentence-hanzi { font-size: 1.2rem; font-weight: 700; line-height: 1.5; }
 .sentence-korean { line-height: 1.5; }
 .sentence-point { color: var(--muted); font-size: 0.82rem; }
+.dig-anim { display: block; width: 132px; }
+.dig-anim[hidden] { display: none; }
+.dig-anim svg { display: block; overflow: visible; }
+.dig-ground { stroke: #8a5a2b; stroke-width: 3; }
+.dig-pile { fill: #8a5a2b; transform-origin: 107px 62px; animation: dig-pile 4.8s ease-in-out infinite; }
+.dig-dirt { fill: #8a5a2b; opacity: 0; animation: dig-dirt 1.2s ease-out infinite; }
+.dig-dirt.d2 { animation-delay: 0.06s; }
+.dig-dirt.d3 { animation-delay: 0.12s; }
+.dig-line { stroke: var(--primary); stroke-width: 4; }
+.dig-skin { fill: #e8b98f; }
+.dig-hat { fill: #c98f3c; }
+.dig-handle { stroke: #6b4a2a; stroke-width: 3; }
+.dig-blade { fill: #6f7c80; }
+.dig-worker { transform-origin: 34px 42px; animation: dig-worker 1.2s ease-in-out infinite; }
+.dig-tool { transform-origin: 36px 28px; animation: dig-tool 1.2s ease-in-out infinite; }
+@keyframes dig-worker { 0%, 100% { transform: rotate(0deg); } 40% { transform: rotate(10deg); } 70% { transform: rotate(-5deg); } }
+@keyframes dig-tool { 0%, 100% { transform: rotate(-6deg); } 40% { transform: rotate(8deg); } 70% { transform: rotate(-34deg); } }
+@keyframes dig-dirt { 0%, 50% { opacity: 0; transform: translate(0, 0); } 60% { opacity: 1; transform: translate(4px, -12px); } 80% { opacity: 1; transform: translate(20px, -20px); } 100% { opacity: 0; transform: translate(34px, 2px); } }
+@keyframes dig-pile { 0%, 100% { transform: scale(0.85); } 50% { transform: scale(1.1); } }
+@media (prefers-reduced-motion: reduce) {
+  .dig-pile, .dig-dirt, .dig-worker, .dig-tool { animation: none; }
+}
 .source-name { min-width: 0; overflow-wrap: anywhere; }
 .lecture-sections { display: grid; gap: 14px; }
 .lecture-section { display: grid; gap: 8px; padding: 14px; border-radius: 14px; background: var(--bg); box-shadow: var(--shadow-small); }
@@ -1181,7 +1203,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.21",
+  version: "1.0.22",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -2477,6 +2499,26 @@ window.SITE_CONFIG = {
     return attempt(0);
   }
 
+  // AI가 만드는 동안 보여 주는 삽질 애니메이션. 진행 상황은 옆의 글자로 알린다.
+  var DIG_SVG = '<svg viewBox="0 0 132 72" width="132" height="72" fill="none" stroke-linecap="round" stroke-linejoin="round">'
+    + '<path class="dig-ground" d="M4 62H128"/>'
+    + '<path class="dig-pile" d="M92 62c4-14 24-14 30 0z"/>'
+    + '<circle class="dig-dirt d1" cx="74" cy="54" r="2.6"/><circle class="dig-dirt d2" cx="72" cy="56" r="2"/><circle class="dig-dirt d3" cx="76" cy="56" r="2.2"/>'
+    + '<g class="dig-worker">'
+    + '<circle class="dig-skin" cx="36" cy="16" r="7"/>'
+    + '<path class="dig-hat" d="M28 14c1-9 15-9 16 0z"/>'
+    + '<path class="dig-line" d="M36 23L34 42"/>'
+    + '<g class="dig-tool"><path class="dig-line" d="M36 28L52 40"/><path class="dig-handle" d="M44 28L72 52"/><path class="dig-blade" d="M70 49l9 2 1 9-10-3z"/></g>'
+    + '</g>'
+    + '<path class="dig-line" d="M34 42L26 62M34 42L44 62"/>'
+    + '</svg>';
+
+  function diggingAnimation() {
+    var box = h("span", { class: "dig-anim", "aria-hidden": "true" });
+    box.innerHTML = DIG_SVG;
+    return box;
+  }
+
   function generateQuestions(topic, count, level) {
     var schema = {
       type: "object",
@@ -2588,11 +2630,14 @@ window.SITE_CONFIG = {
     });
     var status = h("p", { class: "submit-note", role: "status" });
     var make = h("button", { class: "btn btn-primary btn-small", type: "button", text: "AI로 문제 출제" });
+    var digging = diggingAnimation();
+    digging.hidden = true;
     make.addEventListener("click", function () {
       var n = Math.min(20, Math.max(1, Number(count.value) || 5));
       if (!topic.value.trim()) { status.textContent = "주제를 입력해 주세요."; return; }
       if (!aiProviders().length) { status.textContent = "관리자 화면에서 AI 키를 등록하거나, 아래의 프롬프트 복사를 이용해 주세요."; return; }
       make.disabled = true;
+      digging.hidden = false;
       status.textContent = "AI가 문제를 만들고 있습니다. 잠시 기다려 주세요.";
       generateQuestions(topic.value.trim(), n, level.value).then(function (result) {
         replaceBank(result.result);
@@ -2602,6 +2647,7 @@ window.SITE_CONFIG = {
         status.textContent = e.message;
       }).then(function () {
         make.disabled = false;
+        digging.hidden = true;
       });
     });
 
@@ -2662,6 +2708,7 @@ window.SITE_CONFIG = {
           ])
         ]),
         h("div", {}, [make]),
+        digging,
         status,
         h("div", { class: "field" }, [h("label", { class: "field-label", for: "quiz-json", text: "키가 없으면: 프롬프트를 복사해 다른 AI에 넣고 답을 붙여 넣기" }), paste]),
         h("div", { class: "admin-buttons" }, [copy, load])
@@ -5194,6 +5241,7 @@ window.SITE_CONFIG = {
       }
       return h("div", { class: "week-toolbar" }, [
         h("div", { class: "admin-buttons" }, [all, one]),
+        busy ? diggingAnimation() : null,
         h("p", { class: "submit-note", role: "status", text: message }),
         h("p", { class: "submit-note", text: "만든 자료는 이 브라우저에만 저장됩니다. 수강생에게 공개하려면 관리자 화면의 설정 파일 탭에서 " + WEEK_FILE + "을 내려받아 사이트 폴더에 올려 주세요." })
       ]);
