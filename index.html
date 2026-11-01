@@ -795,7 +795,7 @@ a { color: inherit; }
 .poll-fill { display: block; height: 100%; border-radius: 4px; background: var(--primary); transition: width 0.45s var(--ease); }
 .poll-total { margin-top: 12px; padding-inline: 14px; color: var(--muted); font-size: 0.92rem; }
 
-/* 수강 신청 */
+/* 회원가입 */
 .apply-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
 .apply-form > .field:last-child { justify-items: start; }
 .apply-form .form-summary { width: 100%; }
@@ -1082,7 +1082,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.4",
+  version: "1.0.8",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -1115,7 +1115,7 @@ window.SITE_CONFIG = {
     { id: "poll", label: "주제 투표" },
     { id: "curriculum", label: "커리큘럼" },
     { id: "guide", label: "수강 안내" },
-    { id: "apply", label: "수강 신청" },
+    { id: "apply", label: "회원가입" },
     { id: "portal", label: "출석·과제" },
     { id: "faq", label: "FAQ" },
     { id: "instructor", label: "교수자" }
@@ -1126,8 +1126,8 @@ window.SITE_CONFIG = {
     title: "교양중국어",
     subtitle: "AI 기반 데이터 활용능력 배양",
     lead: "발음의 첫 소리부터 일상 대화까지 중국어 기초를 익히고, 생성형 AI로 중국어 자료를 찾고 정리하며 학습에 활용하는 방법을 함께 실습합니다.",
-    // 수강 신청 버튼의 이동 위치: 신청 페이지가 생기면 target 대신 url에 주소를 넣으세요.
-    primaryAction: { label: "수강 신청", target: "apply", url: "" },
+    // 회원가입 버튼의 이동 위치: 가입 페이지가 생기면 target 대신 url에 주소를 넣으세요.
+    primaryAction: { label: "회원가입", target: "apply", url: "" },
     secondaryAction: { label: "커리큘럼 보기", target: "curriculum" },
     phrase: { hanzi: "你好", pinyin: "nǐ hǎo", meaning: "안녕하세요" },
     glyph: "春",
@@ -1283,7 +1283,7 @@ window.SITE_CONFIG = {
   // 공지는 관리자 화면에서 올립니다. 비어 있으면 공지 영역이 나타나지 않습니다.
   notices: [],
 
-  // 서버가 없는 체험 모드입니다. 투표·신청·출석·제출 기록은 보는 사람의 브라우저에만 저장됩니다.
+  // 서버가 없는 체험 모드입니다. 투표·가입·출석·제출 기록은 보는 사람의 브라우저에만 저장됩니다.
   // 실제 운영에는 서버 연결이 필요합니다. allowAnyDay, ignoreDeadlines는 체험을 위해 날짜 제한을 푸는 값입니다.
   backend: {
     mode: "demo",
@@ -1309,24 +1309,29 @@ window.SITE_CONFIG = {
   },
 
   apply: {
-    label: "수강 신청",
-    title: "수강 신청서",
+    label: "회원가입",
+    title: "회원가입",
     intro: "* 표시는 필수 항목입니다.",
-    submit: "신청서 제출",
+    submit: "가입하기",
     summary: "다음 항목을 확인해 주세요.",
     required: "을(를) 입력해 주세요.",
     requiredSelect: "을(를) 선택해 주세요.",
-    duplicate: "이미 이 학번으로 신청했습니다.",
-    success: "님의 수강 신청이 접수되었습니다.",
-    another: "다른 신청서 작성",
+    duplicate: "이미 이 학번으로 가입했습니다.",
+    duplicateId: "이미 사용 중인 ID입니다.",
+    hashFailed: "PW를 처리하지 못했습니다. https 주소에서 다시 시도해 주세요.",
+    success: "님의 회원가입이 접수되었습니다.",
+    another: "다른 회원 가입",
     fields: [
+      { name: "memberId", label: "ID", type: "text", required: true, autocomplete: "username", pattern: "^[A-Za-z0-9_]{4,20}$", patternMessage: "ID는 영문, 숫자, 밑줄로 4~20자 입력해 주세요." },
+      // secret 항목은 원문을 저장하지 않고 해시만 저장하며, 관리자 내역과 CSV에도 나오지 않습니다.
+      { name: "password", label: "PW", type: "password", required: true, secret: true, autocomplete: "new-password", pattern: "^.{8,}$", patternMessage: "PW는 8자 이상 입력해 주세요." },
       { name: "name", label: "이름", type: "text", required: true, autocomplete: "name" },
       { name: "studentId", label: "학번", type: "text", required: true, inputmode: "numeric", pattern: "^[0-9]{7,10}$", patternMessage: "학번은 숫자 7~10자리로 입력해 주세요." },
       { name: "department", label: "소속 학과", type: "text", required: true },
       { name: "year", label: "학년", type: "select", required: true, placeholder: "선택", options: ["1학년", "2학년", "3학년", "4학년", "기타"] },
       { name: "email", label: "이메일", type: "email", required: true, full: true, autocomplete: "email", pattern: "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", patternMessage: "이메일 형식이 올바르지 않습니다." },
-      { name: "motivation", label: "수강 동기", type: "textarea", required: true, full: true, rows: 4 },
-      { name: "consent", label: "수강 신청 처리를 위한 개인정보 수집·이용에 동의합니다.", shortLabel: "개인정보 동의", type: "checkbox", required: true, full: true, requiredMessage: "개인정보 수집·이용에 동의해 주세요." }
+      { name: "phone", label: "휴대폰", type: "tel", required: true, full: true, inputmode: "tel", autocomplete: "tel", pattern: "^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$", patternMessage: "휴대폰 번호를 010-1234-5678 형식으로 입력해 주세요." },
+      { name: "consent", label: "회원가입 처리를 위한 개인정보 수집·이용에 동의합니다.", shortLabel: "개인정보 동의", type: "checkbox", required: true, full: true, requiredMessage: "개인정보 수집·이용에 동의해 주세요." }
     ]
   },
 
@@ -1334,16 +1339,17 @@ window.SITE_CONFIG = {
     label: "출석·과제",
     title: "수강생 공간",
     intro: "로그인하면 출석을 체크하고 과제 파일을 제출할 수 있습니다.",
-    // 체험용 명단입니다. 비밀번호가 없어 실제 본인 확인 기능은 아닙니다.
+    // 교수자가 관리하는 명단입니다. 로그인은 회원가입한 ID·PW로 합니다(서버가 없어 가입한 브라우저에서만 가능).
     roster: [{ id: "2026000001", name: "체험학생" }],
     loginTitle: "로그인",
-    idLabel: "학번",
-    nameLabel: "이름",
+    idLabel: "ID",
+    pwLabel: "PW",
     login: "로그인",
     logout: "로그아웃",
-    demoHint: "체험용 계정: 학번 2026000001 / 이름 체험학생",
-    loginEmpty: "학번과 이름을 모두 입력해 주세요.",
-    loginFailed: "명단에서 일치하는 수강생을 찾지 못했습니다.",
+    loginHint: "계정이 없으면 위의 회원가입에서 먼저 가입해 주세요. 가입 정보는 가입한 브라우저에만 저장되므로 그 브라우저에서 로그인해야 합니다.",
+    loginEmpty: "ID와 PW를 모두 입력해 주세요.",
+    loginFailed: "ID 또는 PW가 올바르지 않습니다.",
+    loginUnavailable: "로그인을 처리하지 못했습니다. https 주소에서 다시 시도해 주세요.",
     welcome: "님, 환영합니다.",
     attendanceTitle: "출석 체크",
     attendButton: "주차 출석하기",
@@ -1389,9 +1395,9 @@ window.SITE_CONFIG = {
 
   popup: {
     delayMs: 2500,
-    title: "수강 신청 접수 안내",
-    text: "「교양중국어」 수강 신청을 받고 있습니다. 신청서를 작성해 주세요.",
-    action: "수강 신청하러 가기",
+    title: "회원가입 안내",
+    text: "「교양중국어」 회원가입을 받고 있습니다. 가입 양식을 작성해 주세요.",
+    action: "회원가입하러 가기",
     target: "apply",
     hideToday: "오늘 하루 보지 않기",
     close: "닫기"
@@ -1869,6 +1875,12 @@ window.SITE_CONFIG = {
         setError(idField, d.duplicate);
         problems.push({ field: idField, message: d.duplicate });
       }
+      var memberId = form.elements.memberId.value.trim().toLowerCase();
+      if (!problems.length && applications.some(function (a) { return String(a.memberId || "").toLowerCase() === memberId; })) {
+        var memberField = d.fields.filter(function (f) { return f.name === "memberId"; })[0];
+        setError(memberField, d.duplicateId);
+        problems.push({ field: memberField, message: d.duplicateId });
+      }
       showSummary(problems);
       if (problems.length) {
         form.elements[problems[0].field.name].focus();
@@ -1877,23 +1889,38 @@ window.SITE_CONFIG = {
       var record = { submittedAt: new Date().toISOString() };
       d.fields.forEach(function (f) {
         var control = form.elements[f.name];
+        if (f.secret) return;
         record[f.name] = f.type === "checkbox" ? control.checked : control.value.trim();
       });
-      applications.push(record);
-      store.set("applications", applications);
-
-      var again = h("button", { class: "btn btn-ghost", type: "button", text: d.another });
-      var done = h("div", { class: "form-success", role: "status", tabindex: "-1" }, [
-        h("p", { class: "card-title", text: record.name + d.success }),
-        again
-      ]);
-      again.addEventListener("click", function () {
+      var submitBtn = form.querySelector('button[type="submit"]');
+      var salt = bytesToHex(crypto.getRandomValues(new Uint8Array(16)));
+      submitBtn.disabled = true;
+      Promise.resolve().then(function () {
+        return derivePassword(form.elements.password.value, salt, C.admin.iterations);
+      }).then(function (hash) {
+        record.passwordSalt = salt;
+        record.passwordIterations = C.admin.iterations;
+        record.passwordHash = hash;
+        applications.push(record);
+        store.set("applications", applications);
         form.reset();
-        card.replaceChild(form, done);
-        form.elements[d.fields[0].name].focus();
+
+        var again = h("button", { class: "btn btn-ghost", type: "button", text: d.another });
+        var done = h("div", { class: "form-success", role: "status", tabindex: "-1" }, [
+          h("p", { class: "card-title", text: record.name + d.success }),
+          again
+        ]);
+        again.addEventListener("click", function () {
+          card.replaceChild(form, done);
+          form.elements[d.fields[0].name].focus();
+        });
+        card.replaceChild(done, form);
+        done.focus();
+      }).catch(function () {
+        showSummary([{ message: d.hashFailed }]);
+      }).then(function () {
+        submitBtn.disabled = false;
       });
-      card.replaceChild(done, form);
-      done.focus();
     });
 
     return section("apply", false, sectionHead(d), h("div", {}, [demoNotice(), card]));
@@ -1920,30 +1947,45 @@ window.SITE_CONFIG = {
 
   function renderLogin(d, onLogin) {
     var message = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
-    var id = h("input", { id: "login-id", type: "text", inputmode: "numeric", autocomplete: "off" });
-    var name = h("input", { id: "login-name", type: "text", autocomplete: "off" });
+    var id = h("input", { id: "login-id", type: "text", autocomplete: "username" });
+    var pw = h("input", { id: "login-pw", type: "password", autocomplete: "current-password" });
+    var submit = h("button", { class: "btn btn-primary", type: "submit", text: d.login });
     var form = h("form", { class: "card login-card", novalidate: "novalidate" }, [
       h("h3", { class: "card-title", text: d.loginTitle }),
       h("div", { class: "field" }, [h("label", { class: "field-label", for: "login-id", text: d.idLabel }), id]),
-      h("div", { class: "field" }, [h("label", { class: "field-label", for: "login-name", text: d.nameLabel }), name]),
+      h("div", { class: "field" }, [h("label", { class: "field-label", for: "login-pw", text: d.pwLabel }), pw]),
       message,
-      h("button", { class: "btn btn-primary", type: "submit", text: d.login }),
-      // 체험 계정이 명단에 남아 있을 때만 안내한다.
-      d.roster.some(function (s) { return d.demoHint.indexOf(s.id) >= 0; }) ? h("p", { class: "submit-note", text: d.demoHint }) : null
+      submit,
+      h("p", { class: "submit-note", text: d.loginHint })
     ]);
+    function fail(error) {
+      message.textContent = error;
+      message.hidden = false;
+      pw.value = "";
+    }
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var idValue = id.value.trim();
-      var nameValue = name.value.trim();
-      var error = "";
-      var student = d.roster.filter(function (s) { return s.id === idValue && s.name === nameValue; })[0];
-      if (!idValue || !nameValue) error = d.loginEmpty;
-      else if (!student) error = d.loginFailed;
-      message.textContent = error;
-      message.hidden = !error;
-      if (error) return;
-      store.set("session", student);
-      onLogin();
+      var idValue = id.value.trim().toLowerCase();
+      if (!idValue || !pw.value) return fail(d.loginEmpty);
+      var member = store.get("applications", []).filter(function (a) {
+        return String(a.memberId || "").toLowerCase() === idValue && a.passwordHash;
+      })[0];
+      if (!member) return fail(d.loginFailed);
+      submit.disabled = true;
+      Promise.resolve().then(function () {
+        return derivePassword(pw.value, member.passwordSalt, member.passwordIterations);
+      }).then(function (hash) {
+        if (hash !== member.passwordHash) return fail(d.loginFailed);
+        message.hidden = true;
+        pw.value = "";
+        // 출석·과제 기록은 지금처럼 학번을 기준으로 저장한다.
+        store.set("session", { id: member.studentId, name: member.name, memberId: member.memberId });
+        onLogin();
+      }).catch(function () {
+        fail(d.loginUnavailable);
+      }).then(function () {
+        submit.disabled = false;
+      });
     });
     return form;
   }
@@ -2076,6 +2118,11 @@ window.SITE_CONFIG = {
     function draw(attendFlash, submitFlash) {
       var student = store.get("session", null);
       box.textContent = "";
+      // 예전 학번·이름 방식으로 로그인한 상태는 PW 확인을 거치지 않았으므로 끝낸다.
+      if (student && !student.memberId) {
+        localStorage.removeItem("kc.session");
+        student = null;
+      }
       if (!student) {
         box.appendChild(renderLogin(d, function () {
           draw();
@@ -3208,7 +3255,7 @@ window.SITE_CONFIG = {
     { label: "주제 투표", keys: ["poll"] },
     { label: "커리큘럼·일정", keys: ["curriculum"] },
     { label: "수강 안내", keys: ["guide"] },
-    { label: "수강 신청서", keys: ["apply"] },
+    { label: "회원가입", keys: ["apply"] },
     { label: "출석·과제", keys: ["portal"] },
     { label: "실습 도구", keys: ["tools"] },
     { label: "수강 준비물", keys: ["prepare"] },
@@ -3221,7 +3268,7 @@ window.SITE_CONFIG = {
   var FIELD_LABELS = {
     meta: "페이지 정보", brand: "로고 영역", nav: "메뉴", theme: "색상", footer: "푸터 문구", ui: "기본 문구",
     hero: "첫 화면", stats: "통계 카드", about: "프로그램 소개", poll: "주제 투표", curriculum: "커리큘럼", guide: "수강 안내",
-    apply: "수강 신청서", portal: "출석·과제", tools: "실습 도구", prepare: "수강 준비물", faq: "FAQ", instructor: "교수자",
+    apply: "회원가입", portal: "출석·과제", tools: "실습 도구", prepare: "수강 준비물", faq: "FAQ", instructor: "교수자",
     popup: "팝업", backend: "운영 모드",
     title: "제목", description: "설명", label: "이름표", text: "내용", value: "값", suffix: "단위", glyph: "한자 글자", org: "기관명", name: "이름",
     badge: "배지", subtitle: "부제", lead: "설명문", primaryAction: "주 버튼", secondaryAction: "보조 버튼", url: "연결 주소",
@@ -3239,7 +3286,7 @@ window.SITE_CONFIG = {
     quiz: "실시간 퀴즈", defaultLimit: "기본 제한 시간(초)", ai: "AI 출제", model: "모델 ID", samples: "기본 문제",
     choices: "보기", answer: "정답 번호(0부터)", limit: "제한 시간(초)"
   };
-  var HIDDEN_FIELDS = ["id", "target", "week", "valueFrom", "pattern", "autocomplete", "inputmode", "type", "full", "rows", "required", "shortLabel", "mode", "roster"];
+  var HIDDEN_FIELDS = ["id", "target", "week", "valueFrom", "pattern", "autocomplete", "inputmode", "type", "full", "rows", "required", "shortLabel", "mode", "roster", "secret"];
   var LOCKED_ARRAYS = ["nav", "fields"];
   var LONG_FIELDS = ["text", "lead", "a", "note", "intro", "bio", "notice", "description"];
   var ARRAY_TEMPLATES = {
@@ -3344,7 +3391,7 @@ window.SITE_CONFIG = {
       box.textContent = "";
       Object.keys(obj).forEach(function (key) {
         if (HIDDEN_FIELDS.indexOf(key) >= 0) return;
-        // 신청서 항목의 name은 기능과 연결된 값이므로 숨긴다.
+        // 가입 양식 항목의 name은 기능과 연결된 값이므로 숨긴다.
         if (key === "name" && parentKey === "fields") return;
         var value = obj[key];
         if (Array.isArray(value)) {
@@ -3467,6 +3514,7 @@ window.SITE_CONFIG = {
       return h("li", {}, [h("span", { text: s.id + " · " + s.name }), del]);
     }));
     return [
+      h("p", { class: "demo-notice", text: "로그인은 회원가입한 ID·PW로 합니다. 명단에 없어도 가입하면 로그인할 수 있으며, 이 명단은 출석 내역 표시에 쓰입니다." }),
       h("p", { class: "demo-notice", text: "주의: 명단은 사이트 파일에 함께 들어갑니다. 공개 주소에 배포하면 누구나 학번과 이름을 볼 수 있으니, 실제 명단은 서버를 연결한 뒤 사용하세요." }),
       h("div", { class: "field" }, [
         h("label", { class: "field-label", for: "roster-input", text: "한 줄에 한 명씩 \"학번,이름\"" }),
@@ -3525,7 +3573,9 @@ window.SITE_CONFIG = {
   }
   function studentName(id) {
     var s = C.portal.roster.filter(function (x) { return x.id === id; })[0];
-    return s ? s.name : "";
+    if (s) return s.name;
+    var member = store.get("applications", []).filter(function (a) { return a.studentId === id; })[0];
+    return member ? member.name : "";
   }
   function recordsNotice() {
     return h("p", { class: "demo-notice", text: "체험 모드에서는 이 브라우저에 저장된 기록만 보입니다. 수강생이 각자 기기에서 입력한 내용은 서버를 연결해야 모을 수 있습니다." });
@@ -3538,17 +3588,17 @@ window.SITE_CONFIG = {
   }
 
   function adminApplyTab() {
-    var fields = C.apply.fields;
+    var fields = C.apply.fields.filter(function (f) { return !f.secret; });
     var headers = fields.map(function (f) { return f.shortLabel || f.label; }).concat(["제출 시각"]);
     var rows = store.get("applications", []).map(function (a) {
       return fields.map(function (f) {
-        return f.type === "checkbox" ? (a[f.name] ? "예" : "아니오") : a[f.name];
+        return f.type === "checkbox" ? (a[f.name] ? "예" : "아니오") : (a[f.name] || "");
       }).concat([formatStamp(a.submittedAt)]);
     });
     return [
       recordsNotice(),
-      h("div", {}, [downloadButton("엑셀용 CSV 내려받기", function () { downloadCsv("수강신청내역", headers, rows); }, !rows.length)]),
-      dataTable(headers, rows, "아직 수강 신청이 없습니다.")
+      h("div", {}, [downloadButton("엑셀용 CSV 내려받기", function () { downloadCsv("회원가입내역", headers, rows); }, !rows.length)]),
+      dataTable(headers, rows, "아직 회원가입 내역이 없습니다.")
     ];
   }
 
@@ -3746,7 +3796,7 @@ window.SITE_CONFIG = {
     { id: "edit", label: "내용 편집", render: adminEditTab },
     { id: "roster", label: "수강생 명단", render: adminRosterTab },
     { id: "notice", label: "공지", render: adminNoticeTab },
-    { id: "apply", label: "신청 내역", render: adminApplyTab },
+    { id: "apply", label: "가입 내역", render: adminApplyTab },
     { id: "attendance", label: "출석", render: adminAttendanceTab },
     { id: "submission", label: "과제", render: adminSubmissionTab },
     { id: "ai", label: "AI 키", render: adminAiTab },
