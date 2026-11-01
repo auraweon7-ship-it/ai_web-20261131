@@ -684,6 +684,9 @@ a { color: inherit; }
 
 /* 관리자 */
 .header-actions { display: flex; flex: none; align-items: center; gap: 8px; }
+.header-login { display: flex; align-items: center; gap: 8px; }
+.header-login .btn { min-height: 44px; padding: 0 14px; font-family: inherit; white-space: nowrap; cursor: pointer; }
+.header-login-name { max-width: 8em; overflow: hidden; color: var(--primary-deep); font-size: 0.9rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
 .lock-btn {
   display: grid;
   place-items: center;
@@ -984,7 +987,15 @@ button.quiz-choice:hover { transform: translateY(-2px); }
   .quiz-lobby .quiz-qr { justify-self: center; }
   .footer-profile { grid-template-columns: minmax(0, 1fr); }
   .site-footer { padding-bottom: 84px; }
+  .header-login-name, .brand-org { display: none; }
+  .brand-name { display: flex; flex-direction: column; line-height: 1.2; white-space: nowrap; }
+  .site-version { margin-left: 0; }
+  .header-login .btn { padding: 0 10px; }
   .info-row { grid-template-columns: 6.5em minmax(0, 1fr); }
+}
+
+@media (max-width: 370px) {
+  .brand-text { display: none; }
 }
 
 /* 소프트 UI: 같은 크림색 면을 빛과 그림자로 띄우거나 파낸다 */
@@ -1096,7 +1107,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.18",
+  version: "1.0.19",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -1124,7 +1135,7 @@ window.SITE_CONFIG = {
 
   // id는 아래 각 섹션과 연결되므로 label만 고치세요.
   nav: [
-    { id: "about", label: "프로그램 소개" },
+    { id: "about", label: "강의 소개" },
     { id: "poll", label: "주제 투표" },
     { id: "curriculum", label: "커리큘럼" },
     { id: "guide", label: "수강 안내" },
@@ -1164,7 +1175,7 @@ window.SITE_CONFIG = {
   },
 
   about: {
-    label: "프로그램 소개",
+    label: "강의 소개",
     title: "✨ 이 강의의 장점",
     intro: "좌우로 넘기며 살펴보세요.",
     prevLabel: "이전 장점",
@@ -1357,7 +1368,7 @@ window.SITE_CONFIG = {
     pwLabel: "PW",
     login: "로그인",
     logout: "로그아웃",
-    loginHint: "계정이 없으면 위의 회원가입에서 먼저 가입해 주세요. 가입 정보는 가입한 브라우저에만 저장되므로 그 브라우저에서 로그인해야 합니다.",
+    loginHint: "계정이 없으면 메뉴의 회원가입에서 먼저 가입해 주세요. 가입 정보는 가입한 브라우저에만 저장되므로 그 브라우저에서 로그인해야 합니다.",
     loginEmpty: "ID와 PW를 모두 입력해 주세요.",
     loginFailed: "ID 또는 PW가 올바르지 않습니다.",
     loginUnavailable: "로그인을 처리하지 못했습니다. https 주소에서 다시 시도해 주세요.",
@@ -1634,7 +1645,7 @@ window.SITE_CONFIG = {
           ])
         ]),
         nav,
-        h("div", { class: "header-actions" }, [renderLockButton(), toggle])
+        h("div", { class: "header-actions" }, [renderHeaderLogin(), renderLockButton(), toggle])
       ])
     ]);
     return header;
@@ -1970,6 +1981,63 @@ window.SITE_CONFIG = {
 
   var pendingSubmitWeek = null;
   var refreshPortal = function () {};
+  var refreshHeaderLogin = function () {};
+
+  // 예전 학번·이름 방식으로 로그인한 상태는 PW 확인을 거치지 않았으므로 끝낸다.
+  function currentStudent() {
+    var student = store.get("session", null);
+    if (student && !student.memberId) {
+      localStorage.removeItem("kc.session");
+      return null;
+    }
+    return student;
+  }
+
+  function renderHeaderLogin() {
+    var d = C.portal;
+    var box = h("div", { class: "header-login" });
+    function draw() {
+      var student = currentStudent();
+      box.textContent = "";
+      if (!student) {
+        var login = h("button", { class: "btn btn-primary btn-small", type: "button", text: d.login });
+        login.addEventListener("click", openStudentLogin);
+        box.appendChild(login);
+        return;
+      }
+      var logout = h("button", { class: "btn btn-ghost btn-small", type: "button", text: d.logout });
+      logout.addEventListener("click", function () {
+        localStorage.removeItem("kc.session");
+        refreshHeaderLogin();
+        refreshPortal();
+        box.querySelector("button").focus();
+      });
+      box.appendChild(h("span", { class: "header-login-name", text: student.name }));
+      box.appendChild(logout);
+    }
+    refreshHeaderLogin = draw;
+    draw();
+    return box;
+  }
+
+  function openStudentLogin() {
+    if (document.querySelector("dialog[open]")) return;
+    var dialog = h("dialog", { class: "popup", "aria-label": C.portal.loginTitle });
+    var form = renderLogin(C.portal, function () {
+      dialog.close();
+      refreshHeaderLogin();
+      refreshPortal();
+      document.getElementById("portal").scrollIntoView();
+      document.querySelector(".portal-bar p").focus({ preventScroll: true });
+    });
+    var cancel = h("button", { class: "btn btn-ghost", type: "button", text: "취소" });
+    cancel.addEventListener("click", function () { dialog.close(); });
+    form.insertBefore(cancel, form.querySelector(".submit-note"));
+    dialog.appendChild(form);
+    dialog.addEventListener("close", function () { dialog.remove(); });
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  }
 
   function goToSubmit(week) {
     pendingSubmitWeek = week;
@@ -1992,7 +2060,7 @@ window.SITE_CONFIG = {
     var id = h("input", { id: "login-id", type: "text", autocomplete: "username" });
     var pw = h("input", { id: "login-pw", type: "password", autocomplete: "current-password" });
     var submit = h("button", { class: "btn btn-primary", type: "submit", text: d.login });
-    var form = h("form", { class: "card login-card", novalidate: "novalidate" }, [
+    var form = h("form", { class: "login-card", novalidate: "novalidate" }, [
       h("h3", { class: "card-title", text: d.loginTitle }),
       h("div", { class: "field" }, [h("label", { class: "field-label", for: "login-id", text: d.idLabel }), id]),
       h("div", { class: "field" }, [h("label", { class: "field-label", for: "login-pw", text: d.pwLabel }), pw]),
@@ -2158,28 +2226,19 @@ window.SITE_CONFIG = {
     var box = h("div", { class: "reveal" });
 
     function draw(attendFlash, submitFlash) {
-      var student = store.get("session", null);
+      var student = currentStudent();
       box.textContent = "";
-      // 예전 학번·이름 방식으로 로그인한 상태는 PW 확인을 거치지 않았으므로 끝낸다.
-      if (student && !student.memberId) {
-        localStorage.removeItem("kc.session");
-        student = null;
-      }
       if (!student) {
-        box.appendChild(renderLogin(d, function () {
-          draw();
-          box.querySelector(".portal-bar button").focus();
-        }));
+        var login = h("button", { class: "btn btn-primary", type: "button", text: d.login });
+        login.addEventListener("click", openStudentLogin);
+        box.appendChild(h("div", { class: "card login-card" }, [
+          h("p", { class: "card-text", text: "화면 맨 위의 로그인 버튼이나 아래 버튼으로 로그인해 주세요." }),
+          login
+        ]));
         return;
       }
-      var logout = h("button", { class: "btn btn-ghost btn-small", type: "button", text: d.logout });
-      logout.addEventListener("click", function () {
-        localStorage.removeItem("kc.session");
-        draw();
-      });
       box.appendChild(h("div", { class: "portal-bar" }, [
-        h("p", { class: "card-title", text: student.name + d.welcome }),
-        logout
+        h("p", { class: "card-title", tabindex: "-1", text: student.name + d.welcome })
       ]));
       box.appendChild(h("div", { class: "portal-grid" }, [
         renderAttendance(d, student, sched, draw, attendFlash),
@@ -3369,7 +3428,7 @@ window.SITE_CONFIG = {
   var EDIT_SECTIONS = [
     { label: "사이트 정보", keys: ["meta", "brand", "nav", "theme", "footer", "ui"] },
     { label: "첫 화면", keys: ["hero", "stats"] },
-    { label: "프로그램 소개", keys: ["about"] },
+    { label: "강의 소개", keys: ["about"] },
     { label: "주제 투표", keys: ["poll"] },
     { label: "커리큘럼·일정", keys: ["curriculum"] },
     { label: "수강 안내", keys: ["guide"] },
@@ -3385,7 +3444,7 @@ window.SITE_CONFIG = {
   ];
   var FIELD_LABELS = {
     meta: "페이지 정보", brand: "로고 영역", nav: "메뉴", theme: "색상", footer: "푸터 문구", ui: "기본 문구",
-    hero: "첫 화면", stats: "통계 카드", about: "프로그램 소개", poll: "주제 투표", curriculum: "커리큘럼", guide: "수강 안내",
+    hero: "첫 화면", stats: "통계 카드", about: "강의 소개", poll: "주제 투표", curriculum: "커리큘럼", guide: "수강 안내",
     apply: "회원가입", portal: "출석·과제", tools: "실습 도구", prepare: "수강 준비물", faq: "FAQ", instructor: "교수자",
     popup: "팝업", backend: "운영 모드",
     hint: "입력 예시", worksTitle: "저서 제목", works: "저서 목록", prefix: "앞 문구", links: "연결 목록", tel: "전화번호", title: "제목", description: "설명", label: "이름표", text: "내용", value: "값", suffix: "단위", glyph: "한자 글자", org: "기관명", name: "이름",
