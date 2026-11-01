@@ -1051,6 +1051,8 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .online-question { font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; }
 .online-input { display: grid; gap: 6px; }
 .online-input input[type="text"] { max-width: 180px; }
+.online-feedback:empty { display: none; }
+.online-feedback { padding: 12px 14px; border-radius: 14px; box-shadow: var(--shadow-inset); font-weight: 700; line-height: 1.6; }
 .online-result:empty { display: none; }
 .online-result { font-size: 0.92rem; font-weight: 700; line-height: 1.5; }
 .online-result.is-right { color: var(--primary); }
@@ -1204,7 +1206,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.24",
+  version: "1.0.25",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -3302,6 +3304,10 @@ window.SITE_CONFIG = {
   function launchConfetti() {
     if (QUIZ_CODE || store.get("visited", false)) return;
     store.set("visited", true);
+    fireConfetti();
+  }
+
+  function fireConfetti() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var canvas = h("canvas", { class: "confetti", "aria-hidden": "true" });
     document.body.appendChild(canvas);
@@ -4981,6 +4987,16 @@ window.SITE_CONFIG = {
     };
   }
 
+  // 점수만 보여 주지 않고, 결과에 맞는 격려와 다음 할 일을 함께 건넨다.
+  function onlineFeedback(right, total) {
+    var wrong = total - right;
+    if (wrong === 0) return "🎉 만점입니다! 이번 주 내용을 완벽하게 익혔어요. 太棒了(tài bàng le, 정말 대단해요)!";
+    if (right / total >= 0.8) return "👏 아주 잘했어요! 틀린 " + wrong + "문항의 해설만 확인하면 만점도 금방입니다.";
+    if (right / total >= 0.5) return "💪 좋은 흐름이에요. 틀린 문항의 해설을 읽고 다시 풀면 실력이 훨씬 단단해집니다.";
+    if (right > 0) return "🌱 잘 시작했어요. 맞힌 " + right + "문항이 바탕이 됩니다. 문장 듣기로 복습한 뒤 다시 도전해 보세요.";
+    return "🌱 괜찮아요, 처음에는 누구나 어렵습니다. 해설을 천천히 읽고 문장을 소리 내어 따라 한 뒤 다시 풀어 보세요. 加油(jiāyóu, 힘내요)!";
+  }
+
   function renderOnlineQuiz(list, week) {
     var box = h("div", { class: "week-tab-body" });
     function draw() {
@@ -4989,15 +5005,24 @@ window.SITE_CONFIG = {
         return renderOnlineItem(q, i, "online-" + week + "-" + i);
       });
       var score = h("p", { class: "card-title", role: "status" });
+      var feedback = h("p", { class: "online-feedback", role: "status" });
+      var celebrated = false;
       var grade = h("button", { class: "btn btn-primary btn-small", type: "button", text: "채점하기" });
       var again = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "다시 풀기" });
       grade.addEventListener("click", function () {
         var right = items.filter(function (x) { return x.grade(); }).length;
         score.textContent = "점수: " + right + " / " + items.length;
+        feedback.textContent = onlineFeedback(right, items.length);
+        // 채점을 다시 눌러도 폭죽은 한 번만 터뜨린다.
+        if (right === items.length && !celebrated) {
+          celebrated = true;
+          fireConfetti();
+        }
       });
       again.addEventListener("click", draw);
       box.appendChild(h("ol", { class: "online-list" }, items.map(function (x) { return x.node; })));
       box.appendChild(score);
+      box.appendChild(feedback);
       box.appendChild(h("div", { class: "admin-buttons" }, [grade, again]));
     }
     draw();
