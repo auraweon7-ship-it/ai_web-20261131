@@ -1036,9 +1036,29 @@ button.quiz-choice:hover { transform: translateY(-2px); }
   .dig-pile, .dig-dirt, .dig-worker, .dig-tool { animation: none; }
 }
 .source-name { min-width: 0; overflow-wrap: anywhere; }
-.lecture-sections { display: grid; gap: 14px; }
-.lecture-section { display: grid; gap: 8px; padding: 14px; border-radius: 14px; background: var(--bg); box-shadow: var(--shadow-small); }
-.lecture-heading { font-size: 1.05rem; font-weight: 700; line-height: 1.4; }
+.note-hero { display: grid; gap: 8px; padding: clamp(18px, 3vw, 28px); border-radius: 18px; background: linear-gradient(135deg, var(--primary-deep), var(--primary)); color: #fff; }
+.note-kicker { font-size: 0.85rem; font-weight: 700; opacity: 0.9; }
+.note-title { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; line-height: 1.3; }
+.note-summary { line-height: 1.7; }
+.note-stats { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
+.note-stats li { padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); font-size: 0.82rem; font-weight: 700; }
+.note-toc { display: flex; flex-wrap: wrap; gap: 6px; }
+.note-flow { display: grid; gap: 14px; }
+.note-section { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; align-items: start; }
+.note-section:not(:last-child)::before { content: ""; position: absolute; top: 40px; bottom: -14px; left: 17px; width: 2px; background: var(--line); }
+.note-step { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: #fff; font-weight: 800; }
+.note-card { display: grid; gap: 12px; min-width: 0; padding: 16px; border-radius: 16px; background: var(--bg); box-shadow: var(--shadow-small); }
+.note-heading { color: var(--primary-deep); font-size: 1.12rem; font-weight: 800; line-height: 1.4; overflow-wrap: anywhere; }
+.note-points { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.note-points li { position: relative; padding-left: 22px; line-height: 1.7; overflow-wrap: anywhere; }
+.note-points li::before { content: "✓"; position: absolute; top: 0; left: 0; color: var(--primary); font-weight: 800; }
+.note-examples { display: grid; gap: 8px; padding: 12px; border-radius: 14px; box-shadow: var(--shadow-inset); }
+.note-label { color: var(--primary); font-size: 0.85rem; font-weight: 800; }
+.note-example { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: start; }
+.note-source { color: var(--muted); font-size: 0.82rem; line-height: 1.5; overflow-wrap: anywhere; }
+.note-refs { padding: 12px 14px; border-radius: 14px; box-shadow: var(--shadow-inset); }
+.note-refs summary { min-height: 28px; font-weight: 700; cursor: pointer; }
+.note-refs ul { margin-top: 8px; }
 .week-images, .youtube-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .week-images img { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; object-fit: cover; }
 .youtube-card { display: grid; gap: 10px; min-width: 0; align-content: start; }
@@ -1230,7 +1250,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.26",
+  version: "1.0.27",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -4652,26 +4672,55 @@ window.SITE_CONFIG = {
   }
 
   function renderLectureNote(note) {
-    return h("article", { class: "lecture-note week-tab-body" }, [
-      h("h4", { class: "card-title", text: note.title }),
-      h("p", { class: "card-text", text: note.summary || "" }),
-      h("div", { class: "lecture-sections" }, (note.sections || []).map(function (x, i) {
-        return h("section", { class: "lecture-section" }, [
-          h("h5", { class: "lecture-heading", text: (i + 1) + ". " + x.heading }),
-          h("ul", { class: "content-list" }, (x.points || []).map(function (t) { return h("li", { text: t }); })),
-          (x.examples || []).length ? h("div", { class: "week-phrase" }, x.examples.map(function (e) {
-            return h("div", {}, [
-              h("p", { class: "hanzi", lang: "zh-Hans", text: e.hanzi }),
-              h("p", { class: "pinyin", text: e.pinyin }),
-              h("p", { class: "sentence-korean", text: e.korean })
+    var sections = Array.isArray(note.sections) ? note.sections : [];
+    var exampleCount = sections.reduce(function (sum, x) { return sum + (x.examples || []).length; }, 0);
+    var used = Array.isArray(note.sourcesUsed) ? note.sourcesUsed : [];
+    var nodes = sections.map(function (x, i) {
+      return h("section", { class: "note-section" }, [
+        h("span", { class: "note-step", "aria-hidden": "true", text: String(i + 1) }),
+        h("div", { class: "note-card" }, [
+          h("h5", { class: "note-heading", text: x.heading }),
+          h("ul", { class: "note-points" }, (x.points || []).map(function (t) { return h("li", { text: t }); })),
+          (x.examples || []).length ? h("div", { class: "note-examples" }, [
+            h("p", { class: "note-label", text: "🗣️ 예문" })
+          ].concat(x.examples.map(function (e) {
+            var say = h("button", { class: "tts-btn", type: "button", text: "🔊", "aria-label": e.hanzi + " 듣기" });
+            say.addEventListener("click", function () {
+              if (ttsSupported()) ttsPlay([e.hanzi], 0.8);
+            });
+            return h("div", { class: "note-example" }, [
+              say,
+              h("div", { class: "sentence-text" }, [
+                h("p", { class: "sentence-hanzi", lang: "zh-Hans", text: e.hanzi }),
+                h("p", { class: "pinyin", text: e.pinyin }),
+                h("p", { class: "sentence-korean", text: e.korean })
+              ])
             ]);
-          })) : null,
-          x.source ? h("p", { class: "sentence-point", text: "근거: " + x.source }) : null
-        ]);
-      })),
-      (note.sourcesUsed || []).length ? h("div", {}, [
-        h("p", { class: "detail-title", text: "참고한 자료" }),
-        h("ul", { class: "content-list" }, note.sourcesUsed.map(function (u) {
+          }))) : null,
+          x.source ? h("p", { class: "note-source", text: "📄 근거: " + x.source }) : null
+        ])
+      ]);
+    });
+    return h("article", { class: "lecture-note week-tab-body" }, [
+      h("header", { class: "note-hero" }, [
+        h("p", { class: "note-kicker", text: "📒 강의 노트" }),
+        h("h4", { class: "note-title", text: note.title }),
+        note.summary ? h("p", { class: "note-summary", text: note.summary }) : null,
+        h("ul", { class: "note-stats" }, [
+          h("li", { text: "학습 단계 " + sections.length + "개" }),
+          h("li", { text: "예문 " + exampleCount + "개" }),
+          used.length ? h("li", { text: "참고 자료 " + used.length + "개" }) : null
+        ])
+      ]),
+      sections.length > 1 ? h("nav", { class: "note-toc", "aria-label": "강의 노트 목차" }, sections.map(function (x, i) {
+        var go = h("button", { class: "week-chip", type: "button", text: (i + 1) + ". " + x.heading });
+        go.addEventListener("click", function () { nodes[i].scrollIntoView({ block: "center" }); });
+        return go;
+      })) : null,
+      h("div", { class: "note-flow" }, nodes),
+      used.length ? h("details", { class: "note-refs" }, [
+        h("summary", { text: "참고한 자료 " + used.length + "개 보기" }),
+        h("ul", { class: "content-list" }, used.map(function (u) {
           return h("li", { text: u.file + ": " + u.used });
         }))
       ]) : null
