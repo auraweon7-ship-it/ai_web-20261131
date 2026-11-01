@@ -1040,26 +1040,6 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 }
 .history-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--primary-deep); font-weight: 700; }
 .source-name { min-width: 0; overflow-wrap: anywhere; }
-.note-hero { display: grid; gap: 8px; padding: clamp(18px, 3vw, 28px); border-radius: 18px; background: linear-gradient(135deg, var(--primary-deep), var(--primary)); color: #fff; }
-.note-kicker { font-size: 0.85rem; font-weight: 700; opacity: 0.9; }
-.note-title { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; line-height: 1.3; }
-.note-summary { line-height: 1.7; }
-.note-stats { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
-.note-stats li { padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); font-size: 0.82rem; font-weight: 700; }
-.note-toc { display: flex; flex-wrap: wrap; gap: 6px; }
-.note-flow { display: grid; gap: 14px; }
-.note-section { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; align-items: start; }
-.note-section:not(:last-child)::before { content: ""; position: absolute; top: 40px; bottom: -14px; left: 17px; width: 2px; background: var(--line); }
-.note-step { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: #fff; font-weight: 800; }
-.note-card { display: grid; gap: 12px; min-width: 0; padding: 16px; border-radius: 16px; background: var(--bg); box-shadow: var(--shadow-small); }
-.note-heading { color: var(--primary-deep); font-size: 1.12rem; font-weight: 800; line-height: 1.4; overflow-wrap: anywhere; }
-.note-points { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.note-points li { position: relative; padding-left: 22px; line-height: 1.7; overflow-wrap: anywhere; }
-.note-points li::before { content: "✓"; position: absolute; top: 0; left: 0; color: var(--primary); font-weight: 800; }
-.note-examples { display: grid; gap: 8px; padding: 12px; border-radius: 14px; box-shadow: var(--shadow-inset); }
-.note-label { color: var(--primary); font-size: 0.85rem; font-weight: 800; }
-.note-example { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: start; }
-.note-source { color: var(--muted); font-size: 0.82rem; line-height: 1.5; overflow-wrap: anywhere; }
 .note-refs { padding: 12px 14px; border-radius: 14px; box-shadow: var(--shadow-inset); }
 .note-refs summary { min-height: 28px; font-weight: 700; cursor: pointer; }
 .note-refs ul { margin-top: 8px; }
@@ -1130,6 +1110,36 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .graphic-timeline .graphic-label { color: #ffd479; }
 .graphic-compare { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
 .graphic-compare .graphic-item { padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); border-top: 3px solid #ffd479; }
+.culture-examples { display: grid; gap: 8px; padding: 10px 12px; border-radius: 12px; background: rgba(0, 0, 0, 0.22); }
+.culture-example { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: center; }
+.culture-say { width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.2); font-size: 1.05rem; cursor: pointer; }
+.culture-example-hanzi { color: #ffd479; font-size: 1.1em; font-weight: 700; line-height: 1.4; }
+.culture-example-korean { font-size: 0.92em; line-height: 1.45; }
+.culture-source { font-size: 0.8rem; line-height: 1.5; opacity: 0.85; overflow-wrap: anywhere; }
+.culture-jump { flex: 0 1 220px; min-width: 0; min-height: 44px; }
+.note-count { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.92rem; }
+.note-count input { width: 80px; }
+.present { width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: #0b1f1e; color: #fff; }
+.present[open] { display: grid; grid-template-rows: 6px minmax(0, 1fr) auto; }
+.present::backdrop { background: #0b1f1e; }
+.present-progress { background: rgba(255, 255, 255, 0.15); }
+.present-progress-fill { display: block; height: 100%; background: #ffd479; transition: width 0.3s; }
+.present-stage { min-height: 0; overflow-y: auto; outline: none; }
+.present-stage .culture-slide { min-height: 100%; padding: clamp(18px, 5vmin, 72px); border-radius: 0; font-size: clamp(15px, min(1.35vw, 2.35vh), 34px); }
+.present-stage .culture-kicker { font-size: 0.85em; }
+.present-stage .culture-title { font-size: 2.2em; }
+.present-stage .culture-copy { gap: 0.6em; }
+.present-stage .culture-examples { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16em), 1fr)); }
+.present-stage .culture-hanzi { font-size: 1.5em; }
+.present-stage .culture-pinyin { font-size: 1em; }
+.present-stage .culture-body, .present-stage .culture-points li, .present-stage .culture-info-title, .present-stage .graphic-label { font-size: 1.1em; }
+.present-stage .graphic-value, .present-stage .culture-source { font-size: 0.9em; }
+.present-stage .graphic-stats .graphic-label { font-size: 1.9em; }
+.present-stage .culture-grid { gap: clamp(20px, 4vmin, 56px); }
+.present-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; padding: 8px 12px; background: #0b1f1e; }
+.present-btn { min-height: 44px; padding: 0 16px; border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 10px; background: transparent; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.present-btn:disabled { opacity: 0.35; cursor: default; }
+.present-jump { flex: 0 1 280px; min-width: 0; min-height: 44px; }
 .culture-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
 @keyframes culture-pan { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 @keyframes culture-float { from { transform: translate(0, 0) scale(1); } to { transform: translate(-14%, 12%) scale(1.15); } }
@@ -1254,7 +1264,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.29",
+  version: "1.0.30",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -4685,79 +4695,69 @@ window.SITE_CONFIG = {
     ]);
   }
 
+  var NOTE_SLIDES_DEFAULT = 20;
+
+  function noteSlideCount() {
+    var n = Number(store.get("noteSlideCount", NOTE_SLIDES_DEFAULT));
+    return n >= 5 && n <= 30 ? Math.round(n) : NOTE_SLIDES_DEFAULT;
+  }
+
   function makeLectureNote(w) {
     var names = weekSources(w.week).map(function (x) { return x.name; });
-    var example = jsonList({ hanzi: STR, pinyin: STR, korean: STR });
+    var count = noteSlideCount();
     return aiJson(jsonObject({
       title: STR,
       summary: STR,
-      sections: jsonList({ heading: STR, points: { type: "array", items: STR }, examples: example, source: STR }),
+      slides: jsonList({
+        emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR,
+        points: { type: "array", items: STR },
+        examples: jsonList({ hanzi: STR, pinyin: STR, korean: STR }),
+        infoType: { type: "string", enum: ["stats", "steps", "timeline", "compare"] },
+        infoTitle: STR,
+        infoItems: jsonList({ label: STR, value: STR }),
+        source: STR
+      }),
       sourcesUsed: jsonList({ file: STR, used: STR })
-    }), "이 주차 수업 1회분의 강의 노트를 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
-      + " title은 노트 제목, summary는 150자 이내의 수업 개요입니다. sections는 수업 순서대로 4~7개이며, heading은 소제목, points는 수강생이 복습할 수 있는 설명 문장, examples는 중국어 예문입니다."
+    }), "이 주차 수업 1회분을 교수자가 그대로 강의할 수 있는 강의 슬라이드 정확히 " + count + "장으로 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
+      + " title은 전체 제목, summary는 150자 이내의 수업 개요입니다."
+      + "\n슬라이드 순서: 첫 장은 학습 목표, 이어서 수업 순서대로 개념 설명과 예문과 연습, 마지막 장은 정리와 복습 안내입니다."
+      + "\n각 슬라이드: emoji는 이모지 하나, kicker는 '도입', '문법', '연습'처럼 10자 이내의 단계 이름, title은 20자 이내의 제목, hanzi와 pinyin은 핵심 중국어와 병음(없으면 빈 문자열), body는 100~180자의 설명, points는 핵심 2~3개(각 40자 이내), examples는 중국어 예문 0~3개입니다."
+      + "\n내용을 한눈에 보여 주면 좋은 슬라이드에만 infoType, infoTitle, infoItems로 인포그래픽을 넣습니다. stats는 확인된 숫자, steps는 순서, timeline은 시대순, compare는 두 대상 비교이며, label과 value를 짧게 씁니다. 넣지 않으면 infoItems는 빈 배열입니다. 숫자를 지어내지 않습니다."
       + (names.length
-        ? " source에는 그 절의 근거가 된 첨부 파일 이름과 쪽·슬라이드 위치를 적습니다. sourcesUsed에는 첨부 파일마다 file에 파일 이름을 그대로, used에 활용한 내용을 적습니다."
-        : " 첨부 자료가 없으므로 source는 빈 문자열, sourcesUsed는 빈 배열로 둡니다."),
+        ? "\nsource에는 그 슬라이드의 근거가 된 첨부 파일 이름과 쪽·슬라이드 위치를 적습니다. sourcesUsed에는 첨부 파일마다 file에 파일 이름을 그대로, used에 활용한 내용을 적습니다."
+        : "\n첨부 자료가 없으므로 source는 빈 문자열, sourcesUsed는 빈 배열로 둡니다."),
     function (d) {
-      if (!isText(d.title) || !Array.isArray(d.sections) || !d.sections.length) return null;
+      var slides = (d.slides || []).filter(function (x) { return x && isText(x.title) && isText(x.body); });
+      if (!isText(d.title) || slides.length < Math.ceil(count * 0.9)) return null;
       var used = Array.isArray(d.sourcesUsed) ? d.sourcesUsed : [];
       // 첨부 파일을 빠뜨린 응답은 받지 않는다.
       var covered = names.every(function (name) {
         return used.some(function (u) { return u && u.file === name && isText(u.used); });
       });
-      var cited = !names.length || d.sections.every(function (x) { return x && isText(x.source); });
+      var cited = !names.length || slides.every(function (x) { return isText(x.source); });
       if (!covered || !cited) throw new Error("AI가 첨부 파일을 모두 참고했다고 확인되지 않았습니다. 다시 생성해 주세요.");
+      d.slides = slides.slice(0, count);
       return d;
+    }, Math.max(16000, count * 1800));
+  }
+
+  // 예전 형식(절 목록)으로 만든 노트도 슬라이드로 보여 준다.
+  function noteSlides(note) {
+    if (Array.isArray(note.slides)) return note.slides;
+    return (note.sections || []).map(function (x, i) {
+      return { kicker: (i + 1) + "단계", title: x.heading, body: "", points: x.points, examples: x.examples, source: x.source };
     });
   }
 
-  function renderLectureNote(note) {
-    var sections = Array.isArray(note.sections) ? note.sections : [];
-    var exampleCount = sections.reduce(function (sum, x) { return sum + (x.examples || []).length; }, 0);
+  function renderLectureNote(note, cleanups) {
+    var slides = noteSlides(note);
     var used = Array.isArray(note.sourcesUsed) ? note.sourcesUsed : [];
-    var nodes = sections.map(function (x, i) {
-      return h("section", { class: "note-section" }, [
-        h("span", { class: "note-step", "aria-hidden": "true", text: String(i + 1) }),
-        h("div", { class: "note-card" }, [
-          h("h5", { class: "note-heading", text: x.heading }),
-          h("ul", { class: "note-points" }, (x.points || []).map(function (t) { return h("li", { text: t }); })),
-          (x.examples || []).length ? h("div", { class: "note-examples" }, [
-            h("p", { class: "note-label", text: "🗣️ 예문" })
-          ].concat(x.examples.map(function (e) {
-            var say = h("button", { class: "tts-btn", type: "button", text: "🔊", "aria-label": e.hanzi + " 듣기" });
-            say.addEventListener("click", function () {
-              if (ttsSupported()) ttsPlay([e.hanzi], 0.8);
-            });
-            return h("div", { class: "note-example" }, [
-              say,
-              h("div", { class: "sentence-text" }, [
-                h("p", { class: "sentence-hanzi", lang: "zh-Hans", text: e.hanzi }),
-                h("p", { class: "pinyin", text: e.pinyin }),
-                h("p", { class: "sentence-korean", text: e.korean })
-              ])
-            ]);
-          }))) : null,
-          x.source ? h("p", { class: "note-source", text: "📄 근거: " + x.source }) : null
-        ])
-      ]);
-    });
     return h("article", { class: "lecture-note week-tab-body" }, [
-      h("header", { class: "note-hero" }, [
-        h("p", { class: "note-kicker", text: "📒 강의 노트" }),
-        h("h4", { class: "note-title", text: note.title }),
-        note.summary ? h("p", { class: "note-summary", text: note.summary }) : null,
-        h("ul", { class: "note-stats" }, [
-          h("li", { text: "학습 단계 " + sections.length + "개" }),
-          h("li", { text: "예문 " + exampleCount + "개" }),
-          used.length ? h("li", { text: "참고 자료 " + used.length + "개" }) : null
-        ])
+      h("div", {}, [
+        h("h4", { class: "card-title", text: note.title }),
+        note.summary ? h("p", { class: "card-text", text: note.summary }) : null
       ]),
-      sections.length > 1 ? h("nav", { class: "note-toc", "aria-label": "강의 노트 목차" }, sections.map(function (x, i) {
-        var go = h("button", { class: "week-chip", type: "button", text: (i + 1) + ". " + x.heading });
-        go.addEventListener("click", function () { nodes[i].scrollIntoView({ block: "center" }); });
-        return go;
-      })) : null,
-      h("div", { class: "note-flow" }, nodes),
+      renderSlides(slides, cleanups, note.title),
       used.length ? h("details", { class: "note-refs" }, [
         h("summary", { text: "참고한 자료 " + used.length + "개 보기" }),
         h("ul", { class: "content-list" }, used.map(function (u) {
@@ -5186,8 +5186,120 @@ window.SITE_CONFIG = {
     ]);
   }
 
-  // 문화 슬라이드: 이미지 없이 CSS 애니메이션으로 움직인다.
-  function renderSlides(list, cleanups) {
+  // 슬라이드 한 장: 이미지 없이 CSS 애니메이션으로 움직인다. 문화 슬라이드와 강의 노트가 함께 쓴다.
+  function renderSlideCard(x, index) {
+    return h("article", { class: "culture-slide motif-" + (index % 5) }, [
+      h("span", { class: "culture-orb orb-a", "aria-hidden": "true" }),
+      h("span", { class: "culture-orb orb-b", "aria-hidden": "true" }),
+      h("span", { class: "culture-orb orb-c", "aria-hidden": "true" }),
+      h("span", { class: "culture-mark", "aria-hidden": "true", lang: "zh-Hans", text: x.hanzi || "" }),
+      h("div", { class: "culture-grid" }, [
+        h("div", { class: "culture-copy" }, [
+          h("p", { class: "culture-kicker" }, [
+            h("span", { "aria-hidden": "true", text: x.emoji || "" }),
+            h("span", { text: x.kicker || "중국 문화" })
+          ]),
+          h("h4", { class: "culture-title", text: x.title }),
+          x.hanzi ? h("p", { class: "culture-word" }, [
+            h("span", { class: "culture-hanzi", lang: "zh-Hans", text: x.hanzi }),
+            x.pinyin ? h("span", { class: "culture-pinyin", text: x.pinyin }) : null
+          ]) : null,
+          x.body ? h("p", { class: "culture-body", text: x.body }) : null,
+          (x.points || []).length ? h("ul", { class: "culture-points" }, x.points.map(function (t) {
+            return h("li", { text: t });
+          })) : null,
+          (x.examples || []).length ? h("div", { class: "culture-examples" }, x.examples.map(function (e) {
+            var say = h("button", { class: "culture-say", type: "button", text: "🔊", "aria-label": e.hanzi + " 듣기" });
+            say.addEventListener("click", function () {
+              if (ttsSupported()) ttsPlay([e.hanzi], 0.8);
+            });
+            return h("div", { class: "culture-example" }, [
+              say,
+              h("div", {}, [
+                h("p", { class: "culture-example-hanzi", lang: "zh-Hans", text: e.hanzi }),
+                h("p", { class: "culture-pinyin", text: e.pinyin || "" }),
+                h("p", { class: "culture-example-korean", text: e.korean || "" })
+              ])
+            ]);
+          })) : null,
+          x.source ? h("p", { class: "culture-source", text: "📄 근거: " + x.source }) : null
+        ]),
+        renderCultureInfo(x)
+      ])
+    ]);
+  }
+
+  function slideOptions(list) {
+    return list.map(function (x, i) {
+      return h("option", { value: String(i), text: (i + 1) + ". " + x.title });
+    });
+  }
+
+  // 프레젠테이션 모드: 화면 전체에 크게 보여 주고 키보드로 넘긴다.
+  function openPresentation(list, start, title, onClose) {
+    var index = start;
+    var stage = h("div", { class: "present-stage", tabindex: "0" });
+    var bar = h("span", { class: "present-progress-fill" });
+    var prev = h("button", { class: "present-btn", type: "button", text: "← 이전" });
+    var next = h("button", { class: "present-btn", type: "button", text: "다음 →" });
+    var close = h("button", { class: "present-btn", type: "button", text: "✕ 나가기" });
+    var jump = h("select", { class: "present-jump", "aria-label": "슬라이드 바로가기" }, slideOptions(list));
+    var dialog = h("dialog", { class: "present", "aria-label": title + " 프레젠테이션" }, [
+      h("div", { class: "present-progress", "aria-hidden": "true" }, [bar]),
+      stage,
+      h("div", { class: "present-controls" }, [prev, jump, next, close])
+    ]);
+    function show(i) {
+      index = Math.max(0, Math.min(list.length - 1, i));
+      ttsStop();
+      stage.textContent = "";
+      stage.appendChild(renderSlideCard(list[index], index));
+      stage.scrollTop = 0;
+      jump.value = String(index);
+      bar.style.width = ((index + 1) / list.length * 100) + "%";
+      prev.disabled = index === 0;
+      next.disabled = index === list.length - 1;
+    }
+    prev.addEventListener("click", function () { show(index - 1); });
+    next.addEventListener("click", function () { show(index + 1); });
+    jump.addEventListener("change", function () { show(Number(jump.value)); });
+    close.addEventListener("click", function () { dialog.close(); });
+    dialog.addEventListener("keydown", function (e) {
+      var tag = e.target.tagName;
+      if (tag === "SELECT") return;
+      var onButton = tag === "BUTTON";
+      if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && !onButton)) show(index + 1);
+      else if (e.key === "ArrowLeft" || e.key === "PageUp") show(index - 1);
+      else if (e.key === "Home") show(0);
+      else if (e.key === "End") show(list.length - 1);
+      else return;
+      e.preventDefault();
+    });
+    // 전체 화면에서 Esc로 나오면 발표도 함께 끝낸다.
+    function onFullscreen() {
+      if (!document.fullscreenElement && dialog.open) dialog.close();
+    }
+    dialog.addEventListener("close", function () {
+      document.removeEventListener("fullscreenchange", onFullscreen);
+      if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
+      ttsStop();
+      dialog.remove();
+      onClose(index);
+    });
+    document.body.appendChild(dialog);
+    dialog.showModal();
+    show(index);
+    stage.focus();
+    if (dialog.requestFullscreen) {
+      dialog.requestFullscreen().then(function () {
+        document.addEventListener("fullscreenchange", onFullscreen);
+      }).catch(function () {
+        // 전체 화면을 쓸 수 없으면 창 크기에 맞춰 보여 준다.
+      });
+    }
+  }
+
+  function renderSlides(list, cleanups, title) {
     var index = 0;
     var timer = null;
     var stage = h("div", { class: "culture-stage", "aria-live": "polite" });
@@ -5195,34 +5307,14 @@ window.SITE_CONFIG = {
     var next = h("button", { class: "slider-btn", type: "button", text: "→", "aria-label": "다음 슬라이드" });
     var status = h("span", { class: "slider-status" });
     var play = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "▶ 자동 재생" });
+    var present = h("button", { class: "btn btn-primary btn-small", type: "button", text: "🖥️ 프레젠테이션" });
+    var jump = h("select", { class: "culture-jump", "aria-label": "슬라이드 바로가기" }, slideOptions(list));
     function draw() {
-      var x = list[index];
+      ttsStop();
       stage.textContent = "";
-      stage.appendChild(h("article", { class: "culture-slide motif-" + (index % 5) }, [
-        h("span", { class: "culture-orb orb-a", "aria-hidden": "true" }),
-        h("span", { class: "culture-orb orb-b", "aria-hidden": "true" }),
-        h("span", { class: "culture-orb orb-c", "aria-hidden": "true" }),
-        h("span", { class: "culture-mark", "aria-hidden": "true", lang: "zh-Hans", text: x.hanzi || "" }),
-        h("div", { class: "culture-grid" }, [
-          h("div", { class: "culture-copy" }, [
-            h("p", { class: "culture-kicker" }, [
-              h("span", { "aria-hidden": "true", text: x.emoji || "" }),
-              h("span", { text: x.kicker || "중국 문화" })
-            ]),
-            h("h4", { class: "culture-title", text: x.title }),
-            x.hanzi ? h("p", { class: "culture-word" }, [
-              h("span", { class: "culture-hanzi", lang: "zh-Hans", text: x.hanzi }),
-              x.pinyin ? h("span", { class: "culture-pinyin", text: x.pinyin }) : null
-            ]) : null,
-            h("p", { class: "culture-body", text: x.body }),
-            (x.points || []).length ? h("ul", { class: "culture-points" }, x.points.map(function (t) {
-              return h("li", { text: t });
-            })) : null
-          ]),
-          renderCultureInfo(x)
-        ])
-      ]));
+      stage.appendChild(renderSlideCard(list[index], index));
       status.textContent = (index + 1) + " / " + list.length;
+      jump.value = String(index);
     }
     function go(step) {
       index = (index + step + list.length) % list.length;
@@ -5235,16 +5327,29 @@ window.SITE_CONFIG = {
     }
     prev.addEventListener("click", function () { stopPlay(); go(-1); });
     next.addEventListener("click", function () { stopPlay(); go(1); });
+    jump.addEventListener("change", function () {
+      stopPlay();
+      index = Number(jump.value);
+      draw();
+    });
     play.addEventListener("click", function () {
       if (timer) return stopPlay();
       timer = setInterval(function () { go(1); }, 25000);
       play.textContent = "❚❚ 멈춤";
     });
+    present.addEventListener("click", function () {
+      stopPlay();
+      openPresentation(list, index, title, function (last) {
+        index = last;
+        draw();
+        present.focus();
+      });
+    });
     cleanups.push(stopPlay);
     draw();
     return h("div", { class: "week-tab-body" }, [
       stage,
-      h("div", { class: "culture-controls" }, [prev, status, next, play])
+      h("div", { class: "culture-controls" }, [prev, status, next, jump, play, present])
     ]);
   }
 
@@ -5435,8 +5540,19 @@ window.SITE_CONFIG = {
           generate([tab]);
         });
       }
+      var countField = null;
+      if (tab.id === "lectureNote") {
+        var countInput = h("input", { id: "note-count-" + w.week, type: "number", min: "5", max: "30", value: String(noteSlideCount()) });
+        countInput.addEventListener("change", function () {
+          var n = Math.min(30, Math.max(5, Math.round(Number(countInput.value)) || NOTE_SLIDES_DEFAULT));
+          countInput.value = String(n);
+          store.set("noteSlideCount", n);
+        });
+        countField = h("label", { class: "note-count", for: countInput.id }, [h("span", { text: "슬라이드 수 (5~30, 기본 20)" }), countInput]);
+      }
       return h("div", { class: "week-toolbar" }, [
         h("div", { class: "admin-buttons" }, [all, one]),
+        countField,
         busy ? diggingAnimation() : null,
         h("p", { class: "submit-note", role: "status", text: message }),
         h("p", { class: "submit-note", text: "만든 자료는 이 브라우저에만 저장됩니다. 수강생에게 공개하려면 관리자 화면의 설정 파일 탭에서 " + WEEK_FILE + "을 내려받아 사이트 폴더에 올려 주세요." })
@@ -5454,13 +5570,13 @@ window.SITE_CONFIG = {
       if (tab.id === "videos") return renderYoutube(w.week, "videos", "영상", admin);
       if (tab.id === "songs") return renderYoutube(w.week, "songs", "노래", admin);
       if (!hasWeekItem(w.week, tab)) return h("p", { class: "submit-note", text: "아직 만들지 않았습니다." });
-      if (tab.id === "lectureNote") return renderLectureNote(value);
+      if (tab.id === "lectureNote") return renderLectureNote(value, cleanups);
       if (tab.id === "assignment") return renderWeekAssignment(value, w, admin);
       if (tab.id === "sentences") return renderSentences(value);
       if (tab.id === "images") return renderWeekImages(value, w);
       if (tab.id === "liveQuiz") return renderWeekLiveQuiz(value);
       if (tab.id === "onlineQuiz") return renderOnlineQuiz(value, w.week);
-      return renderSlides(value, cleanups);
+      return renderSlides(value, cleanups, w.title + " 문화 슬라이드");
     }
 
     function draw() {
