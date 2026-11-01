@@ -998,6 +998,76 @@ button.quiz-choice:hover { transform: translateY(-2px); }
   .brand-text { display: none; }
 }
 
+.week-studio { display: grid; gap: 12px; }
+.week-studio:empty { display: none; }
+.week-tabs, .week-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.week-chip { min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: var(--bg); box-shadow: var(--shadow-small); color: var(--text); font: inherit; font-size: 0.92rem; cursor: pointer; }
+.week-chip.is-active { background: var(--primary); box-shadow: none; color: #fff; font-weight: 700; }
+.week-toolbar { display: grid; gap: 8px; padding: 12px 14px; border-radius: 14px; box-shadow: var(--shadow-inset); }
+.week-tab-body { display: grid; gap: 12px; min-width: 0; }
+.sentence-list { display: grid; gap: 8px; max-height: 560px; margin: 0; padding: 4px; overflow-y: auto; list-style: none; }
+.sentence-row { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px; border-radius: 12px; background: var(--bg); box-shadow: var(--shadow-small); }
+.sentence-row.is-speaking { outline: 2px solid var(--primary); }
+.tts-btn { width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--bg); box-shadow: var(--shadow-small); font-size: 1.1rem; cursor: pointer; }
+.sentence-hanzi { font-size: 1.2rem; font-weight: 700; line-height: 1.5; }
+.sentence-korean { line-height: 1.5; }
+.sentence-point { color: var(--muted); font-size: 0.82rem; }
+.week-images, .youtube-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.week-images img { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; object-fit: cover; }
+.youtube-card { display: grid; gap: 10px; min-width: 0; align-content: start; }
+.youtube-frame, .youtube-empty { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; }
+.youtube-empty { display: grid; place-items: center; padding: 10px; box-shadow: var(--shadow-inset); color: var(--muted); font-size: 0.9rem; text-align: center; }
+.youtube-url { display: flex; flex-wrap: wrap; gap: 6px; }
+.youtube-url input { flex: 1 1 140px; min-width: 0; }
+.online-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.online-item { display: grid; gap: 8px; padding: 14px; border-radius: 14px; background: var(--bg); box-shadow: var(--shadow-small); }
+.online-question { font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; }
+.online-input { display: grid; gap: 6px; }
+.online-input input[type="text"] { max-width: 180px; }
+.online-result:empty { display: none; }
+.online-result { font-size: 0.92rem; font-weight: 700; line-height: 1.5; }
+.online-result.is-right { color: var(--primary); }
+.online-result.is-wrong { color: #c62828; }
+.order-line, .order-tray { display: flex; flex-wrap: wrap; gap: 6px; min-height: 52px; padding: 4px; border-radius: 12px; }
+.order-line { box-shadow: var(--shadow-inset); }
+.order-token { min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: var(--bg); box-shadow: var(--shadow-small); color: var(--text); font: inherit; cursor: pointer; }
+.order-token.is-picked { background: var(--primary); box-shadow: none; color: #fff; }
+.culture-stage { min-width: 0; }
+.culture-slide { position: relative; display: grid; align-items: center; aspect-ratio: 16 / 9; padding: clamp(18px, 4vw, 40px); overflow: hidden; border-radius: 18px; background: linear-gradient(135deg, #0d3d3a, #1f6f63 60%, #c98f3c); background-size: 200% 200%; color: #fff; animation: culture-pan 14s ease-in-out infinite alternate; }
+.culture-slide.motif-1 { background-image: linear-gradient(135deg, #5c1f2e, #a8324a 60%, #e0a458); }
+.culture-slide.motif-2 { background-image: linear-gradient(135deg, #1b2a57, #2f5f9e 60%, #5fb3b3); }
+.culture-slide.motif-3 { background-image: linear-gradient(135deg, #3b2352, #76408f 60%, #d98cae); }
+.culture-slide.motif-4 { background-image: linear-gradient(135deg, #3a3312, #7b6a1e 60%, #c9a227); }
+.culture-orb { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.12); animation: culture-float 9s ease-in-out infinite alternate; }
+.orb-a { top: -12%; right: 6%; width: 34%; aspect-ratio: 1; }
+.orb-b { bottom: -22%; right: 28%; width: 24%; aspect-ratio: 1; animation-duration: 12s; animation-direction: alternate-reverse; }
+.orb-c { top: 18%; left: -8%; width: 16%; aspect-ratio: 1; animation-duration: 7s; }
+.culture-mark { position: absolute; right: 4%; bottom: 0; color: rgba(255, 255, 255, 0.14); font-size: clamp(3rem, 14vw, 9rem); font-weight: 700; line-height: 1.1; white-space: nowrap; animation: culture-mark 1.4s ease-out both; }
+.culture-copy { position: relative; display: grid; gap: 6px; max-width: 76%; }
+.culture-copy > * { animation: culture-rise 0.7s ease-out both; }
+.culture-copy > :nth-child(2) { animation-delay: 0.12s; }
+.culture-copy > :nth-child(3) { animation-delay: 0.24s; }
+.culture-copy > :nth-child(4) { animation-delay: 0.38s; }
+.culture-emoji { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.2; }
+.culture-title { font-size: clamp(1.15rem, 3vw, 1.9rem); font-weight: 700; line-height: 1.3; }
+.culture-word { font-weight: 700; opacity: 0.92; }
+.culture-body { line-height: 1.6; }
+.culture-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
+@keyframes culture-pan { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@keyframes culture-float { from { transform: translate(0, 0) scale(1); } to { transform: translate(-14%, 12%) scale(1.15); } }
+@keyframes culture-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes culture-mark { from { opacity: 0; transform: translateX(10%) scale(0.92); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .culture-slide, .culture-orb, .culture-mark, .culture-copy > * { animation: none; }
+}
+@media (max-width: 760px) {
+  .culture-slide { aspect-ratio: auto; min-height: 320px; }
+  .culture-copy { max-width: 100%; }
+}
+@media (max-width: 520px) {
+  .week-images, .youtube-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* 소프트 UI: 같은 크림색 면을 빛과 그림자로 띄우거나 파낸다 */
 :focus-visible { outline-color: var(--primary); }
 .site-header { background: color-mix(in srgb, var(--bg) 95%, transparent); }
@@ -1107,7 +1177,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.19",
+  version: "1.0.20",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -3880,6 +3950,19 @@ window.SITE_CONFIG = {
         })
       ]),
       h("div", { class: "field" }, [h("label", { class: "field-label", for: "config-file", text: "설정 파일 불러오기" }), file]),
+      h("h3", { class: "card-title", text: "주차 학습 자료 공개" }),
+      h("p", { class: "card-text", text: "주차별로 만든 자료와 유튜브 주소는 이 브라우저에만 저장됩니다. " + WEEK_FILE + "을 내려받아 사이트 폴더에 넣어 배포하면 수강생에게 보입니다. 실시간 퀴즈는 정답이 공개되지 않도록 파일에서 뺍니다. 온라인 퀴즈 정답은 파일을 열면 볼 수 있으니 시험에는 쓰지 마세요." }),
+      h("div", { class: "admin-buttons" }, [
+        downloadButton(WEEK_FILE + " 내려받기", function () {
+          loadWeekContent().then(function () {
+            downloadFile(WEEK_FILE, buildWeekFile(), "application/json");
+          });
+        }),
+        downloadButton("이 브라우저의 초안 지우기", function () {
+          if (!window.confirm("이 브라우저에 저장한 주차 자료를 지웁니다. 공개 파일에 없는 자료는 복구할 수 없습니다. 진행할까요?")) return;
+          weekDb("readwrite", function (db) { return db.clear(); }).then(function () { location.reload(); });
+        })
+      ]),
       error,
       h("div", {}, [reset]),
       h("h3", { class: "card-title", text: "비밀번호 변경" }),
@@ -3939,6 +4022,13 @@ window.SITE_CONFIG = {
       flash.textContent = message;
       setAdminState({ aiFlash: "" });
     }
+    var modelInput = h("input", { id: "ai-image-model", type: "text", autocomplete: "off", placeholder: DEFAULT_IMAGE_MODEL });
+    modelInput.value = store.get("aiImageModel", "");
+    modelInput.addEventListener("change", function () { store.set("aiImageModel", modelInput.value.trim()); });
+    fields.push(h("div", { class: "field" }, [
+      h("label", { class: "field-label", for: "ai-image-model", text: "이미지 모델 (BAZE, 비우면 기본값)" }),
+      modelInput
+    ]));
     return [
       flash,
       h("h3", { class: "card-title", text: "AI 키" }),
@@ -4000,6 +4090,7 @@ window.SITE_CONFIG = {
     dialog.addEventListener("close", function () {
       dialog.remove();
       refreshQuiz();
+      redrawWeeks();
     });
     logout.addEventListener("click", function () {
       sessionStorage.removeItem(ADMIN_KEY);
@@ -4151,10 +4242,767 @@ window.SITE_CONFIG = {
     ]);
   }
 
+  /* ---------- 주차별 학습 자료 ---------- */
+
+  // 관리자가 만든 자료는 이 브라우저의 IndexedDB에 저장한다(이미지가 있어 localStorage에 담기지 않는다).
+  // 수강생에게는 내려받은 week-content.json을 사이트와 같은 폴더에 올려 공개한다.
+  var WEEK_FILE = "week-content.json";
+  var DEFAULT_IMAGE_MODEL = "gemini-2.5-flash-image";
+  var BAZE_IMAGE_URL = "https://api.baze.co/v1/gateway/images/generate/";
+  var weekContent = {};
+  var weekLoading = null;
+  var weekRedraws = [];
+
+  function weekDb(mode, work) {
+    return new Promise(function (resolve, reject) {
+      var open = indexedDB.open("kc-week-content", 1);
+      open.onupgradeneeded = function () { open.result.createObjectStore("weeks"); };
+      open.onerror = function () { reject(open.error); };
+      open.onsuccess = function () {
+        var db = open.result;
+        var tx = db.transaction("weeks", mode);
+        var request = work(tx.objectStore("weeks"));
+        tx.oncomplete = function () { db.close(); resolve(request ? request.result : undefined); };
+        tx.onerror = tx.onabort = function () { db.close(); reject(tx.error); };
+      };
+    });
+  }
+
+  // 공개 파일 위에 이 브라우저의 초안을 덮어쓴다. 처음 주차를 열 때 한 번만 읽는다.
+  function loadWeekContent() {
+    if (weekLoading) return weekLoading;
+    weekLoading = fetch(WEEK_FILE).then(function (res) {
+      return res.ok ? res.json() : {};
+    }).catch(function () {
+      return {};
+    }).then(function (file) {
+      var weeks = file && file.weeks;
+      if (weeks && typeof weeks === "object") weekContent = weeks;
+      return weekDb("readonly", function (db) { return db.getAll(); }).catch(function () { return []; });
+    }).then(function (drafts) {
+      (drafts || []).forEach(function (draft) {
+        weekContent[draft.week] = Object.assign(weekContent[draft.week] || {}, draft);
+      });
+    });
+    return weekLoading;
+  }
+
+  function weekData(week) {
+    return weekContent[week] || {};
+  }
+
+  function saveWeekItem(week, kind, value) {
+    var data = Object.assign({}, weekData(week), { week: week });
+    data[kind] = value;
+    weekContent[week] = data;
+    return weekDb("readwrite", function (db) { return db.put(data, week); });
+  }
+
+  // 실시간 퀴즈는 정답이 공개되지 않도록 공개 파일에서 뺀다.
+  function buildWeekFile() {
+    var weeks = {};
+    Object.keys(weekContent).forEach(function (week) {
+      weeks[week] = Object.assign({}, weekContent[week]);
+      delete weeks[week].liveQuiz;
+    });
+    return JSON.stringify({ version: 1, weeks: weeks });
+  }
+
+  function weekBrief(w) {
+    return w.week + "주차 「" + w.title + "」, 주제: " + w.topic + ", 학습 내용: " + (w.contents || []).join(", ");
+  }
+
+  function aiJson(schema, prompt, check) {
+    return aiRequest({
+      model: C.quiz.ai.model,
+      max_tokens: 16000,
+      output_config: { effort: "medium", format: { type: "json_schema", schema: schema } },
+      messages: [{ role: "user", content: prompt }]
+    }, function (text) {
+      var data = null;
+      try {
+        data = JSON.parse(text.replace(/^\s*```(?:json)?|```\s*$/g, ""));
+      } catch (e) {
+        data = null;
+      }
+      var result = data && check(data);
+      if (!result) throw new Error("AI 응답에서 쓸 수 있는 내용을 찾지 못했습니다.");
+      return result;
+    }).then(function (r) { return r.result; });
+  }
+
+  function isText(x) {
+    return typeof x === "string" && x.trim() !== "";
+  }
+
+  function jsonList(props) {
+    return {
+      type: "array",
+      items: { type: "object", additionalProperties: false, required: Object.keys(props), properties: props }
+    };
+  }
+
+  function jsonObject(props) {
+    return { type: "object", additionalProperties: false, required: Object.keys(props), properties: props };
+  }
+
+  var STR = { type: "string" };
+  var COMMON_RULE = "대상은 중국어를 처음 배우는 한국 대학생입니다. 설명은 한국어, 중국어는 간체자, 병음은 성조 부호로 씁니다. 중국어 표기와 병음이 정확한지 확인한 뒤 답합니다.";
+
+  function makeAssignment(w) {
+    return aiJson(jsonObject({ title: STR, text: STR }),
+      "교양중국어 수업의 주차별 과제를 하나 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
+        + " title은 25자 이내의 과제 이름, text는 수행 방법과 제출물을 담은 300자 이내의 안내입니다.",
+      function (d) { return isText(d.title) && isText(d.text) ? { title: d.title.trim(), text: d.text.trim() } : null; });
+  }
+
+  function makeSentences(w) {
+    return aiJson(jsonObject({ sentences: jsonList({ type: { type: "string", enum: ["어휘", "문법", "문형"] }, hanzi: STR, pinyin: STR, korean: STR, point: STR }) }),
+      "이 주차 주제와 관련된 중국어 예문을 정확히 50개 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
+        + " type별로 어휘 20개, 문법 15개, 문형 15개입니다. 입문자가 소리 내어 읽기 좋은 20자 이내의 문장으로, 서로 겹치지 않게 씁니다."
+        + " hanzi는 문장, pinyin은 한어병음, korean은 한글 번역, point는 익힐 어휘·문법·문형을 15자 이내로 적습니다.",
+      function (d) {
+        var list = (d.sentences || []).filter(function (x) { return x && isText(x.hanzi) && isText(x.pinyin) && isText(x.korean); }).slice(0, 50);
+        return list.length >= 45 ? list : null;
+      });
+  }
+
+  function makeLiveQuiz(w) {
+    return generateQuestions(weekBrief(w), 10, "보통").then(function (r) { return r.result; });
+  }
+
+  function normalizeOnlineQuiz(items) {
+    return (items || []).filter(function (q) {
+      if (!q || !isText(q.text)) return false;
+      var choices = Array.isArray(q.choices) ? q.choices : [];
+      if (q.type === "mc") return choices.length === 4 && choices.indexOf(q.answer) >= 0;
+      if (q.type === "ox") return q.answer === "O" || q.answer === "X";
+      if (q.type === "blank") return /^[\u4e00-\u9fff]{2}$/.test(q.answer) && q.text.indexOf("____") >= 0;
+      if (q.type === "order") return choices.length >= 3 && choices.every(isText);
+      return false;
+    });
+  }
+
+  function makeOnlineQuiz(w) {
+    return aiJson(jsonObject({ items: jsonList({ type: { type: "string", enum: ["mc", "ox", "blank", "order"] }, text: STR, choices: { type: "array", items: STR }, answer: STR, explanation: STR }) }),
+      "이 주차의 온라인 복습 퀴즈를 20문항 만들어 주세요. 유형별로 5문항씩입니다.\n" + weekBrief(w) + "\n" + COMMON_RULE
+        + "\n- mc(객관식): choices에 보기 4개, answer에 정답 보기와 똑같은 글자를 씁니다."
+        + "\n- ox: choices는 빈 배열, answer는 O 또는 X입니다."
+        + "\n- blank(빈칸 채우기): text의 중국어 문장에 빈칸을 ____ 로 표시합니다. 정답은 반드시 한자 2글자이며 answer에 씁니다. choices는 빈 배열이고 text에 문장의 한글 뜻을 함께 적습니다."
+        + "\n- order(순서 맞추기): text에 문장의 한글 뜻을 쓰고, choices에 중국어 문장을 3~6개 조각으로 나누어 올바른 순서대로 넣습니다. answer는 빈 문자열입니다."
+        + "\nexplanation은 60자 이내의 해설입니다. 문항 순서는 유형별로 모아 둡니다.",
+      function (d) {
+        var list = normalizeOnlineQuiz(d.items);
+        return ["mc", "ox", "blank", "order"].every(function (t) {
+          return list.some(function (q) { return q.type === t; });
+        }) ? list : null;
+      });
+  }
+
+  function makeSlides(w) {
+    return aiJson(jsonObject({ slides: jsonList({ emoji: STR, title: STR, hanzi: STR, pinyin: STR, body: STR }) }),
+      "이 주차 주제와 어울리는 중국 문화 정보를 슬라이드 10장으로 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
+        + " 잘 알려지고 확인된 사실만 쓰고, 불확실한 수치나 고정관념은 쓰지 않습니다. 장마다 다른 내용을 다룹니다."
+        + " emoji는 이모지 하나, title은 15자 이내의 제목, hanzi는 핵심 중국어 단어, pinyin은 그 병음, body는 90자 이내의 설명입니다.",
+      function (d) {
+        var list = (d.slides || []).filter(function (x) { return x && isText(x.title) && isText(x.body); }).slice(0, 10);
+        return list.length === 10 ? list : null;
+      });
+  }
+
+  function imageModel() {
+    return store.get("aiImageModel", "") || DEFAULT_IMAGE_MODEL;
+  }
+
+  function imageError(res) {
+    if (res.status === 401) return "BAZE API 키가 올바르지 않습니다.";
+    if (res.status === 402) return "BAZE 크레딧이 부족합니다.";
+    if (res.status === 403) return "이 키로는 이미지 모델(" + imageModel() + ")을 쓸 권한이 없습니다. AI 키 탭에서 모델을 바꿔 보세요.";
+    if (res.status === 404) return "이미지 모델(" + imageModel() + ")을 찾을 수 없습니다. AI 키 탭에서 모델을 바꿔 보세요.";
+    if (res.status === 429) return "요청이 많습니다. 잠시 뒤 다시 시도해 주세요.";
+    return "이미지 생성에 실패했습니다. (오류 " + res.status + ")";
+  }
+
+  function bazeImageFetch(url, options) {
+    var key = (store.get("aiKeys", {}) || {}).baze;
+    return fetch(url, Object.assign({ headers: { "content-type": "application/json", authorization: "Bearer " + key } }, options)).catch(function () {
+      throw new Error("이미지 서버에 연결하지 못했습니다.");
+    }).then(function (res) {
+      if (!res.ok) throw new Error(imageError(res));
+      return res.json();
+    });
+  }
+
+  // 생성이 오래 걸리는 모델은 operation_id로 결과를 기다린다.
+  function waitImage(data, tries) {
+    if (data.data && data.data[0] && data.data[0].url) return Promise.resolve(data.data[0].url);
+    if (!data.operation_id || tries <= 0) return Promise.reject(new Error("이미지를 받지 못했습니다."));
+    return new Promise(function (resolve) { setTimeout(resolve, 4000); }).then(function () {
+      return bazeImageFetch(BAZE_IMAGE_URL + encodeURIComponent(data.operation_id) + "/?model=" + encodeURIComponent(imageModel()), { method: "GET" });
+    }).then(function (next) {
+      return waitImage(Object.assign({ operation_id: data.operation_id }, next), tries - 1);
+    });
+  }
+
+  // 공개 파일이 너무 커지지 않도록 16:9, 가로 960px로 줄인다.
+  function shrinkImage(url) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onerror = function () { reject(new Error("생성된 이미지를 읽지 못했습니다.")); };
+      img.onload = function () {
+        var canvas = document.createElement("canvas");
+        canvas.width = 960;
+        canvas.height = 540;
+        var scale = Math.max(960 / img.width, 540 / img.height);
+        var dw = img.width * scale;
+        var dh = img.height * scale;
+        canvas.getContext("2d").drawImage(img, (960 - dw) / 2, (540 - dh) / 2, dw, dh);
+        try {
+          resolve(canvas.toDataURL("image/jpeg", 0.82));
+        } catch (e) {
+          reject(new Error("생성된 이미지를 저장하지 못했습니다."));
+        }
+      };
+      img.src = url;
+    });
+  }
+
+  function makeImages(w) {
+    if (!(store.get("aiKeys", {}) || {}).baze) return Promise.reject(new Error("이미지 생성에는 BAZE API 키가 필요합니다. AI 키 탭에서 등록해 주세요."));
+    var style = "Japanese anime style illustration, clean line art, soft cel shading, bright colors, 16:9 wide composition, no text, no letters, no logos. ";
+    var theme = "Theme of a beginner Chinese language class: " + w.title + " (" + w.topic + "). ";
+    var scenes = [
+      "Scene: friendly young university students practicing this theme together in a lively everyday situation in China.",
+      "Scene: a wide view of a Chinese city or cultural place that matches this theme, with a warm atmosphere."
+    ];
+    return scenes.reduce(function (chain, scene) {
+      return chain.then(function (images) {
+        return bazeImageFetch(BAZE_IMAGE_URL, {
+          method: "POST",
+          body: JSON.stringify({ model: imageModel(), prompt: style + theme + scene, aspect_ratio: "16:9", number_of_images: 1 })
+        }).then(function (data) {
+          return waitImage(data, 30);
+        }).then(shrinkImage).then(function (image) {
+          return images.concat(image);
+        });
+      });
+    }, Promise.resolve([]));
+  }
+
+  /* 중국어 음성: 브라우저 내장 음성을 쓰므로 키와 비용이 필요 없다. */
+  var ttsQueue = [];
+
+  function ttsSupported() {
+    return "speechSynthesis" in window;
+  }
+
+  function ttsStop() {
+    ttsQueue = [];
+    if (ttsSupported()) speechSynthesis.cancel();
+  }
+
+  function ttsPlay(texts, rate, onEach, onEnd) {
+    ttsStop();
+    ttsQueue = texts.slice();
+    var queue = ttsQueue;
+    var total = texts.length;
+    var voice = speechSynthesis.getVoices().filter(function (v) { return /^zh[-_]CN/i.test(v.lang); })[0]
+      || speechSynthesis.getVoices().filter(function (v) { return /^zh/i.test(v.lang); })[0];
+    function next() {
+      // 다른 재생을 시작했으면 이 재생은 멈춘다.
+      if (queue !== ttsQueue) return;
+      if (!queue.length) { if (onEnd) onEnd(); return; }
+      if (onEach) onEach(total - queue.length);
+      var u = new SpeechSynthesisUtterance(queue.shift());
+      u.lang = "zh-CN";
+      u.rate = rate;
+      if (voice) u.voice = voice;
+      u.onend = next;
+      u.onerror = next;
+      speechSynthesis.speak(u);
+    }
+    next();
+  }
+
+  function renderSentences(list) {
+    var filter = "전체";
+    var rate = 0.8;
+    var filters = h("div", { class: "week-chips" });
+    var rows = h("ol", { class: "sentence-list", tabindex: "0", "aria-label": "중국어 문장 목록" });
+    var note = h("p", { class: "submit-note", role: "status" });
+    var playAll = h("button", { class: "btn btn-primary btn-small", type: "button", text: "▶ 전체 듣기" });
+    var stop = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "■ 정지" });
+    var speed = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "속도: 느리게" });
+    function shown() {
+      return list.filter(function (x) { return filter === "전체" || x.type === filter; });
+    }
+    function mark(index) {
+      Array.prototype.forEach.call(rows.children, function (row, i) {
+        row.classList.toggle("is-speaking", i === index);
+      });
+      if (rows.children[index]) rows.children[index].scrollIntoView({ block: "nearest" });
+    }
+    function draw() {
+      filters.textContent = "";
+      ["전체", "어휘", "문법", "문형"].forEach(function (name) {
+        var count = name === "전체" ? list.length : list.filter(function (x) { return x.type === name; }).length;
+        var chip = h("button", { class: "week-chip" + (name === filter ? " is-active" : ""), type: "button", "aria-pressed": String(name === filter), text: name + " " + count });
+        chip.addEventListener("click", function () {
+          filter = name;
+          ttsStop();
+          draw();
+        });
+        filters.appendChild(chip);
+      });
+      rows.textContent = "";
+      shown().forEach(function (x, i) {
+        var say = h("button", { class: "tts-btn", type: "button", text: "🔊", "aria-label": x.hanzi + " 듣기" });
+        say.addEventListener("click", function () {
+          if (!ttsSupported()) { note.textContent = "이 브라우저는 음성 읽기를 지원하지 않습니다."; return; }
+          ttsPlay([x.hanzi], rate, function () { mark(i); }, function () { mark(-1); });
+        });
+        rows.appendChild(h("li", { class: "sentence-row" }, [
+          say,
+          h("div", { class: "sentence-text" }, [
+            h("p", { class: "sentence-hanzi", lang: "zh-Hans", text: x.hanzi }),
+            h("p", { class: "pinyin", text: x.pinyin }),
+            h("p", { class: "sentence-korean", text: x.korean }),
+            h("p", { class: "sentence-point", text: x.type + (x.point ? " · " + x.point : "") })
+          ])
+        ]));
+      });
+    }
+    playAll.addEventListener("click", function () {
+      if (!ttsSupported()) { note.textContent = "이 브라우저는 음성 읽기를 지원하지 않습니다."; return; }
+      note.textContent = "중국어 음성이 없는 기기에서는 소리가 나지 않거나 다른 억양으로 읽힐 수 있습니다.";
+      ttsPlay(shown().map(function (x) { return x.hanzi; }), rate, mark, function () { mark(-1); });
+    });
+    stop.addEventListener("click", function () {
+      ttsStop();
+      mark(-1);
+    });
+    speed.addEventListener("click", function () {
+      rate = rate === 0.8 ? 1 : 0.8;
+      speed.textContent = "속도: " + (rate === 0.8 ? "느리게" : "보통");
+    });
+    draw();
+    return h("div", { class: "week-tab-body" }, [
+      filters,
+      h("div", { class: "admin-buttons" }, [playAll, stop, speed]),
+      note,
+      rows
+    ]);
+  }
+
+  function shuffled(list) {
+    var out = list.slice();
+    for (var i = out.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = out[i];
+      out[i] = out[j];
+      out[j] = t;
+    }
+    return out;
+  }
+
+  var ONLINE_TYPES = { mc: "객관식", ox: "OX", blank: "빈칸 채우기", order: "순서 맞추기" };
+
+  function renderOnlineItem(q, i, idBase) {
+    var label = (i + 1) + ". [" + ONLINE_TYPES[q.type] + "]";
+    var result = h("p", { class: "online-result", role: "status" });
+    var body = h("div", { class: "online-input" });
+    var value = function () { return ""; };
+    var correct = q.answer;
+    if (q.type === "mc" || q.type === "ox") {
+      var options = q.type === "ox" ? ["O", "X"] : q.choices;
+      options.forEach(function (c, ci) {
+        body.appendChild(h("label", { class: "check-field", for: idBase + "-" + ci }, [
+          h("input", { id: idBase + "-" + ci, type: "radio", name: idBase, value: c }),
+          h("span", { lang: "zh-Hans", text: c })
+        ]));
+      });
+      value = function () {
+        var picked = body.querySelector("input:checked");
+        return picked ? picked.value : "";
+      };
+    } else if (q.type === "blank") {
+      var input = h("input", { type: "text", maxlength: "2", lang: "zh-Hans", autocomplete: "off", "aria-label": (i + 1) + "번 빈칸 답 (중국어 2글자)", placeholder: "중국어 2글자" });
+      body.appendChild(input);
+      value = function () { return input.value.trim(); };
+    } else {
+      correct = q.choices.join(" ");
+      var pool = shuffled(q.choices);
+      // 조각을 섞어도 정답 순서 그대로면 한 번 더 섞는다.
+      if (pool.join(" ") === correct) pool.push(pool.shift());
+      var picked = [];
+      var line = h("div", { class: "order-line", "aria-label": "고른 순서" });
+      var tray = h("div", { class: "order-tray", "aria-label": "남은 조각" });
+      var drawOrder = function () {
+        line.textContent = "";
+        tray.textContent = "";
+        picked.forEach(function (t, ti) {
+          var b = h("button", { class: "order-token is-picked", type: "button", lang: "zh-Hans", text: t, "aria-label": t + " 빼기" });
+          b.addEventListener("click", function () {
+            pool.push(picked.splice(ti, 1)[0]);
+            drawOrder();
+          });
+          line.appendChild(b);
+        });
+        pool.forEach(function (t, ti) {
+          var b = h("button", { class: "order-token", type: "button", lang: "zh-Hans", text: t, "aria-label": t + " 넣기" });
+          b.addEventListener("click", function () {
+            picked.push(pool.splice(ti, 1)[0]);
+            drawOrder();
+          });
+          tray.appendChild(b);
+        });
+      };
+      drawOrder();
+      body.appendChild(line);
+      body.appendChild(tray);
+      value = function () { return picked.join(" "); };
+    }
+    return {
+      node: h("li", { class: "online-item" }, [
+        h("p", { class: "online-question", text: label + " " + q.text }),
+        body,
+        result
+      ]),
+      grade: function () {
+        var ok = value() === correct;
+        result.className = "online-result " + (ok ? "is-right" : "is-wrong");
+        result.textContent = (ok ? "정답입니다. " : "오답입니다. 정답: " + correct + ". ") + (q.explanation || "");
+        return ok;
+      }
+    };
+  }
+
+  function renderOnlineQuiz(list, week) {
+    var box = h("div", { class: "week-tab-body" });
+    function draw() {
+      box.textContent = "";
+      var items = normalizeOnlineQuiz(list).map(function (q, i) {
+        return renderOnlineItem(q, i, "online-" + week + "-" + i);
+      });
+      var score = h("p", { class: "card-title", role: "status" });
+      var grade = h("button", { class: "btn btn-primary btn-small", type: "button", text: "채점하기" });
+      var again = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "다시 풀기" });
+      grade.addEventListener("click", function () {
+        var right = items.filter(function (x) { return x.grade(); }).length;
+        score.textContent = "점수: " + right + " / " + items.length;
+      });
+      again.addEventListener("click", draw);
+      box.appendChild(h("ol", { class: "online-list" }, items.map(function (x) { return x.node; })));
+      box.appendChild(score);
+      box.appendChild(h("div", { class: "admin-buttons" }, [grade, again]));
+    }
+    draw();
+    return box;
+  }
+
+  // 문화 슬라이드: 이미지 없이 CSS 애니메이션으로 움직인다.
+  function renderSlides(list, cleanups) {
+    var index = 0;
+    var timer = null;
+    var stage = h("div", { class: "culture-stage", "aria-live": "polite" });
+    var prev = h("button", { class: "slider-btn", type: "button", text: "←", "aria-label": "이전 슬라이드" });
+    var next = h("button", { class: "slider-btn", type: "button", text: "→", "aria-label": "다음 슬라이드" });
+    var status = h("span", { class: "slider-status" });
+    var play = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "▶ 자동 재생" });
+    function draw() {
+      var x = list[index];
+      stage.textContent = "";
+      stage.appendChild(h("article", { class: "culture-slide motif-" + (index % 5) }, [
+        h("span", { class: "culture-orb orb-a", "aria-hidden": "true" }),
+        h("span", { class: "culture-orb orb-b", "aria-hidden": "true" }),
+        h("span", { class: "culture-orb orb-c", "aria-hidden": "true" }),
+        h("span", { class: "culture-mark", "aria-hidden": "true", lang: "zh-Hans", text: x.hanzi || "" }),
+        h("div", { class: "culture-copy" }, [
+          h("p", { class: "culture-emoji", "aria-hidden": "true", text: x.emoji || "" }),
+          h("h4", { class: "culture-title", text: x.title }),
+          x.hanzi ? h("p", { class: "culture-word" }, [
+            h("span", { lang: "zh-Hans", text: x.hanzi }),
+            document.createTextNode(x.pinyin ? " · " + x.pinyin : "")
+          ]) : null,
+          h("p", { class: "culture-body", text: x.body })
+        ])
+      ]));
+      status.textContent = (index + 1) + " / " + list.length;
+    }
+    function go(step) {
+      index = (index + step + list.length) % list.length;
+      draw();
+    }
+    function stopPlay() {
+      clearInterval(timer);
+      timer = null;
+      play.textContent = "▶ 자동 재생";
+    }
+    prev.addEventListener("click", function () { stopPlay(); go(-1); });
+    next.addEventListener("click", function () { stopPlay(); go(1); });
+    play.addEventListener("click", function () {
+      if (timer) return stopPlay();
+      timer = setInterval(function () { go(1); }, 7000);
+      play.textContent = "❚❚ 멈춤";
+    });
+    cleanups.push(stopPlay);
+    draw();
+    return h("div", { class: "week-tab-body" }, [
+      stage,
+      h("div", { class: "culture-controls" }, [prev, status, next, play])
+    ]);
+  }
+
+  function youtubeId(url) {
+    var m = /(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})(?![\w-])/.exec(String(url || ""));
+    return m ? m[1] : "";
+  }
+
+  function renderYoutube(week, kind, label, admin) {
+    var saved = weekData(week)[kind] || [];
+    var cards = [0, 1].map(function (i) {
+      var id = youtubeId(saved[i]);
+      if (!id && !admin) return null;
+      var player = id ? h("iframe", {
+        class: "youtube-frame",
+        src: "https://www.youtube-nocookie.com/embed/" + id,
+        title: label + " " + (i + 1),
+        loading: "lazy",
+        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+        referrerpolicy: "strict-origin-when-cross-origin",
+        allowfullscreen: "allowfullscreen"
+      }) : h("div", { class: "youtube-empty", text: label + " " + (i + 1) + ": 주소를 입력해 주세요" });
+      var field = null;
+      if (admin) {
+        var input = h("input", { id: kind + "-url-" + week + "-" + i, type: "url", placeholder: "https://www.youtube.com/watch?v=..." });
+        input.value = saved[i] || "";
+        var save = h("button", { class: "btn btn-primary btn-small", type: "button", text: "저장" });
+        var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+        save.addEventListener("click", function () {
+          var value = input.value.trim();
+          if (value && !youtubeId(value)) {
+            error.textContent = "유튜브 영상 주소를 확인해 주세요.";
+            error.hidden = false;
+            return;
+          }
+          var next = (weekData(week)[kind] || ["", ""]).slice();
+          next[i] = value;
+          saveWeekItem(week, kind, next).then(redrawWeeks, function () {
+            error.textContent = "저장하지 못했습니다.";
+            error.hidden = false;
+          });
+        });
+        field = h("div", { class: "field" }, [
+          h("label", { class: "field-label", for: input.id, text: label + " " + (i + 1) + " 유튜브 주소" }),
+          h("div", { class: "youtube-url" }, [input, save]),
+          error
+        ]);
+      }
+      return h("div", { class: "youtube-card" }, [player, field]);
+    });
+    return h("div", { class: "youtube-grid week-tab-body" }, cards);
+  }
+
+  function renderWeekImages(list, w) {
+    return h("div", { class: "week-images week-tab-body" }, (list || []).map(function (src, i) {
+      var img = h("img", { alt: w.title + " 주제 이미지 " + (i + 1), loading: "lazy" });
+      // h()는 data 주소를 막으므로, 형식을 확인한 이미지만 직접 넣는다.
+      if (/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(src)) img.src = src;
+      return img;
+    }));
+  }
+
+  function renderWeekAssignment(a, w, admin) {
+    var use = null;
+    if (admin) {
+      use = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "이 주차의 제출 과제로 등록" });
+      use.addEventListener("click", function () {
+        w.assignment = { title: a.title, text: a.text, submitUrl: w.assignment ? w.assignment.submitUrl : "" };
+        saveConfigAndReload();
+      });
+    }
+    return h("div", { class: "assignment week-tab-body" }, [
+      h("p", { class: "assignment-title", text: a.title }),
+      h("p", { class: "assignment-text", text: a.text }),
+      use
+    ]);
+  }
+
+  function renderWeekLiveQuiz(list) {
+    var send = h("button", { class: "btn btn-primary btn-small", type: "button", text: "⚡ 실시간 퀴즈로 보내기" });
+    send.addEventListener("click", function () {
+      store.set("quizBank", list);
+      refreshQuiz();
+      document.getElementById("quiz").scrollIntoView();
+    });
+    return h("div", { class: "week-tab-body" }, [
+      h("p", { class: "submit-note", text: "관리자에게만 보입니다. 공개 파일에도 들어가지 않습니다. 보내면 출제 화면의 기존 문제를 바꿉니다." }),
+      h("ol", { class: "online-list" }, list.map(function (q) {
+        return h("li", { class: "online-item" }, [
+          h("p", { class: "online-question", text: q.text }),
+          h("ul", { class: "content-list" }, q.choices.map(function (c, i) {
+            return h("li", { text: (i === q.answer ? "✅ " : "") + c });
+          }))
+        ]);
+      })),
+      h("div", {}, [send])
+    ]);
+  }
+
+  var WEEK_TABS = [
+    { id: "assignment", label: "📝 과제", make: makeAssignment },
+    { id: "sentences", label: "🗣️ 문장 50", make: makeSentences },
+    { id: "images", label: "🖼️ 이미지", make: makeImages },
+    { id: "liveQuiz", label: "⚡ 실시간 퀴즈", make: makeLiveQuiz, adminOnly: true },
+    { id: "onlineQuiz", label: "✅ 온라인 퀴즈", make: makeOnlineQuiz },
+    { id: "slides", label: "🎞️ 문화 슬라이드", make: makeSlides },
+    { id: "videos", label: "🎬 유튜브 영상" },
+    { id: "songs", label: "🎵 유튜브 노래" }
+  ];
+
+  function hasWeekItem(week, tab) {
+    var value = weekData(week)[tab.id];
+    if (tab.make) return Array.isArray(value) ? value.length > 0 : !!value;
+    return Array.isArray(value) && value.some(youtubeId);
+  }
+
+  function redrawWeeks() {
+    weekRedraws.forEach(function (redraw) { redraw(); });
+  }
+
+  function renderWeekStudio(w) {
+    var node = h("div", { class: "week-studio" });
+    var current = "";
+    var busy = false;
+    var opened = false;
+    var message = "";
+    var cleanups = [];
+
+    function cleanUp() {
+      ttsStop();
+      cleanups.splice(0).forEach(function (fn) { fn(); });
+    }
+
+    function generate(tabs) {
+      if (!aiProviders().length) {
+        message = "관리자 화면의 AI 키 탭에서 키를 먼저 등록해 주세요.";
+        draw();
+        return;
+      }
+      busy = true;
+      var failed = [];
+      var done = 0;
+      tabs.reduce(function (chain, tab) {
+        return chain.then(function () {
+          message = tab.label + " 생성 중... (" + (done + 1) + "/" + tabs.length + ") 창을 닫지 마세요.";
+          draw();
+          return tab.make(w).then(function (value) {
+            return saveWeekItem(w.week, tab.id, value);
+          }).then(function () {
+            done++;
+          }, function (e) {
+            failed.push(tab.label + ": " + e.message);
+          });
+        });
+      }, Promise.resolve()).then(function () {
+        busy = false;
+        message = done + "개 항목을 만들었습니다. AI 결과에는 오류가 있을 수 있으니 검토해 주세요."
+          + (failed.length ? " 실패: " + failed.join(" / ") : "");
+        draw();
+      });
+    }
+
+    function renderToolbar(tab) {
+      var all = h("button", { class: "btn btn-primary btn-small", type: "button", text: "✨ 이 주차 AI 전체 생성" });
+      all.disabled = busy;
+      all.addEventListener("click", function () {
+        var todo = WEEK_TABS.filter(function (t) { return t.make && !hasWeekItem(w.week, t); });
+        if (!todo.length) {
+          message = "모두 만들어져 있습니다. 다시 만들 항목은 탭의 다시 생성 버튼을 눌러 주세요.";
+          draw();
+          return;
+        }
+        if (window.confirm(todo.length + "개 항목을 만듭니다. 이미 만든 항목은 건너뜁니다. AI 사용량이 차감됩니다. 진행할까요?")) generate(todo);
+      });
+      var one = null;
+      if (tab.make) {
+        var exists = hasWeekItem(w.week, tab);
+        one = h("button", { class: "btn btn-ghost btn-small", type: "button", text: (exists ? "다시 생성: " : "AI 생성: ") + tab.label });
+        one.disabled = busy;
+        one.addEventListener("click", function () {
+          if (exists && !window.confirm("지금 내용을 새로 만든 내용으로 바꿉니다. AI 사용량이 차감됩니다. 진행할까요?")) return;
+          generate([tab]);
+        });
+      }
+      return h("div", { class: "week-toolbar" }, [
+        h("div", { class: "admin-buttons" }, [all, one]),
+        h("p", { class: "submit-note", role: "status", text: message }),
+        h("p", { class: "submit-note", text: "만든 자료는 이 브라우저에만 저장됩니다. 수강생에게 공개하려면 관리자 화면의 설정 파일 탭에서 " + WEEK_FILE + "을 내려받아 사이트 폴더에 올려 주세요." })
+      ]);
+    }
+
+    function renderBody(tab, admin) {
+      var value = weekData(w.week)[tab.id];
+      if (tab.id === "videos") return renderYoutube(w.week, "videos", "영상", admin);
+      if (tab.id === "songs") return renderYoutube(w.week, "songs", "노래", admin);
+      if (!hasWeekItem(w.week, tab)) return h("p", { class: "submit-note", text: "아직 만들지 않았습니다." });
+      if (tab.id === "assignment") return renderWeekAssignment(value, w, admin);
+      if (tab.id === "sentences") return renderSentences(value);
+      if (tab.id === "images") return renderWeekImages(value, w);
+      if (tab.id === "liveQuiz") return renderWeekLiveQuiz(value);
+      if (tab.id === "onlineQuiz") return renderOnlineQuiz(value, w.week);
+      return renderSlides(value, cleanups);
+    }
+
+    function draw() {
+      cleanUp();
+      node.textContent = "";
+      var admin = !!sessionStorage.getItem(ADMIN_KEY);
+      var tabs = WEEK_TABS.filter(function (t) {
+        return admin || (!t.adminOnly && hasWeekItem(w.week, t));
+      });
+      if (!tabs.length) return;
+      var tab = tabs.filter(function (t) { return t.id === current; })[0] || tabs[0];
+      current = tab.id;
+      var bar = h("div", { class: "week-tabs", role: "group", "aria-label": w.week + "주차 학습 자료" }, tabs.map(function (t) {
+        var btn = h("button", { class: "week-chip" + (t === tab ? " is-active" : ""), type: "button", "aria-pressed": String(t === tab), text: t.label });
+        btn.addEventListener("click", function () {
+          current = t.id;
+          draw();
+        });
+        return btn;
+      }));
+      node.appendChild(h("p", { class: "detail-title", text: "주차 학습 자료" }));
+      node.appendChild(bar);
+      if (admin) node.appendChild(renderToolbar(tab));
+      node.appendChild(renderBody(tab, admin));
+    }
+
+    weekRedraws.push(function () {
+      if (opened && !busy) draw();
+    });
+
+    return {
+      node: node,
+      toggle: function (open) {
+        if (!open) {
+          cleanUp();
+          return;
+        }
+        opened = true;
+        loadWeekContent().then(function () {
+          if (!busy) draw();
+        });
+      }
+    };
+  }
+
   function renderWeek(item) {
     var L = C.curriculum.labels;
     var w = item.week;
-    return h("li", {}, [
+    var studio = renderWeekStudio(w);
+    var details = (
       h("details", { class: "week-item reveal" + (w.exam ? " is-exam" : ""), id: "week-" + w.week }, [
         h("summary", { class: "week-summary" }, [
           h("span", { class: "week-num", text: w.week + C.ui.weekSuffix }),
@@ -4183,11 +5031,14 @@ window.SITE_CONFIG = {
               h("p", { class: "pinyin", text: w.pinyin })
             ]) : null
           ]),
+          studio.node,
           w.videos && w.videos.length ? renderVideos(w.videos) : null,
           w.assignment ? renderAssignment(item) : null
         ])
       ])
-    ]);
+    );
+    details.addEventListener("toggle", function () { studio.toggle(details.open); });
+    return h("li", {}, [details]);
   }
 
   function renderCalendar(sched) {
