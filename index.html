@@ -1035,6 +1035,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 @media (prefers-reduced-motion: reduce) {
   .dig-pile, .dig-dirt, .dig-worker, .dig-tool { animation: none; }
 }
+.history-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--primary-deep); font-weight: 700; }
 .source-name { min-width: 0; overflow-wrap: anywhere; }
 .note-hero { display: grid; gap: 8px; padding: clamp(18px, 3vw, 28px); border-radius: 18px; background: linear-gradient(135deg, var(--primary-deep), var(--primary)); color: #fff; }
 .note-kicker { font-size: 0.85rem; font-weight: 700; opacity: 0.9; }
@@ -1250,7 +1251,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.27",
+  version: "1.0.28",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -1352,7 +1353,7 @@ window.SITE_CONFIG = {
     // 과제 기본 마감: 수업일로부터 dueAfterDays일 뒤 dueTime(한국 시간)
     assignmentDefaults: { dueAfterDays: 6, dueTime: "23:59" },
     // 각 주차에 time, place를 적으면 그 주만 다르게 표시됩니다.
-    // 과제 submitUrl에 외부 제출 주소를 넣으면 그 주소로 연결되고, 비우면 수강생 공간에서 제출합니다.
+    // 과제는 모두 수강생 공간에서 구글 드라이브 공유 주소로 제출합니다.
     // 영상은 url에 주소를 넣으면 그 영상으로 연결됩니다.
     weeks: [
       { week: 1, title: "중국어의 소리", topic: "병음, 성조, 기본 인사", hanzi: "你好", pinyin: "Nǐ hǎo",
@@ -1361,14 +1362,14 @@ window.SITE_CONFIG = {
       { week: 2, title: "인사와 이름", topic: "이름 묻고 답하기", hanzi: "你叫什么名字?", pinyin: "Nǐ jiào shénme míngzi?",
         contents: ["이름 묻고 답하기", "인칭대명사와 의문사 什么", "AI와 자기소개 대화 연습"],
         videos: [{ title: "중국어 이름 묻기", query: "중국어 이름 묻기 你叫什么名字" }],
-        assignment: { title: "성조 낭독 녹음", text: "1~2주차 표현을 성조에 유의해 읽고 녹음해 제출합니다.", submitUrl: "" } },
+        assignment: { title: "성조 낭독 녹음", text: "1~2주차 표현을 성조에 유의해 읽고 녹음해 제출합니다." } },
       { week: 3, title: "국적과 신분", topic: "是 문장으로 자기소개", hanzi: "我是韩国人。", pinyin: "Wǒ shì Hánguórén.",
         contents: ["是 문장의 긍정·부정·의문", "국적과 신분 어휘", "자기소개 말하기"],
         videos: [{ title: "중국어 是 문장", query: "중국어 是 문장 기초 문법" }] },
       { week: 4, title: "가족", topic: "有 문장, 양사 기초", hanzi: "你家有几口人?", pinyin: "Nǐ jiā yǒu jǐ kǒu rén?",
         contents: ["有 문장과 没有", "가족 호칭과 양사 口·个", "AI로 가족 소개 문장 첨삭받기"],
         videos: [{ title: "중국어 가족 소개", query: "중국어 가족 소개 표현" }],
-        assignment: { title: "가족 소개 작문", text: "가족을 소개하는 중국어 문장 5개를 쓰고, AI 첨삭 전후를 비교해 제출합니다.", submitUrl: "" } },
+        assignment: { title: "가족 소개 작문", text: "가족을 소개하는 중국어 문장 5개를 쓰고, AI 첨삭 전후를 비교해 제출합니다." } },
       { week: 5, title: "숫자와 날짜", topic: "숫자, 요일, 날짜 말하기", hanzi: "今天几月几号?", pinyin: "Jīntiān jǐ yuè jǐ hào?",
         contents: ["숫자 읽기", "연·월·일·요일 표현", "생일 묻고 답하기"],
         videos: [{ title: "중국어 숫자와 날짜", query: "중국어 숫자 날짜 요일 표현" }] },
@@ -1378,7 +1379,7 @@ window.SITE_CONFIG = {
       { week: 7, title: "쇼핑", topic: "가격 묻기, 화폐 단위", hanzi: "这个多少钱?", pinyin: "Zhège duōshao qián?",
         contents: ["가격 묻고 읽기", "화폐 단위 块·毛", "물건 사기 역할극"],
         videos: [{ title: "중국어 쇼핑 회화", query: "중국어 쇼핑 회화 多少钱" }],
-        assignment: { title: "쇼핑 데이터 표 만들기", text: "중국 온라인 상품 5개의 이름과 가격을 AI로 정리해 표로 제출합니다.", submitUrl: "" } },
+        assignment: { title: "쇼핑 데이터 표 만들기", text: "중국 온라인 상품 5개의 이름과 가격을 AI로 정리해 표로 제출합니다." } },
       { week: 8, title: "중간 평가", topic: "1~7주 내용 점검", exam: true,
         contents: ["발음·회화·문장 이해 평가"] },
       { week: 9, title: "음식 주문", topic: "식당 표현, 要 문장", hanzi: "我要一杯茶。", pinyin: "Wǒ yào yì bēi chá.",
@@ -1387,14 +1388,14 @@ window.SITE_CONFIG = {
       { week: 10, title: "위치와 길 찾기", topic: "방위사, 在 문장", hanzi: "地铁站在哪儿?", pinyin: "Dìtiězhàn zài nǎr?",
         contents: ["방위사와 在 문장", "길 묻고 답하기", "지도 보며 안내하기"],
         videos: [{ title: "중국어 길 찾기", query: "중국어 길 묻기 在哪儿" }],
-        assignment: { title: "길 안내 대화문", text: "학교 주변을 안내하는 중국어 대화문을 작성해 제출합니다.", submitUrl: "" } },
+        assignment: { title: "길 안내 대화문", text: "학교 주변을 안내하는 중국어 대화문을 작성해 제출합니다." } },
       { week: 11, title: "교통", topic: "교통수단, 방법 묻기", hanzi: "怎么去学校?", pinyin: "Zěnme qù xuéxiào?",
         contents: ["교통수단 어휘", "怎么로 방법 묻기", "이동 경로 설명하기"],
         videos: [{ title: "중국어 교통수단", query: "중국어 교통수단 표현 怎么去" }] },
       { week: 12, title: "취미", topic: "喜欢 문장, 여가 활동", hanzi: "你喜欢做什么?", pinyin: "Nǐ xǐhuan zuò shénme?",
         contents: ["喜欢과 동사 표현", "여가 활동 어휘", "AI로 중국 SNS 인기 취미 자료 요약하기"],
         videos: [{ title: "중국어 취미 표현", query: "중국어 취미 표현 喜欢" }],
-        assignment: { title: "취미 자료 요약", text: "중국어 자료 하나를 AI로 요약하고, 내용을 직접 확인한 결과를 함께 제출합니다.", submitUrl: "" } },
+        assignment: { title: "취미 자료 요약", text: "중국어 자료 하나를 AI로 요약하고, 내용을 직접 확인한 결과를 함께 제출합니다." } },
       { week: 13, title: "날씨와 계절", topic: "형용사 술어문", hanzi: "今天天气怎么样?", pinyin: "Jīntiān tiānqì zěnmeyàng?",
         contents: ["형용사 술어문", "날씨와 계절 어휘", "도시별 날씨 자료 비교하기"],
         videos: [{ title: "중국어 날씨 표현", query: "중국어 날씨 표현 天气怎么样" }] },
@@ -1505,7 +1506,7 @@ window.SITE_CONFIG = {
   portal: {
     label: "출석·과제",
     title: "🎓 수강생 공간",
-    intro: "로그인하면 출석을 체크하고 과제 파일을 제출할 수 있습니다.",
+    intro: "로그인하면 출석을 체크하고 과제를 구글 드라이브 공유 주소로 제출할 수 있습니다.",
     loginTitle: "로그인",
     idLabel: "ID",
     pwLabel: "PW",
@@ -1526,18 +1527,16 @@ window.SITE_CONFIG = {
     attendCount: "출석 현황",
     submitTitle: "과제 제출",
     assignmentLabel: "과제 선택",
-    fileLabel: "과제 파일",
-    fileHint: "PDF, DOCX, HWPX, PPTX, ZIP, MP3, M4A · 최대 20MB",
-    allowedExtensions: ["pdf", "docx", "hwpx", "pptx", "zip", "mp3", "m4a"],
-    maxFileMb: 20,
-    submit: "파일 제출",
-    fileMissing: "제출할 파일을 선택해 주세요.",
-    fileType: "허용되지 않는 파일 형식입니다.",
-    fileSize: "파일이 너무 큽니다. 최대 용량을 확인해 주세요.",
+    linkLabel: "구글 드라이브 공유 주소",
+    linkPlaceholder: "https://drive.google.com/file/d/...",
+    linkHint: "구글 드라이브에 과제를 올린 뒤 공유 설정을 '링크가 있는 모든 사용자'(뷰어 이상)로 바꾸고, 복사한 링크를 붙여 넣어 주세요.",
+    submit: "주소 제출",
+    linkMissing: "구글 드라이브 공유 주소를 입력해 주세요.",
+    linkInvalid: "구글 드라이브나 구글 문서의 공유 주소가 아닙니다. 공유 버튼에서 복사한 링크를 넣어 주세요.",
     closed: "마감된 과제입니다.",
     lateDemo: "마감이 지났지만 체험 모드라 제출을 시험해 볼 수 있습니다.",
-    saved: "제출 기록이 저장되었습니다. 체험 모드에서는 파일 자체는 업로드되지 않습니다.",
-    resubmit: "이전 제출을 새 파일로 바꿉니다.",
+    saved: "제출 주소를 저장했습니다. 체험 모드에서는 이 브라우저에만 저장되어 교수자에게 전달되지 않습니다.",
+    resubmit: "이미 제출한 과제입니다. 다시 제출하면 주소가 바뀝니다.",
     historyTitle: "제출 내역",
     historyEmpty: "아직 제출한 과제가 없습니다."
   },
@@ -1674,6 +1673,8 @@ window.SITE_CONFIG = {
     return;
   }
 
+  var filePortal = C.portal;
+
   // 관리자 화면에서 저장한 설정이 있으면 파일의 기본 설정 위에 덮어쓴다.
   try {
     var savedConfig = JSON.parse(localStorage.getItem("kc.config"));
@@ -1686,6 +1687,19 @@ window.SITE_CONFIG = {
   } catch (e) {
     // 저장소를 쓸 수 없으면 파일의 기본 설정으로 연다.
   }
+
+  // 파일 제출을 쓰던 때 저장한 설정은 드라이브 주소 제출 문구로 바꾼다.
+  if ("fileLabel" in C.portal) {
+    ["fileLabel", "fileHint", "allowedExtensions", "maxFileMb", "fileMissing", "fileType", "fileSize"].forEach(function (key) {
+      delete C.portal[key];
+    });
+    ["intro", "linkLabel", "linkPlaceholder", "linkHint", "submit", "linkMissing", "linkInvalid", "saved", "resubmit"].forEach(function (key) {
+      C.portal[key] = filePortal[key];
+    });
+  }
+  C.curriculum.weeks.forEach(function (w) {
+    if (w.assignment) delete w.assignment.submitUrl;
+  });
 
   // 요소 생성 도우미: 설정값은 항상 textContent로 넣어 HTML로 해석되지 않게 한다.
   function h(tag, attrs, children) {
@@ -2289,6 +2303,23 @@ window.SITE_CONFIG = {
     ]);
   }
 
+  // 구글 드라이브 파일·폴더와 구글 문서의 공유 주소만 받는다.
+  function isDriveUrl(value) {
+    var url;
+    try {
+      url = new URL(String(value));
+    } catch (e) {
+      return false;
+    }
+    if (url.protocol !== "https:") return false;
+    if (url.hostname === "drive.google.com") {
+      return /^\/file\/(u\/\d+\/)?d\/[\w-]+/.test(url.pathname)
+        || /^\/drive\/(u\/\d+\/)?folders\/[\w-]+/.test(url.pathname)
+        || (url.pathname === "/open" && url.searchParams.has("id"));
+    }
+    return url.hostname === "docs.google.com" && /^\/(document|spreadsheets|presentation)\/(u\/\d+\/)?d\/[\w-]+/.test(url.pathname);
+  }
+
   function renderSubmission(d, student, sched, redraw, flash) {
     var key = "submissions." + student.id;
     var tasks = sched.weeks.filter(function (x) { return x.week.assignment; });
@@ -2298,7 +2329,7 @@ window.SITE_CONFIG = {
     }));
     if (pendingSubmitWeek) select.value = String(pendingSubmitWeek);
     pendingSubmitWeek = null;
-    var file = h("input", { id: "submit-file", type: "file", accept: d.allowedExtensions.map(function (x) { return "." + x; }).join(",") });
+    var link = h("input", { id: "submit-link", type: "url", inputmode: "url", autocomplete: "off", placeholder: d.linkPlaceholder });
     var status = h("p", { class: "submit-note" });
     var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
     var button = h("button", { class: "btn btn-primary btn-small", type: "submit", text: d.submit });
@@ -2323,9 +2354,9 @@ window.SITE_CONFIG = {
       h("div", { class: "field" }, [h("label", { class: "field-label", for: "submit-assignment", text: d.assignmentLabel }), select]),
       status,
       h("div", { class: "field" }, [
-        h("label", { class: "field-label", for: "submit-file", text: d.fileLabel }),
-        file,
-        h("p", { class: "submit-note", text: d.fileHint })
+        h("label", { class: "field-label", for: "submit-link", text: d.linkLabel }),
+        link,
+        h("p", { class: "submit-note", text: d.linkHint })
       ]),
       error,
       flash ? h("p", { class: "form-ok", role: "status", text: flash }) : null,
@@ -2333,17 +2364,16 @@ window.SITE_CONFIG = {
     ]);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var picked = file.files[0];
+      var url = link.value.trim();
       var message = "";
-      if (!picked) message = d.fileMissing;
-      else if (d.allowedExtensions.indexOf(picked.name.split(".").pop().toLowerCase()) < 0) message = d.fileType;
-      else if (picked.size > d.maxFileMb * 1048576) message = d.fileSize;
+      if (!url) message = d.linkMissing;
+      else if (!isDriveUrl(url)) message = d.linkInvalid;
       else if (currentTask().dueAt <= Date.now() && !C.backend.ignoreDeadlines) message = d.closed;
       error.textContent = message;
       error.hidden = !message;
       if (message) return;
       var latest = store.get(key, {});
-      latest[select.value] = { fileName: picked.name, size: picked.size, submittedAt: new Date().toISOString() };
+      latest[select.value] = { url: url, submittedAt: new Date().toISOString() };
       store.set(key, latest);
       redraw(null, d.saved);
     });
@@ -2356,8 +2386,11 @@ window.SITE_CONFIG = {
       rows.length ? h("ul", { class: "history-list" }, rows.map(function (x) {
         var r = history[x.week.week];
         return h("li", {}, [
-          h("span", { class: "history-name", text: x.week.week + C.ui.weekSuffix + " · " + r.fileName }),
-          h("span", { class: "submit-note", text: formatSize(r.size) + " · " + formatStamp(r.submittedAt) })
+          h("span", { class: "history-name", text: x.week.week + C.ui.weekSuffix + " · " + x.week.assignment.title }),
+          isDriveUrl(r.url)
+            ? h("a", { class: "history-link", href: r.url, target: "_blank", rel: "noopener noreferrer", text: "제출한 주소 열기 ↗" })
+            : h("span", { class: "submit-note", text: "이전 파일 제출 기록: " + (r.fileName || "") }),
+          h("span", { class: "submit-note", text: formatStamp(r.submittedAt) })
         ]);
       })) : h("p", { class: "card-text", text: d.historyEmpty })
     ]);
@@ -3593,7 +3626,7 @@ window.SITE_CONFIG = {
       h("table", { class: "data-table" }, [
         h("thead", {}, [h("tr", {}, headers.map(function (t) { return h("th", { scope: "col", text: t }); }))]),
         h("tbody", {}, rows.map(function (r) {
-          return h("tr", {}, r.map(function (v) { return h("td", { text: String(v === undefined || v === null ? "" : v) }); }));
+          return h("tr", {}, r.map(function (v) { return v instanceof Node ? h("td", {}, [v]) : h("td", { text: String(v === undefined || v === null ? "" : v) }); }));
         }))
       ])
     ]);
@@ -3629,12 +3662,12 @@ window.SITE_CONFIG = {
     options: "선택지", totalLabel: "합계 문구", voteUnit: "표 단위", mine: "내 선택 표시", fields: "입력 항목",
     schedule: "수업 일정", startDate: "개강일", time: "시간", place: "장소", skipDates: "휴강일", date: "날짜",
     assignmentDefaults: "과제 마감 기본값", dueAfterDays: "수업 후 마감까지 일수", dueTime: "마감 시각", weeks: "주차", topic: "주제", contents: "학습 내용",
-    videos: "참고 영상", query: "유튜브 검색어", assignment: "과제", submitUrl: "제출 주소", calendar: "달력 문구", labels: "화면 문구",
+    videos: "참고 영상", query: "유튜브 검색어", assignment: "과제", calendar: "달력 문구", labels: "화면 문구",
     info: "강의 정보", infoTitle: "강의 정보 제목", gradingTitle: "평가 제목", gradingNote: "평가 안내", grading: "평가 비율", percent: "비율(%)",
     maker: "제공사", q: "질문", a: "답변", photo: "사진 파일", photoAlt: "사진 설명", role: "소속", bio: "소개", contactTitle: "연락처 제목", contacts: "연락처", email: "이메일",
     delayMs: "표시 지연(밀리초)", action: "버튼 문구", hideToday: "하루 숨김 문구", close: "닫기 문구",
     allowAnyDay: "수업일 외 출석 허용(체험용)", ignoreDeadlines: "마감 후 제출 허용(체험용)", notice: "체험 모드 안내문",
-    allowedExtensions: "허용 확장자", maxFileMb: "최대 용량(MB)", exam: "평가 주차",
+    exam: "평가 주차",
     quiz: "실시간 퀴즈", defaultLimit: "기본 제한 시간(초)", ai: "AI 출제", model: "모델 ID", samples: "기본 문제",
     choices: "보기", answer: "정답 번호(0부터)", limit: "제한 시간(초)"
   };
@@ -3771,7 +3804,7 @@ window.SITE_CONFIG = {
       if (parentKey === "weeks" && !obj.assignment) {
         var add = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "＋ 이 주차에 과제 추가" });
         add.addEventListener("click", function () {
-          obj.assignment = { title: "", text: "", submitUrl: "" };
+          obj.assignment = { title: "", text: "" };
           draw();
         });
         box.appendChild(add);
@@ -3959,18 +3992,24 @@ window.SITE_CONFIG = {
       var w = C.curriculum.weeks.filter(function (x) { return String(x.week) === String(week); })[0];
       return w && w.assignment ? w.assignment.title : "";
     };
-    var headers = ["학번", "이름", "주차", "과제", "파일 이름", "크기", "제출 시각"];
+    var headers = ["학번", "이름", "주차", "과제", "구글 드라이브 주소", "제출 시각"];
     var rows = [];
+    var cells = [];
     Object.keys(records).forEach(function (id) {
       Object.keys(records[id]).forEach(function (week) {
         var r = records[id][week];
-        rows.push([id, studentName(id), week + "주", titleOf(week), r.fileName, formatSize(r.size), formatStamp(r.submittedAt)]);
+        var address = isDriveUrl(r.url) ? r.url : "이전 파일 제출: " + (r.fileName || "");
+        var row = [id, studentName(id), week + "주", titleOf(week), address, formatStamp(r.submittedAt)];
+        rows.push(row);
+        cells.push(row.map(function (v, i) {
+          return i === 4 && isDriveUrl(r.url) ? h("a", { href: r.url, target: "_blank", rel: "noopener noreferrer", text: "열기 ↗" }) : v;
+        }));
       });
     });
     return [
       recordsNotice(),
       h("div", {}, [downloadButton("엑셀용 CSV 내려받기", function () { downloadCsv("과제제출내역", headers, rows); }, !rows.length)]),
-      dataTable(headers, rows, "아직 제출된 과제가 없습니다.")
+      dataTable(headers, cells, "아직 제출된 과제가 없습니다.")
     ];
   }
 
@@ -4307,13 +4346,11 @@ window.SITE_CONFIG = {
       var closed = left <= 0;
       countdown.textContent = closed ? L.closed : remainingText(left);
       countdown.className = "countdown" + (closed ? " is-closed" : left < 259200000 ? " is-urgent" : "");
-      var state = !closed ? (a.submitUrl ? "link" : "portal") : C.backend.ignoreDeadlines ? "demo" : "closed";
+      var state = !closed ? "portal" : C.backend.ignoreDeadlines ? "demo" : "closed";
       if (action.getAttribute("data-state") === state) return;
       action.setAttribute("data-state", state);
       action.textContent = "";
-      if (state === "link") {
-        action.appendChild(h("a", { class: "btn btn-primary btn-small", href: a.submitUrl, target: "_blank", rel: "noopener noreferrer", text: L.submit }));
-      } else if (state === "closed") {
+      if (state === "closed") {
         action.appendChild(h("button", { class: "btn btn-small", type: "button", disabled: "disabled", text: L.submitClosed }));
       } else {
         var go = h("button", { class: "btn btn-primary btn-small", type: "button", text: state === "demo" ? L.submitDemo : L.submit });
@@ -4730,7 +4767,7 @@ window.SITE_CONFIG = {
   function makeAssignment(w) {
     return aiJson(jsonObject({ title: STR, text: STR }),
       "교양중국어 수업의 주차별 과제를 하나 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
-        + " title은 25자 이내의 과제 이름, text는 수행 방법과 제출물을 담은 300자 이내의 안내입니다.",
+        + " title은 25자 이내의 과제 이름, text는 수행 방법과 제출물을 담은 300자 이내의 안내입니다. 제출은 결과물을 구글 드라이브에 올려 공유 주소를 제출하는 방식이므로, 그에 맞게 안내합니다.",
       function (d) { return isText(d.title) && isText(d.text) ? { title: d.title.trim(), text: d.text.trim() } : null; });
   }
 
@@ -5265,7 +5302,7 @@ window.SITE_CONFIG = {
     if (admin) {
       use = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "이 주차의 제출 과제로 등록" });
       use.addEventListener("click", function () {
-        w.assignment = { title: a.title, text: a.text, submitUrl: w.assignment ? w.assignment.submitUrl : "" };
+        w.assignment = { title: a.title, text: a.text };
         saveConfigAndReload();
       });
     }
