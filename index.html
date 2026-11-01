@@ -1013,6 +1013,9 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .sentence-num { margin-right: 0.4em; color: var(--primary); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
 .sentence-korean { line-height: 1.5; }
 .sentence-point { color: var(--muted); font-size: 0.82rem; }
+.sentence-explain { display: grid; gap: 4px; margin-top: 6px; padding: 10px 12px; border-left: 3px solid var(--primary); border-radius: 0 10px 10px 0; box-shadow: var(--shadow-inset); }
+.sentence-formula { color: var(--primary-deep); font-size: 0.92rem; font-weight: 700; overflow-wrap: anywhere; }
+.sentence-note { font-size: 0.92rem; line-height: 1.65; overflow-wrap: anywhere; }
 .dig-anim { display: block; width: 132px; }
 .dig-anim[hidden] { display: none; }
 .dig-anim svg { display: block; overflow: visible; }
@@ -1251,7 +1254,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.28",
+  version: "1.0.29",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -4455,10 +4458,10 @@ window.SITE_CONFIG = {
     return w.week + "주차 「" + w.title + "」, 주제: " + w.topic + ", 학습 내용: " + (w.contents || []).join(", ") + sourcePrompt(w.week);
   }
 
-  function aiJson(schema, prompt, check) {
+  function aiJson(schema, prompt, check, maxTokens) {
     return aiRequest({
       model: C.quiz.ai.model,
-      max_tokens: 16000,
+      max_tokens: maxTokens || 16000,
       output_config: { effort: "medium", format: { type: "json_schema", schema: schema } },
       messages: [{ role: "user", content: prompt }]
     }, function (text) {
@@ -4772,14 +4775,17 @@ window.SITE_CONFIG = {
   }
 
   function makeSentences(w) {
-    return aiJson(jsonObject({ sentences: jsonList({ type: { type: "string", enum: ["어휘", "문법", "문형"] }, hanzi: STR, pinyin: STR, korean: STR, point: STR }) }),
+    return aiJson(jsonObject({ sentences: jsonList({ type: { type: "string", enum: ["어휘", "문법", "문형"] }, hanzi: STR, pinyin: STR, korean: STR, point: STR, formula: STR, explain: STR }) }),
       "이 주차 주제와 관련된 중국어 예문을 정확히 50개 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
         + " type별로 어휘 20개, 문법 15개, 문형 15개입니다. 입문자가 소리 내어 읽기 좋은 20자 이내의 문장으로, 서로 겹치지 않게 씁니다."
-        + " hanzi는 문장, pinyin은 한어병음, korean은 한글 번역, point는 익힐 어휘·문법·문형을 15자 이내로 적습니다.",
+        + " hanzi는 문장, pinyin은 한어병음, korean은 한글 번역, point는 익힐 어휘·문법·문형을 15자 이내로 적습니다."
+        + "\n문법 문장의 explain에는 이 문장에 쓰인 문법 규칙, 어순이나 품사의 역할, 틀리기 쉬운 점과 올바른 형태를 입문자가 이해하도록 100~150자로 구체적으로 씁니다. formula에는 어순 구조를 적습니다."
+        + "\n문형 문장의 formula에는 문형 공식을 '주어 + 有 + 수량 + 명사'처럼 적고, explain에는 언제 쓰는 문형인지, 각 자리에 어떤 말이 들어가는지, 낱말을 바꾼 중국어 예와 그 뜻을 100~150자로 구체적으로 씁니다."
+        + "\n어휘 문장의 formula와 explain은 빈 문자열로 둡니다.",
       function (d) {
         var list = (d.sentences || []).filter(function (x) { return x && isText(x.hanzi) && isText(x.pinyin) && isText(x.korean); }).slice(0, 50);
         return list.length >= 45 ? list : null;
-      });
+      }, 24000);
   }
 
   function makeLiveQuiz(w) {
@@ -5004,7 +5010,11 @@ window.SITE_CONFIG = {
             ]),
             h("p", { class: "pinyin", text: x.pinyin }),
             h("p", { class: "sentence-korean", text: x.korean }),
-            h("p", { class: "sentence-point", text: x.type + (x.point ? " · " + x.point : "") })
+            h("p", { class: "sentence-point", text: x.type + (x.point ? " · " + x.point : "") }),
+            x.type !== "어휘" && (x.formula || x.explain) ? h("div", { class: "sentence-explain" }, [
+              x.formula ? h("p", { class: "sentence-formula", text: (x.type === "문형" ? "공식: " : "구조: ") + x.formula }) : null,
+              x.explain ? h("p", { class: "sentence-note", text: x.explain }) : null
+            ]) : null
           ])
         ]));
       });
