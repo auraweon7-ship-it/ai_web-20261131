@@ -1010,6 +1010,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .sentence-row.is-speaking { outline: 2px solid var(--primary); }
 .tts-btn { width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--bg); box-shadow: var(--shadow-small); font-size: 1.1rem; cursor: pointer; }
 .sentence-hanzi { font-size: 1.2rem; font-weight: 700; line-height: 1.5; }
+.sentence-num { margin-right: 0.4em; color: var(--primary); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
 .sentence-korean { line-height: 1.5; }
 .sentence-point { color: var(--muted); font-size: 0.82rem; }
 .dig-anim { display: block; width: 132px; }
@@ -1203,7 +1204,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.22",
+  version: "1.0.23",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -4863,7 +4864,11 @@ window.SITE_CONFIG = {
         rows.appendChild(h("li", { class: "sentence-row" }, [
           say,
           h("div", { class: "sentence-text" }, [
-            h("p", { class: "sentence-hanzi", lang: "zh-Hans", text: x.hanzi }),
+            h("p", { class: "sentence-hanzi" }, [
+              // 유형을 골라도 번호가 바뀌지 않도록 전체 목록의 순서를 쓴다.
+              h("span", { class: "sentence-num", text: (list.indexOf(x) + 1) + "." }),
+              h("span", { lang: "zh-Hans", text: x.hanzi })
+            ]),
             h("p", { class: "pinyin", text: x.pinyin }),
             h("p", { class: "sentence-korean", text: x.korean }),
             h("p", { class: "sentence-point", text: x.type + (x.point ? " · " + x.point : "") })
