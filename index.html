@@ -1082,7 +1082,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.8",
+  version: "1.0.9",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -1152,7 +1152,7 @@ window.SITE_CONFIG = {
 
   about: {
     label: "프로그램 소개",
-    title: "이 강의의 장점",
+    title: "✨ 이 강의의 장점",
     intro: "좌우로 넘기며 살펴보세요.",
     prevLabel: "이전 장점",
     nextLabel: "다음 장점",
@@ -1167,7 +1167,7 @@ window.SITE_CONFIG = {
 
   curriculum: {
     label: "커리큘럼",
-    title: "15주 학습 계획",
+    title: "📅 15주 학습 계획",
     note: "주차를 누르면 자세한 내용이 펼쳐집니다. 주차별 내용은 계획안이며, 실제 진도는 강의계획서에 따라 달라질 수 있습니다.",
     labels: {
       date: "날짜", time: "시간", place: "장소", contents: "학습 내용", phrase: "핵심 표현",
@@ -1238,7 +1238,7 @@ window.SITE_CONFIG = {
         contents: ["발음·회화·문장 이해 평가"] }
     ],
     calendar: {
-      title: "수업 달력",
+      title: "🗓️ 수업 달력",
       intro: "날짜를 누르면 그날의 수업 내용이 나타납니다.",
       prevLabel: "이전 달",
       nextLabel: "다음 달",
@@ -1253,7 +1253,7 @@ window.SITE_CONFIG = {
 
   guide: {
     label: "수강 안내",
-    title: "수강 전에 확인하세요",
+    title: "📋 수강 전에 확인하세요",
     infoTitle: "강의 정보",
     info: [
       { label: "개설 학과", value: "중어중문학과" },
@@ -1294,7 +1294,7 @@ window.SITE_CONFIG = {
 
   poll: {
     label: "주제 투표",
-    title: "가장 먼저 배우고 싶은 주제는?",
+    title: "🗳️ 가장 먼저 배우고 싶은 주제는?",
     intro: "하나를 고르면 결과가 바로 반영됩니다. 다시 누르면 선택을 바꿀 수 있습니다.",
     totalLabel: "총 ",
     voteUnit: "표",
@@ -1310,7 +1310,7 @@ window.SITE_CONFIG = {
 
   apply: {
     label: "회원가입",
-    title: "회원가입",
+    title: "📝 회원가입",
     intro: "* 표시는 필수 항목입니다.",
     submit: "가입하기",
     summary: "다음 항목을 확인해 주세요.",
@@ -1337,7 +1337,7 @@ window.SITE_CONFIG = {
 
   portal: {
     label: "출석·과제",
-    title: "수강생 공간",
+    title: "🎓 수강생 공간",
     intro: "로그인하면 출석을 체크하고 과제 파일을 제출할 수 있습니다.",
     // 교수자가 관리하는 명단입니다. 로그인은 회원가입한 ID·PW로 합니다(서버가 없어 가입한 브라우저에서만 가능).
     roster: [{ id: "2026000001", name: "체험학생" }],
@@ -1379,7 +1379,7 @@ window.SITE_CONFIG = {
 
   // 실시간 퀴즈: 교수자 브라우저와 학생 휴대폰을 PeerJS(WebRTC)로 직접 연결합니다.
   quiz: {
-    title: "실시간 퀴즈",
+    title: "⚡ 실시간 퀴즈",
     intro: "교수자 화면의 QR 코드를 촬영하거나 6자리 코드를 입력해 입장하세요. 빨리 맞힐수록 점수가 높습니다.",
     defaultLimit: 20,
     // AI 출제에 쓰는 모델입니다. API 키는 관리자 화면의 AI 키 탭에서 등록합니다.
@@ -1405,7 +1405,7 @@ window.SITE_CONFIG = {
 
   tools: {
     label: "실습 도구",
-    title: "수업에서 쓰는 AI 도구",
+    title: "🤖 수업에서 쓰는 AI 도구",
     intro: "도구 목록은 수업 구성에 따라 바뀔 수 있습니다.",
     linkLabel: "공식 사이트",
     items: [
@@ -1418,7 +1418,7 @@ window.SITE_CONFIG = {
 
   prepare: {
     label: "수강 준비물",
-    title: "첫 수업 전에 챙겨 주세요",
+    title: "🎒 첫 수업 전에 챙겨 주세요",
     items: [
       { glyph: "機", title: "노트북", text: "실습에 사용할 노트북을 지참합니다." },
       { glyph: "號", title: "AI 도구 계정", text: "실습 도구에 로그인할 개인 계정을 준비합니다." },
@@ -1429,7 +1429,7 @@ window.SITE_CONFIG = {
 
   faq: {
     label: "FAQ",
-    title: "자주 묻는 질문",
+    title: "❓ 자주 묻는 질문",
     items: [
       { q: "중국어를 전혀 몰라도 들을 수 있나요?", a: "네. 입문 강의로 병음과 성조부터 시작하므로 사전 지식이 없어도 수강할 수 있습니다." },
       { q: "AI 도구를 써 본 적이 없어도 되나요?", a: "네. 도구의 기초 사용법부터 수업에서 함께 실습합니다." },
