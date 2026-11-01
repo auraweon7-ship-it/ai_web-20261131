@@ -1005,6 +1005,15 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .week-tabs, .week-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .week-chip { min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: var(--bg); box-shadow: var(--shadow-small); color: var(--text); font: inherit; font-size: 0.92rem; cursor: pointer; }
 .week-chip.is-active { background: var(--primary); box-shadow: none; color: #fff; font-weight: 700; }
+.week-editor { gap: 14px; }
+.week-editor-ai { display: grid; gap: 8px; padding: 14px; border-radius: 14px; background: var(--bg); box-shadow: var(--shadow-small); }
+.week-editor-fields, .edit-item-body, .edit-list, .edit-group { display: grid; gap: 10px; min-width: 0; }
+.edit-field { display: grid; gap: 4px; min-width: 0; }
+.edit-field textarea, .edit-field input, .edit-field select, .edit-row input, .week-editor-ai textarea { width: 100%; font: inherit; }
+.edit-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; align-items: center; }
+.edit-card { padding: 10px 12px; border-radius: 12px; box-shadow: var(--shadow-inset); }
+.edit-card > summary { min-height: 28px; font-weight: 700; overflow-wrap: anywhere; cursor: pointer; }
+.edit-item-body { margin-top: 10px; }
 .week-toolbar { display: grid; gap: 8px; padding: 12px 14px; border-radius: 14px; box-shadow: var(--shadow-inset); }
 .week-tab-body { display: grid; gap: 12px; min-width: 0; }
 .sentence-list { display: grid; gap: 8px; max-height: 560px; margin: 0; padding: 4px; overflow-y: auto; list-style: none; }
@@ -1267,7 +1276,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.32",
+  version: "1.0.33",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -4773,20 +4782,7 @@ window.SITE_CONFIG = {
   function makeLectureNote(w) {
     var names = weekSources(w.week).map(function (x) { return x.name; });
     var count = noteSlideCount();
-    return aiJson(jsonObject({
-      title: STR,
-      summary: STR,
-      slides: jsonList({
-        emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR, imagePrompt: STR,
-        points: { type: "array", items: STR },
-        examples: jsonList({ hanzi: STR, pinyin: STR, korean: STR }),
-        infoType: { type: "string", enum: ["stats", "steps", "timeline", "compare"] },
-        infoTitle: STR,
-        infoItems: jsonList({ label: STR, value: STR }),
-        source: STR
-      }),
-      sourcesUsed: jsonList({ file: STR, used: STR })
-    }), "이 주차 수업 1회분을 교수자가 그대로 강의할 수 있는 강의 슬라이드 정확히 " + count + "장으로 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
+    return aiJson(weekSchema("lectureNote"), "이 주차 수업 1회분을 교수자가 그대로 강의할 수 있는 강의 슬라이드 정확히 " + count + "장으로 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
       + " title은 전체 제목, summary는 150자 이내의 수업 개요입니다."
       + "\n슬라이드 순서: 첫 장은 학습 목표, 이어서 수업 순서대로 개념 설명과 예문과 연습, 마지막 장은 정리와 복습 안내입니다."
       + "\n각 슬라이드: emoji는 이모지 하나, kicker는 '도입', '문법', '연습'처럼 10자 이내의 단계 이름, title은 20자 이내의 제목, hanzi와 pinyin은 핵심 중국어와 병음(없으면 빈 문자열), body는 100~180자의 설명, points는 핵심 2~3개(각 40자 이내), examples는 중국어 예문 0~3개입니다."
@@ -4837,14 +4833,39 @@ window.SITE_CONFIG = {
   }
 
   function makeAssignment(w) {
-    return aiJson(jsonObject({ title: STR, text: STR }),
+    return aiJson(weekSchema("assignment"),
       "교양중국어 수업의 주차별 과제를 하나 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
         + " title은 25자 이내의 과제 이름, text는 수행 방법과 제출물을 담은 300자 이내의 안내입니다. 제출은 결과물을 구글 드라이브에 올려 공유 주소를 제출하는 방식이므로, 그에 맞게 안내합니다.",
       function (d) { return isText(d.title) && isText(d.text) ? { title: d.title.trim(), text: d.text.trim() } : null; });
   }
 
+  var INFO_ENUM = ["stats", "steps", "timeline", "compare"];
+  var SENTENCE_TYPES = ["어휘", "문법", "문형"];
+  var QUIZ_TYPES = ["mc", "ox", "blank", "order"];
+  var LIST_ROOTS = { sentences: "sentences", liveQuiz: "questions", onlineQuiz: "items", slides: "slides" };
+
+  function weekSchema(id) {
+    var strings = { type: "array", items: STR };
+    var info = {
+      infoType: { type: "string", enum: INFO_ENUM },
+      infoTitle: STR,
+      infoItems: jsonList({ label: STR, value: STR })
+    };
+    if (id === "assignment") return jsonObject({ title: STR, text: STR });
+    if (id === "sentences") return jsonObject({ sentences: jsonList({ type: { type: "string", enum: SENTENCE_TYPES }, hanzi: STR, pinyin: STR, korean: STR, point: STR, formula: STR, explain: STR }) });
+    if (id === "liveQuiz") return jsonObject({ questions: jsonList({ text: STR, choices: strings, answer: { type: "integer" } }) });
+    if (id === "onlineQuiz") return jsonObject({ items: jsonList({ type: { type: "string", enum: QUIZ_TYPES }, text: STR, choices: strings, answer: STR, explanation: STR }) });
+    if (id === "slides") return jsonObject({ slides: jsonList(Object.assign({ emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR, imagePrompt: STR, points: strings }, info)) });
+    return jsonObject({
+      title: STR,
+      summary: STR,
+      slides: jsonList(Object.assign({ emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR, imagePrompt: STR, points: strings, examples: jsonList({ hanzi: STR, pinyin: STR, korean: STR }) }, info, { source: STR })),
+      sourcesUsed: jsonList({ file: STR, used: STR })
+    });
+  }
+
   function makeSentences(w) {
-    return aiJson(jsonObject({ sentences: jsonList({ type: { type: "string", enum: ["어휘", "문법", "문형"] }, hanzi: STR, pinyin: STR, korean: STR, point: STR, formula: STR, explain: STR }) }),
+    return aiJson(weekSchema("sentences"),
       "이 주차 주제와 관련된 중국어 예문을 정확히 50개 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
         + " type별로 어휘 20개, 문법 15개, 문형 15개입니다. 입문자가 소리 내어 읽기 좋은 20자 이내의 문장으로, 서로 겹치지 않게 씁니다."
         + " hanzi는 문장, pinyin은 한어병음, korean은 한글 번역, point는 익힐 어휘·문법·문형을 15자 이내로 적습니다."
@@ -4874,7 +4895,7 @@ window.SITE_CONFIG = {
   }
 
   function makeOnlineQuiz(w) {
-    return aiJson(jsonObject({ items: jsonList({ type: { type: "string", enum: ["mc", "ox", "blank", "order"] }, text: STR, choices: { type: "array", items: STR }, answer: STR, explanation: STR }) }),
+    return aiJson(weekSchema("onlineQuiz"),
       "이 주차의 온라인 복습 퀴즈를 20문항 만들어 주세요. 유형별로 5문항씩입니다.\n" + weekBrief(w) + "\n" + COMMON_RULE
         + "\n- mc(객관식): choices에 보기 4개, answer에 정답 보기와 똑같은 글자를 씁니다."
         + "\n- ox: choices는 빈 배열, answer는 O 또는 X입니다."
@@ -4890,13 +4911,7 @@ window.SITE_CONFIG = {
   }
 
   function makeSlides(w) {
-    return aiJson(jsonObject({ slides: jsonList({
-      emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR, imagePrompt: STR,
-      points: { type: "array", items: STR },
-      infoType: { type: "string", enum: ["stats", "steps", "timeline", "compare"] },
-      infoTitle: STR,
-      infoItems: jsonList({ label: STR, value: STR })
-    }) }),
+    return aiJson(weekSchema("slides"),
       "이 주차 주제와 어울리는 중국 문화 정보를 슬라이드 10장으로 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
         + " 잘 알려지고 확인된 사실만 쓰고, 불확실한 수치나 고정관념은 쓰지 않습니다. 장마다 다른 내용을 다룹니다."
         + " 한 장의 글자 수는 합쳐서 350~450자로 충실하게 씁니다."
@@ -5632,6 +5647,320 @@ window.SITE_CONFIG = {
     weekRedraws.forEach(function (redraw) { redraw(); });
   }
 
+  /* 생성한 글 편집: 자료 구조를 따라 입력칸을 만들고, 저장 전까지는 복사본만 고친다. */
+  var FIELD_LABELS = {
+    title: "제목", text: "내용", summary: "개요", hanzi: "중국어", pinyin: "병음", korean: "한글 번역", point: "요점",
+    formula: "공식·구조", explain: "설명", type: "유형", choices: "보기", answer: "정답", explanation: "해설", limit: "제한 시간(초)",
+    emoji: "이모지", kicker: "단계·분류", body: "설명", imagePrompt: "이미지 설명(영어)", points: "핵심", examples: "예문",
+    infoType: "인포그래픽 유형", infoTitle: "인포그래픽 제목", infoItems: "인포그래픽 항목", label: "이름", value: "내용",
+    source: "근거", sourcesUsed: "참고한 자료", file: "파일", used: "활용 내용", slides: "슬라이드"
+  };
+  var FIELD_HIDDEN = ["image", "week"];
+  var NEW_ITEMS = {
+    examples: { hanzi: "", pinyin: "", korean: "" },
+    infoItems: { label: "", value: "" },
+    sourcesUsed: { file: "", used: "" }
+  };
+
+  function cloneData(value) {
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  function editableValue(tab, value) {
+    var copy = cloneData(value);
+    if (tab.id === "lectureNote" && !Array.isArray(copy.slides)) {
+      copy.slides = cloneData(noteSlides(copy));
+      delete copy.sections;
+    }
+    return copy;
+  }
+
+  function editItems(tab, value) {
+    return Array.isArray(value) ? value : tab.id === "lectureNote" ? value.slides : null;
+  }
+
+  function fieldEnum(tab, key) {
+    if (key === "infoType") return INFO_ENUM;
+    if (key === "type") return tab.id === "sentences" ? SENTENCE_TYPES : QUIZ_TYPES;
+    return null;
+  }
+
+  function blankLike(item) {
+    var out = {};
+    Object.keys(item).forEach(function (key) {
+      if (key === "image") return;
+      var v = item[key];
+      out[key] = Array.isArray(v) ? [] : typeof v === "number" ? 0 : fieldEnumDefault(key, v);
+    });
+    return out;
+  }
+
+  function fieldEnumDefault(key, v) {
+    return key === "type" || key === "infoType" ? v : "";
+  }
+
+  function itemSummary(item, i) {
+    return (i + 1) + ". " + String(item.title || item.hanzi || item.text || item.label || item.file || "새 항목");
+  }
+
+  function renderEditField(tab, parent, key, draft) {
+    if (FIELD_HIDDEN.indexOf(key) >= 0) return null;
+    var value = parent[key];
+    var label = FIELD_LABELS[key] || key;
+    if (Array.isArray(value)) {
+      var isStrings = value.length ? typeof value[0] === "string" : key === "points" || key === "choices";
+      return h("div", { class: "edit-group" }, [
+        h("p", { class: "field-label", text: label }),
+        isStrings ? renderStringList(parent, key, label, draft) : renderItemList(tab, value, key, draft)
+      ]);
+    }
+    var input;
+    var options = fieldEnum(tab, key);
+    if (options) {
+      input = h("select", {}, options.map(function (x) { return h("option", { value: x, text: x }); }));
+      input.value = value;
+    } else if (typeof value === "number") {
+      // 실시간 퀴즈 정답은 0부터 저장하지만 화면에서는 1번부터 보여 준다.
+      var isAnswer = key === "answer";
+      input = h("input", { type: "number", min: isAnswer ? "1" : "0", max: isAnswer ? "4" : "600" });
+      input.value = isAnswer ? value + 1 : value;
+      input.addEventListener("input", function () {
+        parent[key] = Number(input.value) - (isAnswer ? 1 : 0);
+        draft.dirty = true;
+      });
+      return h("label", { class: "edit-field" }, [h("span", { class: "field-label", text: isAnswer ? "정답 보기 번호 (1~4)" : label }), input]);
+    } else {
+      var text = String(value === undefined || value === null ? "" : value);
+      input = h("textarea", { rows: String(Math.min(8, Math.max(1, Math.ceil(text.length / 38)))) });
+      input.value = text;
+    }
+    input.addEventListener(options ? "change" : "input", function () {
+      parent[key] = input.value;
+      draft.dirty = true;
+    });
+    return h("label", { class: "edit-field" }, [h("span", { class: "field-label", text: label }), input]);
+  }
+
+  function renderStringList(parent, key, label, draft) {
+    var box = h("div", { class: "edit-list" });
+    function drawList() {
+      box.textContent = "";
+      parent[key].forEach(function (text, i) {
+        var input = h("input", { type: "text", "aria-label": label + " " + (i + 1) });
+        input.value = text;
+        input.addEventListener("input", function () {
+          parent[key][i] = input.value;
+          draft.dirty = true;
+        });
+        var del = h("button", { class: "mini-btn", type: "button", text: "삭제", "aria-label": label + " " + (i + 1) + " 삭제" });
+        del.addEventListener("click", function () {
+          parent[key].splice(i, 1);
+          draft.dirty = true;
+          drawList();
+        });
+        box.appendChild(h("div", { class: "edit-row" }, [input, del]));
+      });
+      var add = h("button", { class: "mini-btn", type: "button", text: "＋ " + label + " 추가" });
+      add.addEventListener("click", function () {
+        parent[key].push("");
+        draft.dirty = true;
+        drawList();
+      });
+      box.appendChild(add);
+    }
+    drawList();
+    return box;
+  }
+
+  // 항목이 많아도 가볍도록 펼칠 때 입력칸을 만든다.
+  function renderItemList(tab, list, key, draft) {
+    var box = h("div", { class: "edit-list" });
+    function drawList() {
+      box.textContent = "";
+      list.forEach(function (item, i) {
+        var body = h("div", { class: "edit-item-body" });
+        var details = h("details", { class: "edit-card" }, [
+          h("summary", { text: itemSummary(item, i) }),
+          body
+        ]);
+        details.addEventListener("toggle", function () {
+          if (!details.open || body.childElementCount) return;
+          Object.keys(item).forEach(function (field) {
+            var node = renderEditField(tab, item, field, draft);
+            if (node) body.appendChild(node);
+          });
+          if (item.image) {
+            var clear = h("button", { class: "mini-btn", type: "button", text: "이미지 지우기 (저장 후 다시 만들 수 있음)" });
+            clear.addEventListener("click", function () {
+              item.image = "";
+              draft.dirty = true;
+              clear.remove();
+            });
+            body.appendChild(clear);
+          }
+          var del = h("button", { class: "mini-btn", type: "button", text: "이 항목 삭제" });
+          del.addEventListener("click", function () {
+            list.splice(list.indexOf(item), 1);
+            draft.dirty = true;
+            drawList();
+          });
+          body.appendChild(del);
+        });
+        box.appendChild(details);
+      });
+      var add = h("button", { class: "mini-btn", type: "button", text: "＋ 항목 추가" });
+      add.addEventListener("click", function () {
+        var template = NEW_ITEMS[key] ? cloneData(NEW_ITEMS[key]) : list[0] ? blankLike(list[0]) : null;
+        if (!template) return;
+        list.push(template);
+        draft.dirty = true;
+        drawList();
+      });
+      box.appendChild(add);
+    }
+    drawList();
+    return box;
+  }
+
+  // 저장 전에 화면이 깨지지 않을 내용인지 확인한다.
+  function weekItemProblem(tab, value) {
+    function firstBad(list, ok) {
+      for (var i = 0; i < list.length; i++) {
+        if (!ok(list[i])) return i + 1;
+      }
+      return 0;
+    }
+    var bad;
+    if (tab.id === "assignment") return isText(value.title) && isText(value.text) ? "" : "제목과 내용을 모두 입력해 주세요.";
+    if (tab.id === "sentences") {
+      if (!value.length) return "문장이 하나도 없습니다.";
+      bad = firstBad(value, function (x) { return isText(x.hanzi) && isText(x.pinyin) && isText(x.korean); });
+      return bad ? bad + "번 문장의 중국어, 병음, 번역을 모두 입력해 주세요." : "";
+    }
+    if (tab.id === "liveQuiz") {
+      if (!value.length) return "문제가 하나도 없습니다.";
+      bad = firstBad(value, function (x) { return normalizeQuestions([x]).length === 1; });
+      return bad ? bad + "번 문제의 내용, 보기 4개, 정답 번호(1~4)를 확인해 주세요." : "";
+    }
+    if (tab.id === "onlineQuiz") {
+      if (!value.length) return "문항이 하나도 없습니다.";
+      bad = firstBad(value, function (x) { return normalizeOnlineQuiz([x]).length === 1; });
+      return bad ? bad + "번 문항을 확인해 주세요. 객관식은 보기 4개와 그중 하나인 정답, OX는 O나 X, 빈칸은 ____와 한자 2글자 정답, 순서 맞추기는 조각 3개 이상이 필요합니다." : "";
+    }
+    var slides = editItems(tab, value);
+    if (tab.id === "lectureNote" && !isText(value.title)) return "노트 제목을 입력해 주세요.";
+    if (!slides || !slides.length) return "슬라이드가 하나도 없습니다.";
+    bad = firstBad(slides, function (x) { return isText(x.title) && (isText(x.body) || (x.points || []).length); });
+    return bad ? bad + "번 슬라이드의 제목과 설명을 입력해 주세요." : "";
+  }
+
+  // AI에 보내지 않는 값(이미지, 제한 시간)은 원래 항목에서 되살린다.
+  function stripEditHidden(item) {
+    var copy = Object.assign({}, item);
+    delete copy.image;
+    delete copy.limit;
+    delete copy.week;
+    return copy;
+  }
+
+  function mergeEdited(old, next) {
+    return Object.assign({}, old || {}, next);
+  }
+
+  function aiEditWeekItem(w, tab, value, scope, instruction) {
+    var root = LIST_ROOTS[tab.id];
+    var schema = weekSchema(tab.id);
+    var items = editItems(tab, value);
+    var payload;
+    var maxTokens = 16000;
+    if (scope >= 0) {
+      schema = (root ? schema.properties[root] : schema.properties.slides).items;
+      payload = stripEditHidden(items[scope]);
+    } else if (root) {
+      payload = {};
+      payload[root] = items.map(stripEditHidden);
+      maxTokens = Math.max(16000, items.length * 1800);
+    } else if (items) {
+      payload = Object.assign({}, value, { slides: items.map(stripEditHidden) });
+      maxTokens = Math.max(16000, items.length * 1800);
+    } else {
+      payload = value;
+    }
+    return aiJson(schema, "교양중국어 수업 자료(JSON)를 관리자의 수정 지시대로 고쳐 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
+      + " 지시와 관계없는 내용은 그대로 두고, 같은 구조로 답합니다. 항목 수는 지시가 없으면 바꾸지 않습니다."
+      + "\n\n[수정 지시]\n" + instruction + "\n\n[현재 자료]\n" + JSON.stringify(payload),
+    function (d) {
+      var result;
+      if (scope >= 0) {
+        var next = items.slice();
+        next[scope] = mergeEdited(items[scope], d);
+        result = root ? next : Object.assign({}, value, { slides: next });
+      } else if (root) {
+        if (!Array.isArray(d[root])) return null;
+        result = d[root].map(function (x, i) { return mergeEdited(items[i], x); });
+      } else if (items) {
+        if (!Array.isArray(d.slides)) return null;
+        result = Object.assign({}, value, d, { slides: d.slides.map(function (x, i) { return mergeEdited(items[i], x); }) });
+      } else {
+        result = d;
+      }
+      if (weekItemProblem(tab, result)) return null;
+      return result;
+    }, maxTokens);
+  }
+
+  function renderWeekEditor(w, tab, draft, actions, busy) {
+    var error = h("p", { class: "field-error", role: "alert", hidden: "hidden" });
+    var items = editItems(tab, draft.value);
+    var scope = items ? h("select", { "aria-label": "AI 수정 범위" }, [h("option", { value: "-1", text: "전체" })].concat(items.map(function (x, i) {
+      return h("option", { value: String(i), text: itemSummary(x, i) });
+    }))) : null;
+    if (scope) scope.value = String(draft.scope);
+    var prompt = h("textarea", { rows: "3", "aria-label": "AI 수정 지시", placeholder: "예: 설명을 더 쉽게 바꾸고, 예문을 가족 소개 상황으로 고쳐 주세요." });
+    prompt.value = draft.prompt;
+    prompt.addEventListener("input", function () { draft.prompt = prompt.value; });
+    var aiButton = h("button", { class: "btn btn-primary btn-small", type: "button", text: "✨ AI로 수정" });
+    aiButton.disabled = busy || weekBatchBusy;
+    aiButton.addEventListener("click", function () {
+      if (!draft.prompt.trim()) {
+        error.textContent = "AI에게 고칠 내용을 입력해 주세요.";
+        error.hidden = false;
+        return;
+      }
+      draft.scope = scope ? Number(scope.value) : -1;
+      actions.ai();
+    });
+    var save = h("button", { class: "btn btn-primary btn-small", type: "button", text: "💾 저장" });
+    save.disabled = busy;
+    save.addEventListener("click", function () {
+      var problem = weekItemProblem(tab, draft.value);
+      if (problem) {
+        error.textContent = problem;
+        error.hidden = false;
+        return;
+      }
+      actions.save();
+    });
+    var cancel = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "취소" });
+    cancel.disabled = busy;
+    cancel.addEventListener("click", function () { actions.cancel(); });
+    var fields = Array.isArray(draft.value)
+      ? [renderItemList(tab, draft.value, tab.id, draft)]
+      : Object.keys(draft.value).map(function (key) { return renderEditField(tab, draft.value, key, draft); });
+    return h("div", { class: "week-editor week-tab-body" }, [
+      h("div", { class: "week-editor-ai" }, [
+        h("p", { class: "field-label", text: "✨ AI 수정 프롬프트" }),
+        scope ? h("label", { class: "edit-field" }, [h("span", { class: "field-label", text: "수정 범위" }), scope]) : null,
+        prompt,
+        h("p", { class: "submit-note", text: "AI 결과는 아래 입력칸에 반영됩니다. 확인한 뒤 저장해야 적용됩니다." + (tab.withImages ? " 이미지는 바뀌지 않습니다." : "") }),
+        h("div", {}, [aiButton])
+      ]),
+      h("div", { class: "week-editor-fields" }, fields),
+      error,
+      h("div", { class: "admin-buttons" }, [save, cancel])
+    ]);
+  }
+
   // 모든 주차의 자료를 한 번에 만든다. 이미 있는 항목은 건너뛰고, 실패해도 다음 항목으로 넘어간다.
   var weekBatchBusy = false;
 
@@ -5759,6 +6088,7 @@ window.SITE_CONFIG = {
     var opened = false;
     var message = "";
     var cleanups = [];
+    var editDraft = null;
 
     function cleanUp() {
       ttsStop();
@@ -5772,6 +6102,7 @@ window.SITE_CONFIG = {
         return;
       }
       busy = true;
+      editDraft = null;
       var failed = [];
       var done = 0;
       tabs.reduce(function (chain, tab) {
@@ -5816,6 +6147,48 @@ window.SITE_CONFIG = {
       });
     }
 
+    function editActions(tab) {
+      return {
+        save: function () {
+          saveWeekItem(w.week, tab.id, editDraft.value).then(function () {
+            editDraft = null;
+            message = tab.label + " 내용을 저장했습니다.";
+            draw();
+          }, function () {
+            message = "저장하지 못했습니다. 브라우저 저장소를 확인해 주세요.";
+            draw();
+          });
+        },
+        cancel: function () {
+          if (editDraft.dirty && !window.confirm("저장하지 않은 수정 내용을 버릴까요?")) return;
+          editDraft = null;
+          message = "";
+          draw();
+        },
+        ai: function () {
+          if (!aiProviders().length) {
+            message = "관리자 화면의 AI 키 탭에서 키를 먼저 등록해 주세요.";
+            draw();
+            return;
+          }
+          var draft = editDraft;
+          busy = true;
+          message = "AI가 수정하고 있습니다. 창을 닫지 마세요.";
+          draw();
+          aiEditWeekItem(w, tab, draft.value, draft.scope, draft.prompt.trim()).then(function (result) {
+            draft.value = result;
+            draft.dirty = true;
+            message = "AI 수정을 입력칸에 반영했습니다. 확인한 뒤 저장해 주세요. AI 결과에는 오류가 있을 수 있습니다.";
+          }, function (e) {
+            message = "AI 수정 실패: " + e.message;
+          }).then(function () {
+            busy = false;
+            draw();
+          });
+        }
+      };
+    }
+
     function renderToolbar(tab) {
       var all = h("button", { class: "btn btn-primary btn-small", type: "button", text: "✨ 이 주차 AI 전체 생성" });
       all.disabled = busy || weekBatchBusy;
@@ -5838,6 +6211,16 @@ window.SITE_CONFIG = {
           generate([tab]);
         });
       }
+      var edit = null;
+      if (tab.make && hasWeekItem(w.week, tab) && !editDraft) {
+        edit = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "✏️ 편집·AI 수정" });
+        edit.disabled = busy || weekBatchBusy;
+        edit.addEventListener("click", function () {
+          editDraft = { tabId: tab.id, value: editableValue(tab, weekData(w.week)[tab.id]), dirty: false, prompt: "", scope: -1 };
+          message = "";
+          draw();
+        });
+      }
       var fill = null;
       var missing = tab.withImages && hasWeekItem(w.week, tab) ? missingImages(w.week, tab).length : 0;
       if (missing) {
@@ -5858,7 +6241,7 @@ window.SITE_CONFIG = {
         countField = h("label", { class: "note-count", for: countInput.id }, [h("span", { text: "슬라이드 수 (5~30, 기본 20)" }), countInput]);
       }
       return h("div", { class: "week-toolbar" }, [
-        h("div", { class: "admin-buttons" }, [all, one, fill]),
+        h("div", { class: "admin-buttons" }, [all, one, edit, fill]),
         countField,
         busy ? diggingAnimation() : null,
         h("p", { class: "submit-note", role: "status", text: message }),
@@ -5868,6 +6251,7 @@ window.SITE_CONFIG = {
 
     function renderBody(tab, admin) {
       var value = weekData(w.week)[tab.id];
+      if (editDraft && editDraft.tabId === tab.id) return renderWeekEditor(w, tab, editDraft, editActions(tab), busy);
       if (tab.id === "sources") {
         return renderSources(w, function (text) {
           message = text;
@@ -5898,6 +6282,9 @@ window.SITE_CONFIG = {
       var bar = h("div", { class: "week-tabs", role: "group", "aria-label": w.week + "주차 학습 자료" }, tabs.map(function (t) {
         var btn = h("button", { class: "week-chip" + (t === tab ? " is-active" : ""), type: "button", "aria-pressed": String(t === tab), text: t.label });
         btn.addEventListener("click", function () {
+          if (t.id === current) return;
+          if (editDraft && editDraft.dirty && !window.confirm("저장하지 않은 수정 내용을 버릴까요?")) return;
+          editDraft = null;
           current = t.id;
           draw();
         });
