@@ -998,6 +998,8 @@ button.quiz-choice:hover { transform: translateY(-2px); }
   .brand-text { display: none; }
 }
 
+.week-batch { display: grid; gap: 10px; margin-bottom: 16px; padding: 16px 18px; border-radius: 16px; background: var(--bg); box-shadow: var(--shadow-small); }
+.week-batch:empty { display: none; }
 .week-studio { display: grid; gap: 12px; }
 .week-studio:empty { display: none; }
 .week-tabs, .week-chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -1264,7 +1266,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.30",
+  version: "1.0.31",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -5472,6 +5474,116 @@ window.SITE_CONFIG = {
     weekRedraws.forEach(function (redraw) { redraw(); });
   }
 
+  // 모든 주차의 자료를 한 번에 만든다. 이미 있는 항목은 건너뛰고, 실패해도 다음 항목으로 넘어간다.
+  var weekBatchBusy = false;
+
+  function renderWeekBatch(weeks) {
+    var box = h("div", { class: "week-batch" });
+    var scope = "all";
+    var message = "";
+    var stopRequested = false;
+
+    function warnLeave(e) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+
+    function buildJobs() {
+      var hasBaze = !!(store.get("aiKeys", {}) || {}).baze;
+      var jobs = [];
+      weeks.forEach(function (w) {
+        WEEK_TABS.forEach(function (tab) {
+          if (!tab.make || hasWeekItem(w.week, tab)) return;
+          if (scope === "note" && tab.id !== "lectureNote") return;
+          if (tab.id === "images" && !hasBaze) return;
+          jobs.push({ week: w, tab: tab });
+        });
+      });
+      return jobs;
+    }
+
+    function run(jobs) {
+      weekBatchBusy = true;
+      stopRequested = false;
+      var failed = [];
+      var done = 0;
+      window.addEventListener("beforeunload", warnLeave);
+      redrawWeeks();
+      jobs.reduce(function (chain, job, i) {
+        return chain.then(function () {
+          if (stopRequested) return;
+          message = (i + 1) + " / " + jobs.length + " · " + job.week.week + "주차 " + job.tab.label + " 생성 중... 창을 닫지 마세요.";
+          draw();
+          return job.tab.make(job.week).then(function (value) {
+            return saveWeekItem(job.week.week, job.tab.id, value);
+          }).then(function () {
+            done++;
+          }, function (e) {
+            failed.push(job.week.week + "주차 " + job.tab.label + ": " + e.message);
+          });
+        });
+      }, Promise.resolve()).then(function () {
+        weekBatchBusy = false;
+        window.removeEventListener("beforeunload", warnLeave);
+        message = (stopRequested ? "중지했습니다. " : "완료했습니다. ") + done + "개 항목을 만들었습니다. AI 결과에는 오류가 있을 수 있으니 검토해 주세요."
+          + (failed.length ? " 실패 " + failed.length + "건: " + failed.join(" / ") : "");
+        draw();
+        redrawWeeks();
+      });
+    }
+
+    function draw() {
+      box.textContent = "";
+      if (!sessionStorage.getItem(ADMIN_KEY)) return;
+      var select = h("select", { id: "week-batch-scope" }, [
+        h("option", { value: "all", text: "모든 강의 자료 (강의 노트, 과제, 문장, 이미지, 퀴즈, 문화 슬라이드)" }),
+        h("option", { value: "note", text: "강의 노트만" })
+      ]);
+      select.value = scope;
+      select.disabled = weekBatchBusy;
+      select.addEventListener("change", function () { scope = select.value; });
+      var start = h("button", { class: "btn btn-primary btn-small", type: "button", text: "✨ 전체 " + weeks.length + "주 일괄 생성" });
+      start.disabled = weekBatchBusy;
+      start.addEventListener("click", function () {
+        if (!aiProviders().length) {
+          message = "관리자 화면의 AI 키 탭에서 키를 먼저 등록해 주세요.";
+          draw();
+          return;
+        }
+        start.disabled = true;
+        loadWeekContent().then(function () {
+          var jobs = buildJobs();
+          if (!jobs.length) {
+            message = "만들 항목이 없습니다. 이미 모두 만들어져 있습니다.";
+            draw();
+            return;
+          }
+          var noImage = scope === "all" && !(store.get("aiKeys", {}) || {}).baze ? " BAZE 키가 없어 이미지는 빼고 진행합니다." : "";
+          if (window.confirm(jobs.length + "개 항목을 차례로 만듭니다. 이미 만든 항목은 건너뜁니다." + noImage + " AI 호출 " + jobs.length + "건 이상의 사용량이 차감되고, 오래 걸릴 수 있습니다. 진행할까요?")) run(jobs);
+          else start.disabled = false;
+        });
+      });
+      var stop = null;
+      if (weekBatchBusy) {
+        stop = h("button", { class: "btn btn-ghost btn-small", type: "button", text: stopRequested ? "중지하는 중..." : "■ 중지" });
+        stop.disabled = stopRequested;
+        stop.addEventListener("click", function () {
+          stopRequested = true;
+          draw();
+        });
+      }
+      box.appendChild(h("h3", { class: "card-title", text: "📚 전체 주차 일괄 생성" }));
+      box.appendChild(h("div", { class: "field" }, [h("label", { class: "field-label", for: "week-batch-scope", text: "만들 내용" }), select]));
+      box.appendChild(h("div", { class: "admin-buttons" }, [start, stop]));
+      if (weekBatchBusy) box.appendChild(diggingAnimation());
+      box.appendChild(h("p", { class: "submit-note", role: "status", text: message }));
+      box.appendChild(h("p", { class: "submit-note", text: "관리자에게만 보입니다. 만든 자료는 이 브라우저에 저장되며, 공개하려면 설정 파일 탭에서 " + WEEK_FILE + "을 내려받아 올려 주세요." }));
+    }
+    weekRedraws.push(draw);
+    draw();
+    return box;
+  }
+
   function renderWeekStudio(w) {
     var node = h("div", { class: "week-studio" });
     var current = "";
@@ -5520,7 +5632,7 @@ window.SITE_CONFIG = {
 
     function renderToolbar(tab) {
       var all = h("button", { class: "btn btn-primary btn-small", type: "button", text: "✨ 이 주차 AI 전체 생성" });
-      all.disabled = busy;
+      all.disabled = busy || weekBatchBusy;
       all.addEventListener("click", function () {
         var todo = WEEK_TABS.filter(function (t) { return t.make && !hasWeekItem(w.week, t); });
         if (!todo.length) {
@@ -5534,7 +5646,7 @@ window.SITE_CONFIG = {
       if (tab.make) {
         var exists = hasWeekItem(w.week, tab);
         one = h("button", { class: "btn btn-ghost btn-small", type: "button", text: (exists ? "다시 생성: " : "AI 생성: ") + tab.label });
-        one.disabled = busy;
+        one.disabled = busy || weekBatchBusy;
         one.addEventListener("click", function () {
           if (exists && !window.confirm("지금 내용을 새로 만든 내용으로 바꿉니다. AI 사용량이 차감됩니다. 진행할까요?")) return;
           generate([tab]);
@@ -5811,6 +5923,7 @@ window.SITE_CONFIG = {
     var d = C.curriculum;
     var sched = buildSchedule();
     var body = h("div", {}, [
+      renderWeekBatch(sched.weeks.map(function (x) { return x.week; })),
       h("ol", { class: "week-list" }, sched.weeks.map(renderWeek)),
       renderCalendar(sched)
     ]);
