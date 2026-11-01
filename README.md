@@ -73,4 +73,4 @@ API 키는 등록한 브라우저에만 암호화 없이 저장되며 저장소�
 
 ## 저작권
 
-Copyright 2026 ⓒ AI WEB, All Rights Reserved. | 박정원(한국외국어대학교)
+Copyright 2026 ⓒ AI APP, All Rights Reserved. | 박정원(한국외국어대학교)
