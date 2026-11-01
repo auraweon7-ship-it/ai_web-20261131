@@ -1045,8 +1045,9 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .note-refs { padding: 12px 14px; border-radius: 14px; box-shadow: var(--shadow-inset); }
 .note-refs summary { min-height: 28px; font-weight: 700; cursor: pointer; }
 .note-refs ul { margin-top: 8px; }
-.week-images, .youtube-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.week-images img { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; object-fit: cover; }
+.youtube-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.culture-side { position: relative; display: grid; gap: 14px; min-width: 0; }
+.culture-image { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; animation: culture-rise 0.7s ease-out 0.2s both; }
 .youtube-card { display: grid; gap: 10px; min-width: 0; align-content: start; }
 .youtube-frame, .youtube-empty { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; }
 .youtube-empty { display: grid; place-items: center; padding: 10px; box-shadow: var(--shadow-inset); color: var(--muted); font-size: 0.9rem; text-align: center; }
@@ -1148,13 +1149,13 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 @keyframes culture-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @keyframes culture-mark { from { opacity: 0; transform: translateX(10%) scale(0.92); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .culture-slide, .culture-orb, .culture-mark, .culture-copy > *, .culture-info, .graphic-item { animation: none; }
+  .culture-slide, .culture-orb, .culture-mark, .culture-copy > *, .culture-info, .culture-image, .graphic-item { animation: none; }
 }
 @media (max-width: 760px) {
   .culture-slide { min-height: 320px; }
 }
 @media (max-width: 520px) {
-  .week-images, .youtube-grid { grid-template-columns: minmax(0, 1fr); }
+  .youtube-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* 소프트 UI: 같은 크림색 면을 빛과 그림자로 띄우거나 파낸다 */
@@ -1266,7 +1267,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.31",
+  version: "1.0.32",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -4110,11 +4111,13 @@ window.SITE_CONFIG = {
       ]),
       h("div", { class: "field" }, [h("label", { class: "field-label", for: "config-file", text: "설정 파일 불러오기" }), file]),
       h("h3", { class: "card-title", text: "주차 학습 자료 공개" }),
-      h("p", { class: "card-text", text: "주차별로 만든 자료와 유튜브 주소는 이 브라우저에만 저장됩니다. " + WEEK_FILE + "을 내려받아 사이트 폴더에 넣어 배포하면 수강생에게 보입니다. 실시간 퀴즈는 정답이 공개되지 않도록 파일에서 뺍니다. 온라인 퀴즈 정답은 파일을 열면 볼 수 있으니 시험에는 쓰지 마세요." }),
+      h("p", { class: "card-text", text: "주차별로 만든 자료와 유튜브 주소는 이 브라우저에만 저장됩니다. week-content.zip을 내려받아 사이트 폴더에 압축을 풀면(" + WEEK_FILE + "과 week-images 폴더) 배포되어 수강생에게 보입니다. 실시간 퀴즈는 정답이 공개되지 않도록 파일에서 뺍니다. 온라인 퀴즈 정답은 파일을 열면 볼 수 있으니 시험에는 쓰지 마세요." }),
       h("div", { class: "admin-buttons" }, [
-        downloadButton(WEEK_FILE + " 내려받기", function () {
-          loadWeekContent().then(function () {
-            downloadFile(WEEK_FILE, buildWeekFile(), "application/json");
+        downloadButton("주차 자료 공개 파일 내려받기 (.zip)", function () {
+          loadWeekContent().then(buildWeekBundle).then(function (blob) {
+            downloadFile("week-content.zip", blob, "application/zip");
+          }).catch(function () {
+            window.alert("공개 파일을 만들지 못했습니다. 인터넷 연결을 확인해 주세요.");
           });
         }),
         downloadButton("이 브라우저의 초안 지우기", function () {
@@ -4455,15 +4458,78 @@ window.SITE_CONFIG = {
     return weekDb("readwrite", function (db) { return db.put(data, week); });
   }
 
-  // 실시간 퀴즈 정답과 첨부 자료 원문은 공개 파일에서 뺀다.
-  function buildWeekFile() {
-    var weeks = {};
-    Object.keys(weekContent).forEach(function (week) {
-      weeks[week] = Object.assign({}, weekContent[week]);
-      delete weeks[week].liveQuiz;
-      delete weeks[week].sources;
+  // 주차별 이미지 파일을 그 주차를 처음 열 때 읽어, 이미지가 정해지지 않은 슬라이드에 넣는다.
+  var weekImagesLoading = {};
+
+  function weekImageFile(week) {
+    return "week-images/week-" + week + ".json";
+  }
+
+  function mergeWeekImages(week, file) {
+    [["lectureNote", weekData(week).lectureNote && weekData(week).lectureNote.slides], ["slides", weekData(week).slides]].forEach(function (pair) {
+      var images = file && file[pair[0]];
+      if (!Array.isArray(images) || !Array.isArray(pair[1])) return;
+      pair[1].forEach(function (x, i) {
+        if (x.image === undefined && isSlideImage(images[i])) x.image = images[i];
+      });
     });
-    return JSON.stringify({ version: 1, weeks: weeks });
+  }
+
+  function loadWeekImages(week) {
+    if (weekImagesLoading[week]) return weekImagesLoading[week];
+    weekImagesLoading[week] = fetch(weekImageFile(week)).then(function (res) {
+      return res.ok ? res.json() : null;
+    }).catch(function () {
+      return null;
+    }).then(function (file) {
+      mergeWeekImages(week, file);
+    });
+    return weekImagesLoading[week];
+  }
+
+  function withoutImages(list) {
+    return list.map(function (x) {
+      var copy = Object.assign({}, x);
+      delete copy.image;
+      return copy;
+    });
+  }
+
+  function imagesOf(list) {
+    return list.map(function (x) { return isSlideImage(x.image) ? x.image : ""; });
+  }
+
+  // 실시간 퀴즈 정답과 첨부 자료 원문은 공개하지 않는다. 글은 하나로, 이미지는 주차별 파일로 나눠 필요할 때만 받게 한다.
+  function buildWeekBundle() {
+    var weeks = {};
+    var images = {};
+    return Promise.all(Object.keys(weekContent).map(loadWeekImages)).then(function () {
+      Object.keys(weekContent).forEach(function (week) {
+        var data = Object.assign({}, weekContent[week]);
+        delete data.liveQuiz;
+        delete data.sources;
+        delete data.images;
+        var file = {};
+        if (data.lectureNote && Array.isArray(data.lectureNote.slides)) {
+          file.lectureNote = imagesOf(data.lectureNote.slides);
+          data.lectureNote = Object.assign({}, data.lectureNote, { slides: withoutImages(data.lectureNote.slides) });
+        }
+        if (Array.isArray(data.slides)) {
+          file.slides = imagesOf(data.slides);
+          data.slides = withoutImages(data.slides);
+        }
+        weeks[week] = data;
+        if ((file.lectureNote || []).concat(file.slides || []).some(Boolean)) images[week] = file;
+      });
+      return loadLib("jszip");
+    }).then(function () {
+      var zip = new window.JSZip();
+      zip.file(WEEK_FILE, JSON.stringify({ version: 2, weeks: weeks }));
+      Object.keys(images).forEach(function (week) {
+        zip.file(weekImageFile(week), JSON.stringify(images[week]));
+      });
+      return zip.generateAsync({ type: "blob" });
+    });
   }
 
   function weekBrief(w) {
@@ -4711,7 +4777,7 @@ window.SITE_CONFIG = {
       title: STR,
       summary: STR,
       slides: jsonList({
-        emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR,
+        emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR, imagePrompt: STR,
         points: { type: "array", items: STR },
         examples: jsonList({ hanzi: STR, pinyin: STR, korean: STR }),
         infoType: { type: "string", enum: ["stats", "steps", "timeline", "compare"] },
@@ -4724,6 +4790,7 @@ window.SITE_CONFIG = {
       + " title은 전체 제목, summary는 150자 이내의 수업 개요입니다."
       + "\n슬라이드 순서: 첫 장은 학습 목표, 이어서 수업 순서대로 개념 설명과 예문과 연습, 마지막 장은 정리와 복습 안내입니다."
       + "\n각 슬라이드: emoji는 이모지 하나, kicker는 '도입', '문법', '연습'처럼 10자 이내의 단계 이름, title은 20자 이내의 제목, hanzi와 pinyin은 핵심 중국어와 병음(없으면 빈 문자열), body는 100~180자의 설명, points는 핵심 2~3개(각 40자 이내), examples는 중국어 예문 0~3개입니다."
+      + "\nimagePrompt는 이 슬라이드를 보여 줄 그림의 대상 하나를 영어 한 문장으로 묘사합니다. 글자, 숫자, 간판이 들어가지 않는 대상을 고릅니다."
       + "\n내용을 한눈에 보여 주면 좋은 슬라이드에만 infoType, infoTitle, infoItems로 인포그래픽을 넣습니다. stats는 확인된 숫자, steps는 순서, timeline은 시대순, compare는 두 대상 비교이며, label과 value를 짧게 씁니다. 넣지 않으면 infoItems는 빈 배열입니다. 숫자를 지어내지 않습니다."
       + (names.length
         ? "\nsource에는 그 슬라이드의 근거가 된 첨부 파일 이름과 쪽·슬라이드 위치를 적습니다. sourcesUsed에는 첨부 파일마다 file에 파일 이름을 그대로, used에 활용한 내용을 적습니다."
@@ -4824,7 +4891,7 @@ window.SITE_CONFIG = {
 
   function makeSlides(w) {
     return aiJson(jsonObject({ slides: jsonList({
-      emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR,
+      emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR, imagePrompt: STR,
       points: { type: "array", items: STR },
       infoType: { type: "string", enum: ["stats", "steps", "timeline", "compare"] },
       infoTitle: STR,
@@ -4840,7 +4907,8 @@ window.SITE_CONFIG = {
         + "\n  steps: 순서나 과정 3~4단계. label에 단계 이름, value에 짧은 설명."
         + "\n  timeline: 시대순 변화 3~4개. label에 시대나 연도, value에 일어난 일."
         + "\n  compare: 한국과 중국 등 두 대상 비교 2개. label에 대상, value에 특징."
-        + "\n- infoTitle: 인포그래픽 제목 15자 이내. infoItems의 value는 30자 이내입니다.",
+        + "\n- infoTitle: 인포그래픽 제목 15자 이내. infoItems의 value는 30자 이내입니다."
+        + "\n- imagePrompt: 이 슬라이드를 보여 줄 그림의 대상 하나를 영어 한 문장으로 묘사합니다. 글자, 숫자, 간판이 들어가지 않는 대상을 고릅니다.",
       function (d) {
         var list = (d.slides || []).filter(function (x) {
           return x && isText(x.title) && isText(x.body) && Array.isArray(x.points) && x.points.length >= 2
@@ -4884,7 +4952,37 @@ window.SITE_CONFIG = {
     });
   }
 
-  // 공개 파일이 너무 커지지 않도록 16:9, 가로 960px로 줄인다.
+  // 가장자리에서 이어진 흰 배경을 투명하게 지운다. 그림 안쪽의 흰색은 남긴다.
+  function clearWhiteBackground(ctx, width, height) {
+    var image = ctx.getImageData(0, 0, width, height);
+    var px = image.data;
+    var seen = new Uint8Array(width * height);
+    var stack = [];
+    function push(x, y) {
+      var at = y * width + x;
+      if (x < 0 || y < 0 || x >= width || y >= height || seen[at]) return;
+      var i = at * 4;
+      if (px[i + 3] > 0 && Math.min(px[i], px[i + 1], px[i + 2]) < 232) return;
+      seen[at] = 1;
+      stack.push(at);
+    }
+    var x, y;
+    for (x = 0; x < width; x++) { push(x, 0); push(x, height - 1); }
+    for (y = 0; y < height; y++) { push(0, y); push(width - 1, y); }
+    while (stack.length) {
+      var at = stack.pop();
+      px[at * 4 + 3] = 0;
+      x = at % width;
+      y = (at - x) / width;
+      push(x + 1, y);
+      push(x - 1, y);
+      push(x, y + 1);
+      push(x, y - 1);
+    }
+    ctx.putImageData(image, 0, 0);
+  }
+
+  // 공개 파일이 너무 커지지 않도록 가로 800px로 줄인다.
   function shrinkImage(url) {
     return new Promise(function (resolve, reject) {
       var img = new Image();
@@ -4892,14 +4990,18 @@ window.SITE_CONFIG = {
       img.onerror = function () { reject(new Error("생성된 이미지를 읽지 못했습니다.")); };
       img.onload = function () {
         var canvas = document.createElement("canvas");
-        canvas.width = 960;
-        canvas.height = 540;
-        var scale = Math.max(960 / img.width, 540 / img.height);
+        canvas.width = 800;
+        canvas.height = 450;
+        var scale = Math.min(800 / img.width, 450 / img.height);
         var dw = img.width * scale;
         var dh = img.height * scale;
-        canvas.getContext("2d").drawImage(img, (960 - dw) / 2, (540 - dh) / 2, dw, dh);
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, 800, 450);
+        ctx.drawImage(img, (800 - dw) / 2, (450 - dh) / 2, dw, dh);
         try {
-          resolve(canvas.toDataURL("image/jpeg", 0.82));
+          clearWhiteBackground(ctx, 800, 450);
+          resolve(canvas.toDataURL("image/webp", 0.8));
         } catch (e) {
           reject(new Error("생성된 이미지를 저장하지 못했습니다."));
         }
@@ -4908,26 +5010,80 @@ window.SITE_CONFIG = {
     });
   }
 
-  function makeImages(w) {
-    if (!(store.get("aiKeys", {}) || {}).baze) return Promise.reject(new Error("이미지 생성에는 BAZE API 키가 필요합니다. AI 키 탭에서 등록해 주세요."));
-    var style = "Japanese anime style illustration, clean line art, soft cel shading, bright colors, 16:9 wide composition, no text, no letters, no logos. ";
-    var theme = "Theme of a beginner Chinese language class: " + w.title + " (" + w.topic + "). ";
-    var scenes = [
-      "Scene: friendly young university students practicing this theme together in a lively everyday situation in China.",
-      "Scene: a wide view of a Chinese city or cultural place that matches this theme, with a warm atmosphere."
-    ];
-    return scenes.reduce(function (chain, scene) {
-      return chain.then(function (images) {
-        return bazeImageFetch(BAZE_IMAGE_URL, {
-          method: "POST",
-          body: JSON.stringify({ model: imageModel(), prompt: style + theme + scene, aspect_ratio: "16:9", number_of_images: 1 })
-        }).then(function (data) {
-          return waitImage(data, 30);
-        }).then(shrinkImage).then(function (image) {
-          return images.concat(image);
-        });
-      });
-    }, Promise.resolve([]));
+  function hasBazeKey() {
+    return !!(store.get("aiKeys", {}) || {}).baze;
+  }
+
+  function isSlideImage(src) {
+    return /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(String(src || ""));
+  }
+
+  function makeSlideImage(x) {
+    var subject = isText(x.imagePrompt) ? x.imagePrompt : x.title + ". " + (x.body || "");
+    var prompt = "Japanese anime style illustration of one clear subject, clean line art, soft cel shading, bright colors. "
+      + "Isolated on a solid pure white background with no scenery, no floor shadow and no frame. "
+      + "Absolutely no text, letters, numbers, Chinese characters, signs or logos. Subject for a beginner Chinese language class: " + subject;
+    return bazeImageFetch(BAZE_IMAGE_URL, {
+      method: "POST",
+      body: JSON.stringify({ model: imageModel(), prompt: prompt, aspect_ratio: "16:9", number_of_images: 1 })
+    }).then(function (data) {
+      return waitImage(data, 30);
+    }).then(shrinkImage);
+  }
+
+  function slideListOf(week, tab) {
+    var value = weekData(week)[tab.id];
+    var list = tab.id === "slides" ? value : value && value.slides;
+    return Array.isArray(list) ? list : [];
+  }
+
+  function missingImages(week, tab) {
+    return slideListOf(week, tab).filter(function (x) { return !isSlideImage(x.image); });
+  }
+
+  // 빠진 이미지를 네 장씩 동시에 만들고, 한 장 끝날 때마다 저장한다. 키나 크레딧 오류면 바로 멈춘다.
+  function fillSlideImages(week, tab, progress, shouldStop) {
+    if (!hasBazeKey()) return Promise.resolve({ made: 0, failed: 0, error: "이미지 생성에는 BAZE 키가 필요해 이미지를 만들지 못했습니다." });
+    var queue = missingImages(week, tab);
+    var total = queue.length;
+    var made = 0;
+    var failed = 0;
+    var error = "";
+    var fatal = false;
+    function worker() {
+      if (!queue.length || fatal || (shouldStop && shouldStop())) return Promise.resolve();
+      var x = queue.shift();
+      if (progress) progress(made + failed + 1, total);
+      return makeSlideImage(x).then(function (image) {
+        x.image = image;
+        made++;
+        return saveWeekItem(week, tab.id, weekData(week)[tab.id]);
+      }).catch(function (e) {
+        failed++;
+        error = e.message;
+        fatal = /키가 올바르지|크레딧|권한|찾을 수 없/.test(e.message);
+      }).then(worker);
+    }
+    return Promise.all([worker(), worker(), worker(), worker()]).then(function () {
+      return { made: made, failed: failed + queue.length, error: error };
+    });
+  }
+
+  // 한 탭을 만든다. 슬라이드 탭은 글을 먼저 저장한 뒤 이미지를 채운다.
+  function runWeekTab(w, tab, progress, shouldStop) {
+    return tab.make(w).then(function (value) {
+      var list = tab.id === "slides" ? value : value.slides;
+      // 공개 파일의 예전 이미지가 새 슬라이드에 붙지 않게 비워 둔다.
+      if (tab.withImages) list.forEach(function (x) { x.image = ""; });
+      return saveWeekItem(w.week, tab.id, value);
+    }).then(function () {
+      return tab.withImages ? fillSlideImages(w.week, tab, progress, shouldStop) : null;
+    });
+  }
+
+  function imageResultText(tab, r) {
+    if (!r || (!r.failed && !r.error)) return "";
+    return tab.label + " 이미지 " + r.made + "장 완료" + (r.failed ? ", " + r.failed + "장 못 만듦" : "") + (r.error ? " (" + r.error + ")" : "");
   }
 
   /* 중국어 음성: 브라우저 내장 음성을 쓰므로 키와 비용이 필요 없다. */
@@ -5226,9 +5382,21 @@ window.SITE_CONFIG = {
           })) : null,
           x.source ? h("p", { class: "culture-source", text: "📄 근거: " + x.source }) : null
         ]),
-        renderCultureInfo(x)
+        renderSlideSide(x)
       ])
     ]);
+  }
+
+  // 이미지와 인포그래픽은 글과 다른 칸에 두어 글자를 가리지 않는다.
+  function renderSlideSide(x) {
+    var info = renderCultureInfo(x);
+    var img = null;
+    if (isSlideImage(x.image)) {
+      img = h("img", { class: "culture-image", alt: "" });
+      // h()는 data 주소를 막으므로, 형식을 확인한 이미지만 직접 넣는다.
+      img.src = x.image;
+    }
+    return img || info ? h("div", { class: "culture-side" }, [img, info]) : null;
   }
 
   function slideOptions(list) {
@@ -5405,15 +5573,6 @@ window.SITE_CONFIG = {
     return h("div", { class: "youtube-grid week-tab-body" }, cards);
   }
 
-  function renderWeekImages(list, w) {
-    return h("div", { class: "week-images week-tab-body" }, (list || []).map(function (src, i) {
-      var img = h("img", { alt: w.title + " 주제 이미지 " + (i + 1), loading: "lazy" });
-      // h()는 data 주소를 막으므로, 형식을 확인한 이미지만 직접 넣는다.
-      if (/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(src)) img.src = src;
-      return img;
-    }));
-  }
-
   function renderWeekAssignment(a, w, admin) {
     var use = null;
     if (admin) {
@@ -5453,13 +5612,12 @@ window.SITE_CONFIG = {
 
   var WEEK_TABS = [
     { id: "sources", label: "📎 참고 파일", adminOnly: true },
-    { id: "lectureNote", label: "📒 강의 노트", make: makeLectureNote },
+    { id: "lectureNote", label: "📒 강의 노트", make: makeLectureNote, withImages: true },
     { id: "assignment", label: "📝 과제", make: makeAssignment },
     { id: "sentences", label: "🗣️ 문장 50", make: makeSentences },
-    { id: "images", label: "🖼️ 이미지", make: makeImages },
     { id: "liveQuiz", label: "⚡ 실시간 퀴즈", make: makeLiveQuiz, adminOnly: true },
     { id: "onlineQuiz", label: "✅ 온라인 퀴즈", make: makeOnlineQuiz },
-    { id: "slides", label: "🎞️ 문화 슬라이드", make: makeSlides },
+    { id: "slides", label: "🎞️ 문화 슬라이드", make: makeSlides, withImages: true },
     { id: "videos", label: "🎬 유튜브 영상" },
     { id: "songs", label: "🎵 유튜브 노래" }
   ];
@@ -5489,14 +5647,12 @@ window.SITE_CONFIG = {
     }
 
     function buildJobs() {
-      var hasBaze = !!(store.get("aiKeys", {}) || {}).baze;
       var jobs = [];
       weeks.forEach(function (w) {
         WEEK_TABS.forEach(function (tab) {
-          if (!tab.make || hasWeekItem(w.week, tab)) return;
-          if (scope === "note" && tab.id !== "lectureNote") return;
-          if (tab.id === "images" && !hasBaze) return;
-          jobs.push({ week: w, tab: tab });
+          if (!tab.make || (scope === "note" && tab.id !== "lectureNote")) return;
+          if (!hasWeekItem(w.week, tab)) jobs.push({ week: w, tab: tab, images: tab.withImages ? (tab.id === "slides" ? 10 : noteSlideCount()) : 0 });
+          else if (tab.withImages && hasBazeKey() && missingImages(w.week, tab).length) jobs.push({ week: w, tab: tab, fillOnly: true, images: missingImages(w.week, tab).length });
         });
       });
       return jobs;
@@ -5512,12 +5668,21 @@ window.SITE_CONFIG = {
       jobs.reduce(function (chain, job, i) {
         return chain.then(function () {
           if (stopRequested) return;
-          message = (i + 1) + " / " + jobs.length + " · " + job.week.week + "주차 " + job.tab.label + " 생성 중... 창을 닫지 마세요.";
+          var head = (i + 1) + " / " + jobs.length + " · " + job.week.week + "주차 " + job.tab.label;
+          message = head + " 생성 중... 창을 닫지 마세요.";
           draw();
-          return job.tab.make(job.week).then(function (value) {
-            return saveWeekItem(job.week.week, job.tab.id, value);
-          }).then(function () {
+          var progress = function (n, total) {
+            message = head + " 이미지 " + n + "/" + total + "장 생성 중... 창을 닫지 마세요.";
+            draw();
+          };
+          var shouldStop = function () { return stopRequested; };
+          return (job.fillOnly
+            ? fillSlideImages(job.week.week, job.tab, progress, shouldStop)
+            : runWeekTab(job.week, job.tab, progress, shouldStop)
+          ).then(function (result) {
             done++;
+            var note = imageResultText(job.tab, result);
+            if (note) failed.push(job.week.week + "주차 " + note);
           }, function (e) {
             failed.push(job.week.week + "주차 " + job.tab.label + ": " + e.message);
           });
@@ -5526,7 +5691,7 @@ window.SITE_CONFIG = {
         weekBatchBusy = false;
         window.removeEventListener("beforeunload", warnLeave);
         message = (stopRequested ? "중지했습니다. " : "완료했습니다. ") + done + "개 항목을 만들었습니다. AI 결과에는 오류가 있을 수 있으니 검토해 주세요."
-          + (failed.length ? " 실패 " + failed.length + "건: " + failed.join(" / ") : "");
+          + (failed.length ? " 확인 필요 " + failed.length + "건: " + failed.join(" / ") : "");
         draw();
         redrawWeeks();
       });
@@ -5536,7 +5701,7 @@ window.SITE_CONFIG = {
       box.textContent = "";
       if (!sessionStorage.getItem(ADMIN_KEY)) return;
       var select = h("select", { id: "week-batch-scope" }, [
-        h("option", { value: "all", text: "모든 강의 자료 (강의 노트, 과제, 문장, 이미지, 퀴즈, 문화 슬라이드)" }),
+        h("option", { value: "all", text: "모든 강의 자료 (강의 노트, 과제, 문장, 퀴즈, 문화 슬라이드)" }),
         h("option", { value: "note", text: "강의 노트만" })
       ]);
       select.value = scope;
@@ -5558,8 +5723,11 @@ window.SITE_CONFIG = {
             draw();
             return;
           }
-          var noImage = scope === "all" && !(store.get("aiKeys", {}) || {}).baze ? " BAZE 키가 없어 이미지는 빼고 진행합니다." : "";
-          if (window.confirm(jobs.length + "개 항목을 차례로 만듭니다. 이미 만든 항목은 건너뜁니다." + noImage + " AI 호출 " + jobs.length + "건 이상의 사용량이 차감되고, 오래 걸릴 수 있습니다. 진행할까요?")) run(jobs);
+          var imageCount = jobs.reduce(function (sum, job) { return sum + job.images; }, 0);
+          var imageNote = !imageCount ? "" : hasBazeKey()
+            ? " 슬라이드 이미지 " + imageCount + "장도 만들며, BAZE 크레딧이 많이 차감됩니다" + (imageModel() === DEFAULT_IMAGE_MODEL ? "(기본 모델 약 " + (imageCount * 39).toLocaleString() + "크레딧)" : "") + "."
+            : " BAZE 키가 없어 이미지는 만들지 않습니다.";
+          if (window.confirm(jobs.length + "개 항목을 차례로 만듭니다. 이미 만든 항목은 건너뜁니다." + imageNote + " 오래 걸릴 수 있습니다. 진행할까요?")) run(jobs);
           else start.disabled = false;
         });
       });
@@ -5577,7 +5745,7 @@ window.SITE_CONFIG = {
       box.appendChild(h("div", { class: "admin-buttons" }, [start, stop]));
       if (weekBatchBusy) box.appendChild(diggingAnimation());
       box.appendChild(h("p", { class: "submit-note", role: "status", text: message }));
-      box.appendChild(h("p", { class: "submit-note", text: "관리자에게만 보입니다. 만든 자료는 이 브라우저에 저장되며, 공개하려면 설정 파일 탭에서 " + WEEK_FILE + "을 내려받아 올려 주세요." }));
+      box.appendChild(h("p", { class: "submit-note", text: "관리자에게만 보입니다. 만든 자료는 이 브라우저에 저장되며, 공개하려면 설정 파일 탭에서 week-content.zip을 내려받아 사이트 폴더에 압축을 풀어 주세요." }));
     }
     weekRedraws.push(draw);
     draw();
@@ -5608,12 +5776,16 @@ window.SITE_CONFIG = {
       var done = 0;
       tabs.reduce(function (chain, tab) {
         return chain.then(function () {
-          message = tab.label + " 생성 중... (" + (done + 1) + "/" + tabs.length + ") 창을 닫지 마세요.";
+          var step = "(" + (done + failed.length + 1) + "/" + tabs.length + ") 창을 닫지 마세요.";
+          message = tab.label + " 생성 중... " + step;
           draw();
-          return tab.make(w).then(function (value) {
-            return saveWeekItem(w.week, tab.id, value);
-          }).then(function () {
+          return runWeekTab(w, tab, function (n, total) {
+            message = tab.label + " 이미지 " + n + "/" + total + "장 생성 중... " + step;
+            draw();
+          }).then(function (result) {
             done++;
+            var note = imageResultText(tab, result);
+            if (note) failed.push(note);
           }, function (e) {
             failed.push(tab.label + ": " + e.message);
           });
@@ -5623,9 +5795,23 @@ window.SITE_CONFIG = {
         var attached = weekSources(w.week);
         var cut = sourcesCut(attached);
         message = done + "개 항목을 만들었습니다. AI 결과에는 오류가 있을 수 있으니 검토해 주세요."
-          + (attached.length ? " 첨부 " + attached.length + "개를 함께 보냈습니다(이미지 제외)." : "")
+          + (attached.length ? " 첨부 " + attached.length + "개를 함께 보냈습니다." : "")
           + (cut.length ? " 분량 한도로 일부만 보낸 파일: " + cut.join(", ") : "")
-          + (failed.length ? " 실패: " + failed.join(" / ") : "");
+          + (failed.length ? " 확인 필요: " + failed.join(" / ") : "");
+        draw();
+      });
+    }
+
+    function fillImages(tab) {
+      busy = true;
+      message = tab.label + " 이미지 생성 중... 창을 닫지 마세요.";
+      draw();
+      fillSlideImages(w.week, tab, function (n, total) {
+        message = tab.label + " 이미지 " + n + "/" + total + "장 생성 중... 창을 닫지 마세요.";
+        draw();
+      }).then(function (r) {
+        busy = false;
+        message = "이미지 " + r.made + "장을 만들었습니다." + (r.failed ? " " + r.failed + "장은 만들지 못했습니다." : "") + (r.error ? " " + r.error : "");
         draw();
       });
     }
@@ -5640,7 +5826,7 @@ window.SITE_CONFIG = {
           draw();
           return;
         }
-        if (window.confirm(todo.length + "개 항목을 만듭니다. 이미 만든 항목은 건너뜁니다. AI 사용량이 차감됩니다. 진행할까요?")) generate(todo);
+        if (window.confirm(todo.length + "개 항목을 만듭니다. 이미 만든 항목은 건너뜁니다. 강의 노트와 문화 슬라이드는 장마다 이미지도 만듭니다. AI 사용량과 BAZE 크레딧이 차감됩니다. 진행할까요?")) generate(todo);
       });
       var one = null;
       if (tab.make) {
@@ -5648,8 +5834,17 @@ window.SITE_CONFIG = {
         one = h("button", { class: "btn btn-ghost btn-small", type: "button", text: (exists ? "다시 생성: " : "AI 생성: ") + tab.label });
         one.disabled = busy || weekBatchBusy;
         one.addEventListener("click", function () {
-          if (exists && !window.confirm("지금 내용을 새로 만든 내용으로 바꿉니다. AI 사용량이 차감됩니다. 진행할까요?")) return;
+          if (exists && !window.confirm("지금 내용을 새로 만든 내용으로 바꿉니다." + (tab.withImages ? " 이미지도 장마다 새로 만듭니다." : "") + " AI 사용량이 차감됩니다. 진행할까요?")) return;
           generate([tab]);
+        });
+      }
+      var fill = null;
+      var missing = tab.withImages && hasWeekItem(w.week, tab) ? missingImages(w.week, tab).length : 0;
+      if (missing) {
+        fill = h("button", { class: "btn btn-ghost btn-small", type: "button", text: "🖼️ 빠진 이미지 " + missing + "장 생성" });
+        fill.disabled = busy || weekBatchBusy;
+        fill.addEventListener("click", function () {
+          if (window.confirm("이미지 " + missing + "장을 만듭니다. BAZE 크레딧이 차감됩니다. 진행할까요?")) fillImages(tab);
         });
       }
       var countField = null;
@@ -5663,11 +5858,11 @@ window.SITE_CONFIG = {
         countField = h("label", { class: "note-count", for: countInput.id }, [h("span", { text: "슬라이드 수 (5~30, 기본 20)" }), countInput]);
       }
       return h("div", { class: "week-toolbar" }, [
-        h("div", { class: "admin-buttons" }, [all, one]),
+        h("div", { class: "admin-buttons" }, [all, one, fill]),
         countField,
         busy ? diggingAnimation() : null,
         h("p", { class: "submit-note", role: "status", text: message }),
-        h("p", { class: "submit-note", text: "만든 자료는 이 브라우저에만 저장됩니다. 수강생에게 공개하려면 관리자 화면의 설정 파일 탭에서 " + WEEK_FILE + "을 내려받아 사이트 폴더에 올려 주세요." })
+        h("p", { class: "submit-note", text: "만든 자료는 이 브라우저에만 저장됩니다. 수강생에게 공개하려면 관리자 화면의 설정 파일 탭에서 week-content.zip을 내려받아 사이트 폴더에 압축을 풀어 주세요." })
       ]);
     }
 
@@ -5685,7 +5880,6 @@ window.SITE_CONFIG = {
       if (tab.id === "lectureNote") return renderLectureNote(value, cleanups);
       if (tab.id === "assignment") return renderWeekAssignment(value, w, admin);
       if (tab.id === "sentences") return renderSentences(value);
-      if (tab.id === "images") return renderWeekImages(value, w);
       if (tab.id === "liveQuiz") return renderWeekLiveQuiz(value);
       if (tab.id === "onlineQuiz") return renderOnlineQuiz(value, w.week);
       return renderSlides(value, cleanups, w.title + " 문화 슬라이드");
@@ -5728,6 +5922,8 @@ window.SITE_CONFIG = {
         }
         opened = true;
         loadWeekContent().then(function () {
+          return loadWeekImages(w.week);
+        }).then(function () {
           if (!busy) draw();
         });
       }
