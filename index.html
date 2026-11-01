@@ -1062,36 +1062,60 @@ button.quiz-choice:hover { transform: translateY(-2px); }
 .order-token { min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: var(--bg); box-shadow: var(--shadow-small); color: var(--text); font: inherit; cursor: pointer; }
 .order-token.is-picked { background: var(--primary); box-shadow: none; color: #fff; }
 .culture-stage { min-width: 0; }
-.culture-slide { position: relative; display: grid; align-items: center; aspect-ratio: 16 / 9; padding: clamp(18px, 4vw, 40px); overflow: hidden; border-radius: 18px; background: linear-gradient(135deg, #0d3d3a, #1f6f63 60%, #c98f3c); background-size: 200% 200%; color: #fff; animation: culture-pan 14s ease-in-out infinite alternate; }
-.culture-slide.motif-1 { background-image: linear-gradient(135deg, #5c1f2e, #a8324a 60%, #e0a458); }
-.culture-slide.motif-2 { background-image: linear-gradient(135deg, #1b2a57, #2f5f9e 60%, #5fb3b3); }
-.culture-slide.motif-3 { background-image: linear-gradient(135deg, #3b2352, #76408f 60%, #d98cae); }
-.culture-slide.motif-4 { background-image: linear-gradient(135deg, #3a3312, #7b6a1e 60%, #c9a227); }
+.culture-slide { position: relative; display: grid; align-items: center; min-height: 460px; padding: clamp(18px, 3.5vw, 36px); overflow: hidden; border-radius: 18px; background: linear-gradient(135deg, #0d3d3a, #1f6f63 60%, #7d5a1e); background-size: 200% 200%; color: #fff; animation: culture-pan 14s ease-in-out infinite alternate; }
+.culture-slide.motif-1 { background-image: linear-gradient(135deg, #5c1f2e, #94283f 60%, #8f5420); }
+.culture-slide.motif-2 { background-image: linear-gradient(135deg, #1b2a57, #2a5590 60%, #24686c); }
+.culture-slide.motif-3 { background-image: linear-gradient(135deg, #3b2352, #6c3a84 60%, #8f4670); }
+.culture-slide.motif-4 { background-image: linear-gradient(135deg, #3a3312, #6e5f1a 60%, #7f6a14); }
 .culture-orb { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.12); animation: culture-float 9s ease-in-out infinite alternate; }
 .orb-a { top: -12%; right: 6%; width: 34%; aspect-ratio: 1; }
 .orb-b { bottom: -22%; right: 28%; width: 24%; aspect-ratio: 1; animation-duration: 12s; animation-direction: alternate-reverse; }
 .orb-c { top: 18%; left: -8%; width: 16%; aspect-ratio: 1; animation-duration: 7s; }
-.culture-mark { position: absolute; right: 4%; bottom: 0; color: rgba(255, 255, 255, 0.14); font-size: clamp(3rem, 14vw, 9rem); font-weight: 700; line-height: 1.1; white-space: nowrap; animation: culture-mark 1.4s ease-out both; }
-.culture-copy { position: relative; display: grid; gap: 6px; max-width: 76%; }
+.culture-mark { position: absolute; right: 3%; bottom: 0; color: rgba(255, 255, 255, 0.08); font-size: clamp(3rem, 14vw, 9rem); font-weight: 700; line-height: 1.1; white-space: nowrap; animation: culture-mark 1.4s ease-out both; }
+.culture-grid { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(16px, 3vw, 28px); align-items: center; min-width: 0; }
+.culture-copy { position: relative; display: grid; gap: 10px; min-width: 0; }
 .culture-copy > * { animation: culture-rise 0.7s ease-out both; }
 .culture-copy > :nth-child(2) { animation-delay: 0.12s; }
 .culture-copy > :nth-child(3) { animation-delay: 0.24s; }
-.culture-copy > :nth-child(4) { animation-delay: 0.38s; }
-.culture-emoji { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.2; }
-.culture-title { font-size: clamp(1.15rem, 3vw, 1.9rem); font-weight: 700; line-height: 1.3; }
-.culture-word { font-weight: 700; opacity: 0.92; }
-.culture-body { line-height: 1.6; }
+.culture-copy > :nth-child(4) { animation-delay: 0.36s; }
+.culture-copy > :nth-child(5) { animation-delay: 0.48s; }
+.culture-kicker { display: inline-flex; justify-self: start; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; }
+.culture-title { font-size: clamp(1.4rem, 3.2vw, 2.1rem); font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); }
+.culture-word { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding-left: 10px; border-left: 4px solid #ffd479; }
+.culture-hanzi { color: #ffd479; font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 700; }
+.culture-pinyin { font-size: 0.92rem; font-style: italic; }
+.culture-body { font-size: 0.98rem; line-height: 1.7; overflow-wrap: anywhere; }
+.culture-points { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.culture-points li { position: relative; padding-left: 24px; font-size: 0.93rem; font-weight: 600; line-height: 1.5; }
+.culture-points li::before { content: "✓"; position: absolute; top: 0; left: 0; color: #ffd479; font-weight: 800; }
+.culture-info { display: grid; gap: 12px; min-width: 0; padding: 16px; border-radius: 16px; background: rgba(0, 0, 0, 0.24); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); animation: culture-rise 0.7s ease-out 0.3s both; }
+.culture-info-title { font-size: 0.95rem; font-weight: 800; }
+.culture-graphic { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.graphic-item { position: relative; display: flex; gap: 10px; align-items: flex-start; min-width: 0; animation: culture-rise 0.6s ease-out both; }
+.graphic-copy { min-width: 0; }
+.graphic-label { font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
+.graphic-value { font-size: 0.88rem; line-height: 1.45; overflow-wrap: anywhere; }
+.graphic-dot { display: grid; flex: none; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #ffd479; color: #3a2a06; font-size: 0.85rem; font-weight: 800; }
+.graphic-stats { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+.graphic-stats .graphic-item { padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); text-align: center; justify-content: center; }
+.graphic-stats .graphic-label { color: #ffd479; font-size: 1.45rem; }
+.graphic-steps .graphic-item:not(:last-child)::after { content: ""; position: absolute; top: 30px; bottom: -8px; left: 13px; width: 2px; background: rgba(255, 212, 121, 0.5); }
+.graphic-timeline { padding-left: 2px; }
+.graphic-timeline .graphic-dot { width: 14px; height: 14px; margin-top: 4px; box-shadow: 0 0 0 4px rgba(255, 212, 121, 0.25); }
+.graphic-timeline .graphic-item:not(:last-child)::after { content: ""; position: absolute; top: 20px; bottom: -8px; left: 6px; width: 2px; background: rgba(255, 212, 121, 0.5); }
+.graphic-timeline .graphic-label { color: #ffd479; }
+.graphic-compare { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.graphic-compare .graphic-item { padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); border-top: 3px solid #ffd479; }
 .culture-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
 @keyframes culture-pan { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 @keyframes culture-float { from { transform: translate(0, 0) scale(1); } to { transform: translate(-14%, 12%) scale(1.15); } }
 @keyframes culture-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @keyframes culture-mark { from { opacity: 0; transform: translateX(10%) scale(0.92); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .culture-slide, .culture-orb, .culture-mark, .culture-copy > * { animation: none; }
+  .culture-slide, .culture-orb, .culture-mark, .culture-copy > *, .culture-info, .graphic-item { animation: none; }
 }
 @media (max-width: 760px) {
-  .culture-slide { aspect-ratio: auto; min-height: 320px; }
-  .culture-copy { max-width: 100%; }
+  .culture-slide { min-height: 320px; }
 }
 @media (max-width: 520px) {
   .week-images, .youtube-grid { grid-template-columns: minmax(0, 1fr); }
@@ -1206,7 +1230,7 @@ button.quiz-choice:hover { transform: translateY(-2px); }
  */
 window.SITE_CONFIG = {
   // 사이트 버전: 화면 왼쪽 위 로고의 제목 오른쪽에 표시됩니다. 파일을 수정할 때마다 올리고, 관리자 화면에서 저장하면 끝자리가 자동으로 올라갑니다.
-  version: "1.0.25",
+  version: "1.0.26",
 
   meta: {
     title: "교양중국어 | 고려대학교 중어중문학과",
@@ -4705,12 +4729,29 @@ window.SITE_CONFIG = {
   }
 
   function makeSlides(w) {
-    return aiJson(jsonObject({ slides: jsonList({ emoji: STR, title: STR, hanzi: STR, pinyin: STR, body: STR }) }),
+    return aiJson(jsonObject({ slides: jsonList({
+      emoji: STR, kicker: STR, title: STR, hanzi: STR, pinyin: STR, body: STR,
+      points: { type: "array", items: STR },
+      infoType: { type: "string", enum: ["stats", "steps", "timeline", "compare"] },
+      infoTitle: STR,
+      infoItems: jsonList({ label: STR, value: STR })
+    }) }),
       "이 주차 주제와 어울리는 중국 문화 정보를 슬라이드 10장으로 만들어 주세요.\n" + weekBrief(w) + "\n" + COMMON_RULE
         + " 잘 알려지고 확인된 사실만 쓰고, 불확실한 수치나 고정관념은 쓰지 않습니다. 장마다 다른 내용을 다룹니다."
-        + " emoji는 이모지 하나, title은 15자 이내의 제목, hanzi는 핵심 중국어 단어, pinyin은 그 병음, body는 90자 이내의 설명입니다.",
+        + " 한 장의 글자 수는 합쳐서 350~450자로 충실하게 씁니다."
+        + "\n- emoji: 이모지 하나\n- kicker: 분류를 나타내는 10자 이내의 짧은 말\n- title: 15자 이내의 제목\n- hanzi: 핵심 중국어 단어, pinyin: 그 병음"
+        + "\n- body: 배경과 의미를 설명하는 150~200자의 글\n- points: 꼭 기억할 사실 3개, 각 40자 이내"
+        + "\n- infoType과 infoItems: 내용을 한눈에 보여 주는 인포그래픽입니다. 슬라이드 10장에 네 유형을 고르게 씁니다."
+        + "\n  stats: 확인된 숫자·연도·규모 2~3개. value에 숫자와 단위, label에 설명. 확실한 숫자가 없으면 다른 유형을 씁니다."
+        + "\n  steps: 순서나 과정 3~4단계. label에 단계 이름, value에 짧은 설명."
+        + "\n  timeline: 시대순 변화 3~4개. label에 시대나 연도, value에 일어난 일."
+        + "\n  compare: 한국과 중국 등 두 대상 비교 2개. label에 대상, value에 특징."
+        + "\n- infoTitle: 인포그래픽 제목 15자 이내. infoItems의 value는 30자 이내입니다.",
       function (d) {
-        var list = (d.slides || []).filter(function (x) { return x && isText(x.title) && isText(x.body); }).slice(0, 10);
+        var list = (d.slides || []).filter(function (x) {
+          return x && isText(x.title) && isText(x.body) && Array.isArray(x.points) && x.points.length >= 2
+            && Array.isArray(x.infoItems) && x.infoItems.length >= 2;
+        }).slice(0, 10);
         return list.length === 10 ? list : null;
       });
   }
@@ -5029,6 +5070,26 @@ window.SITE_CONFIG = {
     return box;
   }
 
+  function renderCultureInfo(x) {
+    var items = (x.infoItems || []).filter(function (i) { return i && (isText(i.label) || isText(i.value)); });
+    if (!items.length) return null;
+    var type = ["stats", "steps", "timeline", "compare"].indexOf(x.infoType) >= 0 ? x.infoType : "steps";
+    return h("aside", { class: "culture-info" }, [
+      x.infoTitle ? h("p", { class: "culture-info-title", text: "📊 " + x.infoTitle }) : null,
+      h("ol", { class: "culture-graphic graphic-" + type }, items.map(function (item, i) {
+        var node = h("li", { class: "graphic-item" }, [
+          type === "steps" || type === "timeline" ? h("span", { class: "graphic-dot", "aria-hidden": "true", text: type === "steps" ? String(i + 1) : "" }) : null,
+          h("div", { class: "graphic-copy" }, [
+            h("p", { class: "graphic-label", text: type === "stats" ? item.value : item.label }),
+            h("p", { class: "graphic-value", text: type === "stats" ? item.label : item.value })
+          ])
+        ]);
+        node.style.animationDelay = (0.45 + i * 0.16) + "s";
+        return node;
+      }))
+    ]);
+  }
+
   // 문화 슬라이드: 이미지 없이 CSS 애니메이션으로 움직인다.
   function renderSlides(list, cleanups) {
     var index = 0;
@@ -5046,14 +5107,23 @@ window.SITE_CONFIG = {
         h("span", { class: "culture-orb orb-b", "aria-hidden": "true" }),
         h("span", { class: "culture-orb orb-c", "aria-hidden": "true" }),
         h("span", { class: "culture-mark", "aria-hidden": "true", lang: "zh-Hans", text: x.hanzi || "" }),
-        h("div", { class: "culture-copy" }, [
-          h("p", { class: "culture-emoji", "aria-hidden": "true", text: x.emoji || "" }),
-          h("h4", { class: "culture-title", text: x.title }),
-          x.hanzi ? h("p", { class: "culture-word" }, [
-            h("span", { lang: "zh-Hans", text: x.hanzi }),
-            document.createTextNode(x.pinyin ? " · " + x.pinyin : "")
-          ]) : null,
-          h("p", { class: "culture-body", text: x.body })
+        h("div", { class: "culture-grid" }, [
+          h("div", { class: "culture-copy" }, [
+            h("p", { class: "culture-kicker" }, [
+              h("span", { "aria-hidden": "true", text: x.emoji || "" }),
+              h("span", { text: x.kicker || "중국 문화" })
+            ]),
+            h("h4", { class: "culture-title", text: x.title }),
+            x.hanzi ? h("p", { class: "culture-word" }, [
+              h("span", { class: "culture-hanzi", lang: "zh-Hans", text: x.hanzi }),
+              x.pinyin ? h("span", { class: "culture-pinyin", text: x.pinyin }) : null
+            ]) : null,
+            h("p", { class: "culture-body", text: x.body }),
+            (x.points || []).length ? h("ul", { class: "culture-points" }, x.points.map(function (t) {
+              return h("li", { text: t });
+            })) : null
+          ]),
+          renderCultureInfo(x)
         ])
       ]));
       status.textContent = (index + 1) + " / " + list.length;
@@ -5071,7 +5141,7 @@ window.SITE_CONFIG = {
     next.addEventListener("click", function () { stopPlay(); go(1); });
     play.addEventListener("click", function () {
       if (timer) return stopPlay();
-      timer = setInterval(function () { go(1); }, 7000);
+      timer = setInterval(function () { go(1); }, 25000);
       play.textContent = "❚❚ 멈춤";
     });
     cleanups.push(stopPlay);
